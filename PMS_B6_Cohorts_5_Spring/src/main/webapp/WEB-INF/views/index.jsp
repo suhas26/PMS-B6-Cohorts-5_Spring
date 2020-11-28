@@ -39,17 +39,17 @@
 		<table>
 			<tr>
 				<td>New user? </td> 
-				<td id = leftline><a href="MainServlet?action=signup">Signup</a></td>
+				<td id = leftline><a href="${pageContext.request.contextPath}/UserRegistration">Signup</a></td>
 			</tr>
 			<tr><td><hr></td><td><hr></td></tr>
 			<tr>
 				<td>User Login </td> 
-				<td id = leftline><a href="MainServlet?action=userlogin">Login</a></td>
+				<td id = leftline><a href="${pageContext.request.contextPath}/Userlogin">Login</a></td>
 			</tr>
 			<tr><td><hr></td><td><hr></td></tr>
 			<tr>
 				<td>SuperUser/BackOffice Login </td> 
-				<td id = leftline><a href="MainServlet?action=bouserlogin">Login</a></td>
+				<td id = leftline><a href="${pageContext.request.contextPath}/BOUserLogin">Login</a></td>
 			</tr>
 		</table>
 	</div>
