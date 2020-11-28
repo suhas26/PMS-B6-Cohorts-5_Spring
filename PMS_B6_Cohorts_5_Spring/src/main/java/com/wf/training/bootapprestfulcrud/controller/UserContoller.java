@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.entity.User;
 
 @Controller
@@ -72,21 +73,33 @@ public class UserContoller {
 //		return "profile-confirm";
 //	}
 	
-	//dashboard for user
-	@RequestMapping("/wallet")  // /employee/home
+	@RequestMapping("/wallet")
 	public String wallet(Principal principal) {
 		// business logic
 		
 		return "Wallet";
 	}
 	
-	//dashboard for user
-	@RequestMapping("/company")  // /employee/home
-	public String company(Principal principal) {
+	@RequestMapping("/searchCompany")
+	public String company(Model model) {
+		SearchCompanyDto company = new SearchCompanyDto();
+		model.addAttribute("company", company);
+		return "SearchCompany";
+	}
+	
+	@PostMapping("/searchCompanyName")
+	public String searchCompanyName() {
 		// business logic
 		
 		return "Company";
 	}
+	
+//	@GetMapping("/searchCompanyName")
+//	public String searchCompanyNam(String companyName) {
+//		// business logic
+//		
+//		return "Company";
+//	}
 	
 
 
