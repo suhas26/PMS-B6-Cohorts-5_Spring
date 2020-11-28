@@ -1,6 +1,6 @@
 package com.wf.training.bootapprestfulcrud.dto;
 
-public class SearchCompanyDto {
+public class SearchCompanyInputDto {
 
 	private String companyName;
 

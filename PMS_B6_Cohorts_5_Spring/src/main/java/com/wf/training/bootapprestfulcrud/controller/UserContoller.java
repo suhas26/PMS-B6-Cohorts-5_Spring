@@ -2,27 +2,22 @@ package com.wf.training.bootapprestfulcrud.controller;
 
 
 import java.security.Principal;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
-import com.wf.training.bootapprestfulcrud.entity.User;
+import com.wf.training.bootapprestfulcrud.dto.EmployeeOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
+import com.wf.training.bootapprestfulcrud.service.CompanyService;
 
 @Controller
 @RequestMapping("/user")
-
 public class UserContoller {
 
 	//dashboard for user
@@ -82,15 +77,21 @@ public class UserContoller {
 	
 	@RequestMapping("/searchCompany")
 	public String company(Model model) {
-		SearchCompanyDto company = new SearchCompanyDto();
+		SearchCompanyInputDto company = new SearchCompanyInputDto();
 		model.addAttribute("company", company);
 		return "SearchCompany";
 	}
 	
+//	@Autowired
+	private CompanyService service;
+	
+	@SuppressWarnings("null")
 	@PostMapping("/searchCompanyName")
-	public String searchCompanyName() {
+	public String searchCompanyName(@ModelAttribute SearchCompanyInputDto company) {
 		// business logic
-		
+		SearchCompanyOutputDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
+		Model model = null;
+		model.addAttribute("searchCompany",searchCompany);
 		return "Company";
 	}
 	

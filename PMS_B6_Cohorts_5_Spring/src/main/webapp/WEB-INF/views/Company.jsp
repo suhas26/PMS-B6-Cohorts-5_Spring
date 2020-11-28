@@ -73,7 +73,7 @@
 	<div id=currentPrice>
 		<h5>Current Price</h5>
 		<hr>
-		<h6>38$</h6>
+		<h6>>${searchCompany.sharePrice}</h6>
 	</div>
 	<div>
 		<br/>
@@ -89,11 +89,11 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>123456</td>
-					<td>Unilever</td>
-					<td>Healthcare</td>
-					<td>100000</td>
-					<td>Healthcare</td>
+					<td>${searchCompany.companyCode}</td>
+					<td>${searchCompany.companyTitle}</td>
+					<td>${searchCompany.operation}</td>
+					<td>${searchCompany.shareCount}</td>
+					<td>${searchCompany.sector}</td>
 				</tr>
 			</tbody>
 			<thead>
@@ -107,23 +107,23 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td>$</td>
-					<td>900 M</td>
-					<td>US</td>
-					<td>1/1/2019</td>
-					<td>30</td>
+					<td>${searchCompany.currency}</td>
+					<td>${searchCompany.turnover}</td>
+					<td>${searchCompany.stockExchange}</td>
+					<td>${searchCompany.dateTimeIPO}</td>
+					<td>${searchCompany.ipoPrice}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<div class=container>
 		<form action="addMoney" method="post">
-			<input type="text" id="cash" name="cash" placeholder="Amount">
+			<input type="text" id="cash" name="cash" placeholder="Quantity">
 			<input type="submit" value="Buy">
 		</form>
 		
 		<form action="withdrawMoney" method="post">
-			<input type="text" id="cash" name="cash" placeholder="Amount">
+			<input type="text" id="cash" name="cash" placeholder="Quantity">
 			<input type="submit" value="Sell">
 		</form>
 	</div>
