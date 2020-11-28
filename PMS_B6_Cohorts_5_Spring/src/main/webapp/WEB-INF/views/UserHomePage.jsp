@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,8 +90,11 @@ span{
 <body>
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-		<a href="#">Dashboard</a> <a href="#">Company</a> <a href="#">Sector</a>
-		<a href="#">Portfolio Report</a> <a href="#">Wallet</a>
+		<a href="#">Dashboard</a> 
+		<a href="${pageContext.request.contextPath}/user/company">Company</a> 
+		<a href="#">Sector</a>
+		<a href="#">Portfolio Report</a> 
+		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
 	</div>
 	<div id="main">
 
@@ -103,6 +107,7 @@ span{
 			<span>
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>
+			<div>Welcome <security:authentication property="principal.username"/></div>
 			<div><a href="index.html" id="logout">Logout</a></div>
 		</nav>
 		<div class="container">

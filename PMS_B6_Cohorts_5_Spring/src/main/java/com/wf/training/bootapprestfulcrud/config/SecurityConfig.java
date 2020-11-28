@@ -26,8 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//  create user (in-memory auth)
 		UserBuilder builder = User.withDefaultPasswordEncoder(); 
 		auth.inMemoryAuthentication()
-			.withUser(builder.username("First").password("abc").roles("User"))
-			.withUser(builder.username("Second").password("abc").roles("SuperUser"));
+			.withUser(builder.username("1").password("abc").roles("User"))
+			.withUser(builder.username("002").password("abc").roles("SuperUser"));
 		
 	}
 	
@@ -41,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.anyRequest() // all are secured
 			.authenticated()
 		.and()
-			// .httpBasic();
-			.formLogin()  // auth type is form based login 
-			.loginPage("/login") // url of custom login page (handler method)
-			.loginProcessingUrl("/validate") // inbuilt handler (free of cost)
-			.permitAll() // allow everyone to access login
+			.httpBasic()
+//			.formLogin()  // auth type is form based login 
+//			.loginPage("/login.jsp") // url of custom login page (handler method)
+//			.loginProcessingUrl("/validate") // inbuilt handler (free of cost)
+			//.permitAll() // allow everyone to access login
 		.and()
 			.logout().permitAll() // free implementation of handler method (/logout(default url))
 		.and()
