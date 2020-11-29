@@ -82,7 +82,11 @@ span{
 }
 
 	#logout{
-		background-color:red;
+		color:white;
+		position:relative;
+	}
+	#primaryNavigators{
+		margin-left:50px;
 		color:white;
 		position:relative;
 	}
@@ -104,11 +108,12 @@ span{
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
+			<div id="primaryNavigators">Welcome <security:authentication property="principal.username"/></div>
 			<span>
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>
-			<div>Welcome <security:authentication property="principal.username"/></div>
-			<div><a href="index.html" id="logout">Logout</a></div>
+			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 		</nav>
 		<div class="container">
 			<!-- 	<h1>Employee Register Form:</h1> -->
