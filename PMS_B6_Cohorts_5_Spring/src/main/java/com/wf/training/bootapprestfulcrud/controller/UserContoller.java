@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
-import com.wf.training.bootapprestfulcrud.dto.EmployeeOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
 import com.wf.training.bootapprestfulcrud.exception.EmployeeException;

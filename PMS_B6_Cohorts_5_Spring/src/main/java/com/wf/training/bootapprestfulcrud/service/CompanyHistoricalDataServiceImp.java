@@ -7,13 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
-import com.wf.training.bootapprestfulcrud.dto.EmployeeOutputDto;
-import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
-import com.wf.training.bootapprestfulcrud.entity.Company;
-import com.wf.training.bootapprestfulcrud.entity.Employee;
 import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCompany;
 import com.wf.training.bootapprestfulcrud.repository.CompanyHistoricalDataRepository;
-import com.wf.training.bootapprestfulcrud.repository.EmployeeRepository;
 
 @Service
 public class CompanyHistoricalDataServiceImp implements CompanyHistoricalDataService {
