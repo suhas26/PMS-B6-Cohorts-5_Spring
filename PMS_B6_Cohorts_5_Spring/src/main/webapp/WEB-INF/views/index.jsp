@@ -48,8 +48,13 @@
 			</tr>
 			<tr><td><hr></td><td><hr></td></tr>
 			<tr>
-				<td>SuperUser/BackOffice Login </td> 
+				<td>BackOffice Login </td> 
 				<td id = leftline><a href="${pageContext.request.contextPath}/BOUserLogin">Login</a></td>
+			</tr>
+			<tr><td><hr></td><td><hr></td></tr>
+			<tr>
+				<td>SuperUser Login</td> 
+				<td id = leftline><a href="${pageContext.request.contextPath}/SuperUserLogin">Login</a></td>
 			</tr>
 		</table>
 	</div>

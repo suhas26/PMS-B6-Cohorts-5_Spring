@@ -24,28 +24,33 @@
 	table{
 		text-align: center;
 	}
+	.error{
+		color:red;
+	}
 </style>
-<title>Back Office User Login Page</title>
+<title>Super User Login Page</title>
 </head>
 <body>
 	<div>
 		<nav class="navbar navbar-dark bg-primary">
 			<span>
-				<span class="text-light font-weight-bold" >Back Office User Login Page</span>
+				<span class="text-light font-weight-bold" >Super User Login Page</span>
 			</span>
 		</nav>
 	</div>
 	<br/>
 	<div id=login>
-	<spring:form action="${pageContext.request.contextPath}/validate" method="POST"> 
+	<spring:form action="${pageContext.request.contextPath}/validate" method="POST" modelAttribute="superuser"> 
 		<div>
-			<div><label>Username</label></div>
-			<div><input type="text" name="username"/></div>
+			<div><label >Username</label></div>
+			<div><spring:input path="superUserId" type="text" />
+			<spring:errors path="superUserId" cssClass="error"/></div>
 		</div>
 			<br/>
 		<div>
-			<div><label>Password</label></div>
-			<div><input type="password" name="password"/></div>
+			<div><spring:label path="password">Password</spring:label></div>
+			<div><spring:input path="password" type="password" />
+			<spring:errors path="password" cssClass="error"/></div>
 		</div>
 			<br/>
 		<div>

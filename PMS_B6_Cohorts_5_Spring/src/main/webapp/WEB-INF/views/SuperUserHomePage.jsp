@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+<%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -134,11 +136,13 @@ body {
 			<span>
 				<span class="text-light font-weight-bold">SuperUser Dashboard</span>
 			</span>
-			<div><a href="#" id="logout">Logout</a></div>
+			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
+				<input type="submit" value="Logout" />
+				</spring:form></div>
 		</nav>
 		<div class="container">
 			<h4>Welcome to the SuperUser HomePage:</h4>
-			<p>This is the page from where you can do modifications for the commodity and company. Please go through the side button for more options.</p>
+			<p><a href="${pageContext.request.contextPath}/bocreate">Create BackOffice user</a></p>
 		</div>
 	</div>
 	<script>

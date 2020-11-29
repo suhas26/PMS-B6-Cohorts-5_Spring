@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+<%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,7 +109,9 @@ span{
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>
 			<div>Welcome <security:authentication property="principal.username"/></div>
-			<div><a href="index.html" id="logout">Logout</a></div>
+			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
+				<input type="submit" value="Logout" />
+				</spring:form></div>
 		</nav>
 		<div class="container">
 			<!-- 	<h1>Employee Register Form:</h1> -->
