@@ -3,12 +3,13 @@ package com.wf.training.bootapprestfulcrud.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
 import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
-
+@Service
 public class CompanyServiceImp implements CompanyService {
 	
 	// inject repository as dependency

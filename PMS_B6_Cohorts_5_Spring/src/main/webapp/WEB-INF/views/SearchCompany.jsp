@@ -88,8 +88,8 @@ span{
 	margin: auto;
 }
 
-#logout{
-	background-color:red;
+#primaryNavigators{
+	margin-left:50px;
 	color:white;
 	position:relative;
 }
@@ -112,15 +112,15 @@ span{
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 			<span>
 				<span class="text-light font-weight-bold">Search Company</span>
 			</span>
-			<div>Welcome <security:authentication property="principal.username"/></div>
-			<div><a href="index.html" id="logout">Logout</a></div>
+			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 		</nav>
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/searchCompanyName" method="post" modelAttribute="company">
-				<input type="search" name="companyName" placeholder="Search Company">
+				<input type="search" name="companyName" placeholder="Search Company by ID">
 				<input type=Submit name=Submit Value=Submit>
 			</spring:form>
 		</div>

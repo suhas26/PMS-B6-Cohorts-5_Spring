@@ -23,21 +23,6 @@ public class Company {
 	private String stockExchange;
 	private String ipoPrice;
 	
-	public Company(Long companyCode, String companyTitle, String operation, int shareCount, float sharePrice,
-			String sector, String currency, long turnover, String dateTimeIPO, String stockExchange, String ipoPrice) {
-		super();
-		this.companyCode = companyCode;
-		this.companyTitle = companyTitle;
-		this.operation = operation;
-		this.shareCount = shareCount;
-		this.sharePrice = sharePrice;
-		this.sector = sector;
-		this.currency = currency;
-		this.turnover = turnover;
-		this.dateTimeIPO = dateTimeIPO;
-		this.stockExchange = stockExchange;
-		this.ipoPrice = ipoPrice;
-	}
 	public String getStockExchange() {
 		return stockExchange;
 	}

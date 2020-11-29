@@ -37,8 +37,8 @@
 		right:5%;
 	}
 	
-	#logout{
-		background-color:red;
+	#primaryNavigators{
+		margin-left:50px;
 		color:white;
 		position:relative;
 	}
@@ -55,10 +55,11 @@
 	<div>
 		<div>
 			<nav class="navbar navbar-dark bg-primary">
+				<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 				<span>
 					<span class="text-light font-weight-bold" >My Wallet</span>
 				</span>
-				<div><a href="#" id="logout">Logout</a></div>
+				<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 			</nav>
 		</div>
 		

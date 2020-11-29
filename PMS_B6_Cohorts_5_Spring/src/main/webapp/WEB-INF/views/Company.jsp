@@ -13,6 +13,7 @@
 	  border: 1px solid black;
 	  border-collapse: collapse;
 	  margin-left: 10px;
+	  height: 50px;
 	}
 	thead {
 	  background: DodgerBlue;
@@ -20,35 +21,33 @@
 	}
 	
 	#footer {
+		height:1000px;
 		width:80%;
 		position: absolute;
 		right:15%;
 	}
 	.company{
 		width:85%;
-		height:60px;
 		margin-left:50px;
 		text-align: center;
 	}
-	#logout{
-		background-color:red;
+	#primaryNavigators{
+		margin-left:50px;
 		color:white;
 		position:relative;
 	}
 	.container{
 		position:absolute;
-		left:1000px;
-		top:70px;
 	}
 	#currentPrice{
 		margin-left:100px;
 		position: relative;
 		top:10px;
-		border: 2px solid red;
+		border: 4px solid red;
 		width:250px;
 		text-align: center;
 		height: 90px;
-		background: #5CACEE;
+		background: DodgerBlue;
 		color: white;
 	}
 	#content{
@@ -57,23 +56,33 @@
 	span{
 		margin: auto;
 	}
+	#buttons{
+		margin:auto;
+		width: 30%;
+		padding: 10px;
+	}
+	#button{
+		margin-left:20px;
+		padding: 10px;
+	}
 </style>
 <title>Company</title>
 </head>
 <body>
 	<div>
 		<nav class="navbar navbar-dark bg-primary">
+			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 			<span>
 				<span class="text-light font-weight-bold" >Company Page</span>
 			</span>
-			<div><a href="#" id="logout">Logout</a></div>
+			<div><a href="#" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 	
 	<div id=currentPrice>
-		<h5>Current Price</h5>
+		<h5>${searchCompany.companyTitle}</h5>
 		<hr>
-		<h6>>${searchCompany.sharePrice}</h6>
+		<h6>${searchCompany.sharePrice}</h6>
 	</div>
 	<div>
 		<br/>
@@ -116,20 +125,15 @@
 			</tbody>
 		</table>
 	</div>
-	<div class=container>
-		<form action="addMoney" method="post">
-			<input type="text" id="cash" name="cash" placeholder="Quantity">
-			<input type="submit" value="Buy">
-		</form>
-		
-		<form action="withdrawMoney" method="post">
-			<input type="text" id="cash" name="cash" placeholder="Quantity">
-			<input type="submit" value="Sell">
-		</form>
-	</div>
-	<hr/>
 	
-	<div id=content>
+	<hr/>
+	<div id=buttons>
+		<input id=button type="submit" value="Buy">
+		<input id=button type="submit" value="Sell">
+		<input id=button type="submit" value="Historical Prices">
+	</div>
+	
+	<!--  <div id=content>
 		<table id=footer>
 			<thead>
 				<tr>
@@ -168,7 +172,7 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
+	</div>-->
 
 </body>
 </html>
