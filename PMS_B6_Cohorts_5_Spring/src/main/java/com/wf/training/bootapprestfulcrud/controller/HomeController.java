@@ -11,7 +11,7 @@ public class HomeController {
 		// add business logic
 		
 		// respond back with a view page name
-		return "index";
+		return "UserHomePage";
 	}
 	
 	@RequestMapping("/Userlogin")
@@ -53,4 +53,5 @@ public class HomeController {
 		// respond back with a view page name
 		return "custom-login";
 	}
+	
 }

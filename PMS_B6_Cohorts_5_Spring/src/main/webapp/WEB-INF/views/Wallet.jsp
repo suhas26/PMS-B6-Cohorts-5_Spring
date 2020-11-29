@@ -67,10 +67,11 @@
 	      <table class="walletDetails">
 			<thead>
 				<tr>
-				<td colspan="4" style="color: white;font-size:20px;text-align:center"><b>My Wallet details</b></td>
+				<td colspan="5" style="color: white;font-size:20px;text-align:center"><b>My Wallet details</b></td>
 				</tr>
 				<tr>
-					<th scope="col" colspan="1">User</th>
+					<th scope="col" colspan="1">Investor ID</th>
+					<th scope="col" colspan="1">Name</th>
 					<th scope="col" colspan="1">Amount invested</th>
 					<th scope="col" colspan="1">Amount Earned</th>
 					<th scope="col" colspan="1">Balance</th>
@@ -78,6 +79,7 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>1</td>
 					<td>Suhas</td>
 					<td>100</td>
 					<td>10</td>
