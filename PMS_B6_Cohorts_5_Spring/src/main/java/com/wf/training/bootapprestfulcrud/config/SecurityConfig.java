@@ -47,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.loginProcessingUrl("/validate") // inbuilt handler (free of cost)
 			//.permitAll() // allow everyone to access login
 		.and()
-			.logout().permitAll() // free implementation of handler method (/logout(default url))
+			.logout().logoutSuccessUrl("/logout").permitAll()
+//			.logout().permitAll() // free implementation of handler method (/logout(default url))
 		.and()
 			.exceptionHandling() // security exception
 				.accessDeniedPage("/access-denied"); // url of custom access denied (handler)
