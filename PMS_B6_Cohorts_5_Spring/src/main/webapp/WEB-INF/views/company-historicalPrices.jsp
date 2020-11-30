@@ -68,8 +68,8 @@
 				<core:forEach var="companyHistory" items="${companyHistoricalDataOutputDto}">
 					<tr>
 						<td>${companyHistory.companyCode}</td>
-						<!-- <td>${searchCompany.companyName}</td> -->
-						<td></td>
+						<td>${searchCompany.companyTitle}</td>
+						<!--<td></td> -->
 						<td>${companyHistory.stockPrice}</td>
 						<td>${companyHistory.dateTime}</td>
 					</tr>

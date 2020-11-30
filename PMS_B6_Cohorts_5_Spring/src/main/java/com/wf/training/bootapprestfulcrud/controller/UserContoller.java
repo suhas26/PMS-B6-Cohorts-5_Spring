@@ -99,21 +99,18 @@ public class UserContoller {
 		}
 		SearchCompanyOutputDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
 		
-		if (searchCompany==null) {
-			throw new EmployeeException("Invalid company!");
-		}
 		model.addAttribute("searchCompany",searchCompany);
 		return "Company";
 	}
 	
 	@RequestMapping("/historicalPrices")
-	public String companyHistoricalPrice(@ModelAttribute SearchCompanyOutputDto company, Model model) {
+	public String companyHistoricalPrice(@ModelAttribute SearchCompanyOutputDto searchCompany, Model model) {
 		
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchAllCompanies();
 		
 		model.addAttribute("companyHistoricalDataOutputDto", companyHistoricalDataOutputDto);
-		//model.addAttribute("searchCompany", company);
+		model.addAttribute("searchCompany", searchCompany);
 		return "company-historicalPrices"; 
 	}
 	
