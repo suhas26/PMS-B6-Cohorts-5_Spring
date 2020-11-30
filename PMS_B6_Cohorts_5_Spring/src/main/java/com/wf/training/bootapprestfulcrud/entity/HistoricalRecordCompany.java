@@ -1,40 +1,43 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
-import java.time.LocalDateTime;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+@Entity
 public class HistoricalRecordCompany {
 
-	private int companyCode;
-	private String stockPrice; 
-	private LocalDateTime dateTime;
+	@Id  // primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
+	private Long companyHistoricalDataId;
+	private Long companyCode;
+	private float stockPrice; 
+	private String dateTime;
 	
-	
-	public HistoricalRecordCompany(int companyCode, String stockPrice, LocalDateTime dateTime) {
-		super();
-		this.companyCode = companyCode;
-		this.stockPrice = stockPrice;
-		this.dateTime = dateTime;
+	public Long getCompanyHistoricalDataId() {
+		return companyHistoricalDataId;
+	}
+	public void setCompanyHistoricalDataId(Long companyHistoricalDataId) {
+		this.companyHistoricalDataId = companyHistoricalDataId;
 	}
 	
-	public int getCompanyCode() {
+	public Long getCompanyCode() {
 		return companyCode;
 	}
-	public void setCompanyCode(int companyCode) {
+	public void setCompanyCode(Long companyCode) {
 		this.companyCode = companyCode;
 	}
-	public String getStockPrice() {
+	public float getStockPrice() {
 		return stockPrice;
 	}
-	public void setStockPrice(String stockPrice) {
+	public void setStockPrice(float stockPrice) {
 		this.stockPrice = stockPrice;
 	}
-	public LocalDateTime getDateTime() {
+	public String getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
-	
-	
 	
 }

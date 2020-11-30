@@ -4,16 +4,21 @@ package com.wf.training.bootapprestfulcrud.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wf.training.bootapprestfulcrud.dto.EmployeeOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
+import com.wf.training.bootapprestfulcrud.exception.EmployeeException;
+import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 
 @Controller
@@ -82,25 +87,32 @@ public class UserContoller {
 		return "SearchCompany";
 	}
 	
-//	@Autowired
+	@Autowired
 	private CompanyService service;
+	@Autowired
+	private CompanyHistoricalDataService historicalService;
 	
-	@SuppressWarnings("null")
 	@PostMapping("/searchCompanyName")
-	public String searchCompanyName(@ModelAttribute SearchCompanyInputDto company) {
-		// business logic
+	public String searchCompanyName(@Valid @ModelAttribute SearchCompanyInputDto company, Model model, BindingResult result) {
+		if(result.hasErrors()) {
+			throw new EmployeeException("Invalid data format!");
+		}
 		SearchCompanyOutputDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
-		Model model = null;
+		
 		model.addAttribute("searchCompany",searchCompany);
 		return "Company";
 	}
 	
-//	@GetMapping("/searchCompanyName")
-//	public String searchCompanyNam(String companyName) {
-//		// business logic
-//		
-//		return "Company";
-//	}
+	@RequestMapping("/historicalPrices")
+	public String companyHistoricalPrice(@ModelAttribute SearchCompanyOutputDto searchCompany, Model model) {
+		
+		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
+				this.historicalService.fetchAllCompanies();
+		
+		model.addAttribute("companyHistoricalDataOutputDto", companyHistoricalDataOutputDto);
+		model.addAttribute("searchCompany", searchCompany);
+		return "company-historicalPrices"; 
+	}
 	
 
 

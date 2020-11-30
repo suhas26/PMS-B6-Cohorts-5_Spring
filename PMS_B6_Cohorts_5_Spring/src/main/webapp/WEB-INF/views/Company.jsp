@@ -64,6 +64,8 @@
 	#button{
 		margin-left:20px;
 		padding: 10px;
+		background: DodgerBlue;
+		color: white;
 	}
 </style>
 <title>Company</title>
@@ -128,51 +130,10 @@
 	
 	<hr/>
 	<div id=buttons>
-		<input id=button type="submit" value="Buy">
-		<input id=button type="submit" value="Sell">
-		<input id=button type="submit" value="Historical Prices">
+		<a id=button href="${pageContext.request.contextPath}/user/buy">Buy</a>
+		<a id=button href="${pageContext.request.contextPath}/user/sell">Sell</a>
+		<a id=button href="${pageContext.request.contextPath}/user/historicalPrices">Historical Prices</a>
 	</div>
-	
-	<!--  <div id=content>
-		<table id=footer>
-			<thead>
-				<tr>
-					<td colspan="4" style="color: white;font-size:20px;text-align:center"><b>Historical Prices</b></td>
-				<tr>
-					<th scope="col" colspan="1">Company Name</th>
-					<th scope="col" colspan="1">Price</th>
-					<th scope="col" colspan="2">Date</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Unilever</td>
-					<td>10</td>
-					<td>05/11/2020 12 :00 PM</td>
-				</tr>
-				<tr>
-					<td>Unilever</td>
-					<td>11</td>
-					<td>04/11/2020 12 :00 PM</td>
-				</tr>
-				<tr>
-					<td>Unilever</td>
-					<td>12</td>
-					<td>03/11/2020 12 :00 PM</td>
-				</tr>
-				<tr>
-					<td>Unilever</td>
-					<td>10</td>
-					<td>02/11/2020 12 :00 PM</td>
-				</tr>
-				<tr>
-					<td>Unilever</td>
-					<td>10</td>
-					<td>01/11/2020 12 :00 PM</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>-->
 
 </body>
 </html>

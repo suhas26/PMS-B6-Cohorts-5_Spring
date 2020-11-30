@@ -83,7 +83,11 @@ span{
 }
 
 	#logout{
-		background-color:red;
+		color:white;
+		position:relative;
+	}
+	#primaryNavigators{
+		margin-left:50px;
 		color:white;
 		position:relative;
 	}
@@ -105,6 +109,8 @@ span{
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
+			<div id="primaryNavigators">Welcome <security:authentication property="principal.username"/></div>
 			<span>
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>
