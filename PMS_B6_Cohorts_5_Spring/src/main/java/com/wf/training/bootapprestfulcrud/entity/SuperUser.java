@@ -1,8 +1,16 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class SuperUser {
 
 	private String name;
+	@Id  // primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
 	private int superUserId;
 	private String password;
 	public SuperUser(String name, int superUserId, String password) {

@@ -1,20 +1,21 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class BackOfficeUser {
 
 	private String firstName;
 	private String lastName;
 	private String emailId;
 	private String password;
+	@Id  // primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
 	private int loginId;
-	public BackOfficeUser(String firstName, String lastName, String emailId, String password, int loginId) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailId = emailId;
-		this.password = password;
-		this.loginId = loginId;
-	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
