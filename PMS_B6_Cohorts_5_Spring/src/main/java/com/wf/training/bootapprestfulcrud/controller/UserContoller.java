@@ -111,6 +111,7 @@ public class UserContoller {
 		
 		model.addAttribute("companyHistoricalDataOutputDto", companyHistoricalDataOutputDto);
 		model.addAttribute("searchCompany", searchCompany);
+		System.out.println(searchCompany.getCompanyTitle());
 		return "company-historicalPrices"; 
 	}
 	

@@ -115,7 +115,7 @@ span{
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>
 			<div>Welcome <security:authentication property="principal.username"/></div>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
+			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST" id="primaryNavigators">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
 		</nav>
