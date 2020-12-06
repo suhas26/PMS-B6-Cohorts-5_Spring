@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wf.training.bootapprestfulcrud.dto.AddCompanyInputDto;
+import com.wf.training.bootapprestfulcrud.dto.AddCompanyOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
 import com.wf.training.bootapprestfulcrud.entity.Company;
@@ -17,7 +19,7 @@ public class CompanyServiceImp implements CompanyService {
 	private CompanyRepository repository;
 	
 	// utility method
-	private SearchCompanyOutputDto convertEntityToOutputDto(Company company) {
+	private SearchCompanyOutputDto convertSearchCompanyEntityToOutputDto(Company company) {
 		
 		SearchCompanyOutputDto companyOutputDto = new SearchCompanyOutputDto();
 		companyOutputDto.setCompanyCode(company.getCompanyCode());
@@ -34,6 +36,41 @@ public class CompanyServiceImp implements CompanyService {
 		
 		return companyOutputDto;
 	}
+	
+	private Company convertInputAddCompanyToEntity(AddCompanyInputDto addCompanyInputDto) {
+		 Company company = new Company();
+		 
+		 company.setCompanyTitle(addCompanyInputDto.getCompanyTitle());
+		 company.setOperation(addCompanyInputDto.getOperation());
+		 company.setShareCount(addCompanyInputDto.getShareCount());
+		 company.setSharePrice(addCompanyInputDto.getSharePrice());
+		 company.setSector(addCompanyInputDto.getSector());
+		 company.setCurrency(addCompanyInputDto.getCurrency());
+		 company.setTurnover(addCompanyInputDto.getTurnover());
+		 company.setDateTimeIPO(addCompanyInputDto.getDateTimeIPO());
+		 company.setStockExchange(addCompanyInputDto.getStockExchange());
+		 company.setIpoPrice(addCompanyInputDto.getIpoPrice());
+		 
+		 return company;
+	}
+	
+	private AddCompanyOutputDto convertAddCompanyEntityToOutput(Company company) {
+		AddCompanyOutputDto addCompanyOutputCompany = new AddCompanyOutputDto();
+		
+		addCompanyOutputCompany.setCompanyCode(company.getCompanyCode());
+		addCompanyOutputCompany.setCompanyTitle(company.getCompanyTitle());
+		addCompanyOutputCompany.setOperation(company.getOperation());
+		addCompanyOutputCompany.setShareCount(company.getShareCount());
+		addCompanyOutputCompany.setSharePrice(company.getSharePrice());
+		addCompanyOutputCompany.setSector(company.getSector());
+		addCompanyOutputCompany.setCurrency(company.getCurrency());
+		addCompanyOutputCompany.setTurnover(company.getTurnover());
+		addCompanyOutputCompany.setDateTimeIPO(company.getDateTimeIPO());
+		addCompanyOutputCompany.setStockExchange(company.getStockExchange());
+		addCompanyOutputCompany.setIpoPrice(company.getIpoPrice());
+		 
+		return addCompanyOutputCompany;
+	}
 
 	@Override
 	public List<SearchCompanyOutputDto> fetchAllCompanies() {
@@ -45,13 +82,19 @@ public class CompanyServiceImp implements CompanyService {
 		// fetch record from DB
 		Company company = this.repository.findById(id).orElse(null);
 		// convert entity into output dto
-		SearchCompanyOutputDto companyOutputDto =  this.convertEntityToOutputDto(company);
+		SearchCompanyOutputDto companyOutputDto =  this.convertSearchCompanyEntityToOutputDto(company);
 		return companyOutputDto;
 	}
 
 	@Override
-	public SearchCompanyOutputDto addCompany(SearchCompanyInputDto employeeInputDto) {
-		return null;
+	public AddCompanyOutputDto addCompany(AddCompanyInputDto addCompanyInputDto) {
+		AddCompanyOutputDto addCompanyOutputDto = new AddCompanyOutputDto();
+		
+		Company company =  this.convertInputAddCompanyToEntity(addCompanyInputDto);
+		Company newCompany = this.repository.save(company);
+		addCompanyOutputDto = this.convertAddCompanyEntityToOutput(newCompany);
+		
+		return addCompanyOutputDto;
 	}
 
 	@Override

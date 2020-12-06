@@ -25,7 +25,7 @@ public class HomeController {
 		// add business logic
 		
 		// respond back with a view page name
-		return "UserHomePage";
+		return "BackOfficeUserHomePage";
 	}
 	
 	@RequestMapping("/Userlogin")
@@ -56,11 +56,14 @@ public class HomeController {
 	
 	@PostMapping("/validate")
 	public String loginValidate(@Valid @ModelAttribute("superuser") SuperUser superuser,BindingResult result) {
-		if(result.hasErrors())
+		System.out.println("Logging in");
+		if(result.hasErrors()) {
+			System.out.println("Results Error");
 			return "SuperUserLogin";
-		else if(superuser.getSuperUserId().equals(1) && superuser.getPassword().equals("abc")) {
-				return "SuperUserHomePage";
-			}else
+		} else if(superuser.getSuperUserId().equals(1) && superuser.getPassword().equals("abc")) {
+			System.out.println("superuser");
+			return "SuperUserHomePage";
+		}else
 			return "SuperUserLogin";
 	}
 	

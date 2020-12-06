@@ -5,11 +5,10 @@ import javax.validation.constraints.NotBlank;
 import com.sun.istack.NotNull;
 
 public class SearchCompanyInputDto {
-
-	private String companyName;
-
 	@NotNull
 	@NotBlank
+	private String companyName;
+	
 	public String getCompanyName() {
 		return companyName;
 	}
