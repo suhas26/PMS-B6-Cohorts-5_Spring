@@ -2,22 +2,13 @@ package com.wf.training.bootapprestfulcrud.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-public class BackofficeInputDto {
+public class BackofficeOutputDto {
 	
-	@NotBlank(message="First Name is Mandatory")
 	private String firstName;
-	@NotBlank(message="Last Name is Mandatory")
 	private String lastName;
-	@Email
-	@NotBlank(message="Email is Mandatory")
 	private String emailId;
-	
-	@NotBlank(message="Password is Mandatory")
 	private String password;
-	
-	@NotNull(message="Login id is Mandatory")
 	private Integer loginId;
 
 	public Integer getLoginId() {

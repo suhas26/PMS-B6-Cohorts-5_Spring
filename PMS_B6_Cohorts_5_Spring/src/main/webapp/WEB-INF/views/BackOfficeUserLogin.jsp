@@ -24,6 +24,9 @@
 	table{
 		text-align: center;
 	}
+	.error{
+		color:red;
+	}
 </style>
 <title>Back Office User Login Page</title>
 </head>
@@ -37,15 +40,17 @@
 	</div>
 	<br/>
 	<div id=login>
-	<spring:form action="${pageContext.request.contextPath}/validate" method="POST"> 
+	<spring:form action="${pageContext.request.contextPath}/bovalidate" method="POST" modelAttribute="backofficeuser"> 
 		<div>
-			<div><label>Username</label></div>
-			<div><input type="text" name="username"/></div>
+			<div><label >Login ID</label></div>
+			<div><spring:input path="loginId" type="text" />
+			<spring:errors path="loginId" cssClass="error"/></div>
 		</div>
 			<br/>
 		<div>
 			<div><label>Password</label></div>
-			<div><input type="password" name="password"/></div>
+			<div><spring:input path="password" type="password" />
+			<spring:errors path="password" cssClass="error"/></div>
 		</div>
 			<br/>
 		<div>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wf.training.bootapprestfulcrud.dto.BackofficeInputDto;
 import com.wf.training.bootapprestfulcrud.entity.BackOfficeUser;
 import com.wf.training.bootapprestfulcrud.entity.SuperUser;
 import com.wf.training.bootapprestfulcrud.service.SuperUserService;
@@ -24,13 +25,13 @@ public class SuperUserController {
 	
 	@RequestMapping("/bocreate")
 	public String boCreate(Model model) {
-		BackOfficeUser backofficeuser=new BackOfficeUser();
+		BackofficeInputDto backofficeuser=new BackofficeInputDto();
 		model.addAttribute("backofficeuser", backofficeuser);
 		return "backOfficeUserCreation";
 	}
 	
 	@PostMapping("/confirm")
-	public String boCreateConfirm(@Valid @ModelAttribute("backofficeuser") BackOfficeUser user,BindingResult result) {
+	public String boCreateConfirm(@Valid @ModelAttribute("backofficeuser") BackofficeInputDto user,BindingResult result) {
 		if(result.hasErrors())
 			return "backOfficeUserCreation";
 		else {

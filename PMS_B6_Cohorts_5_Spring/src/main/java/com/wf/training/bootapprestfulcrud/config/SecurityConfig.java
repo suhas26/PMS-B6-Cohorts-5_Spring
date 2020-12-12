@@ -27,7 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		UserBuilder builder = User.withDefaultPasswordEncoder(); 
 		auth.inMemoryAuthentication()
 			.withUser(builder.username("1").password("abc").roles("User"))
-			.withUser(builder.username("002").password("abc").roles("SuperUser"));
+			.withUser(builder.username("002").password("abc").roles("SuperUser"))
+			.withUser(builder.username("003").password("abc").roles("bouser"));
 		
 	}
 	
@@ -38,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests() // start defining auth rule
 			.antMatchers("/user/**").hasRole("User")
 			.antMatchers("/superuser/**").hasRole("SuperUser")
+			.antMatchers("/bouser/**").hasRole("bouser")
 			.anyRequest() // all are secured
 			.authenticated()
 		.and()
@@ -47,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.loginProcessingUrl("/validate") // inbuilt handler (free of cost)
 			//.permitAll() // allow everyone to access login
 		.and()
-			.logout().permitAll() // free implementation of handler method (/logout(default url))
+			.logout().logoutSuccessUrl("/logout").permitAll() // free implementation of handler method (/logout(default url))
 		.and()
 			.exceptionHandling() // security exception
 				.accessDeniedPage("/access-denied"); // url of custom access denied (handler)
