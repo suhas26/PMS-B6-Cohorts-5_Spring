@@ -1,6 +1,7 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,7 @@ public class Company {
 	@Id  // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
 	private Long companyCode;
+	@Column(unique = true)
 	private String companyTitle;
 	private String operation;
 	private int shareCount; 
@@ -20,7 +22,7 @@ public class Company {
 //	private int boUserId;
 	private String dateTimeIPO;
 	private String stockExchange;
-	private String ipoPrice;
+	private float ipoPrice;
 	
 	public String getStockExchange() {
 		return stockExchange;
@@ -28,10 +30,10 @@ public class Company {
 	public void setStockExchange(String stockExchange) {
 		this.stockExchange = stockExchange;
 	}
-	public String getIpoPrice() {
+	public float getIpoPrice() {
 		return ipoPrice;
 	}
-	public void setIpoPrice(String ipoPrice) {
+	public void setIpoPrice(float ipoPrice) {
 		this.ipoPrice = ipoPrice;
 	}
 	

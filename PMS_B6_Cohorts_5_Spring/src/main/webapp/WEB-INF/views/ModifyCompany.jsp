@@ -105,13 +105,19 @@ body {
 
 #modifyCompanyForm{
 	margin: auto;
-	width: 15%;
+	width: 30%;
 	margin-top: 5%;
 	border: 3px solid green;
 	padding: 10px;
 	text-align: center;
 }
+#error{
+	color:red;
+}
 
+span{
+	margin:auto;
+}
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
@@ -148,9 +154,7 @@ body {
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a></div>
-			<span>
-				<span class="text-light font-weight-bold">Modify Company</span>
-			</span>
+			<span class="text-light font-weight-bold">Modify Company</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
@@ -158,74 +162,65 @@ body {
 	</div>
 	
 	<div id=modifyCompanyForm>
-		<spring:form action="${pageContext.request.contextPath}/bouser/modifyCompany" method="POST" modelAttribute="searchCompanyDto">
-			<div>
-				<div><spring:label path="companyCode">Company ID</spring:label></div>
-				<div><spring:input path="companyCode" type="text" value="${searchCompanyDto.companyCode}"/>
-				<spring:errors path="companyCode" cssClass="error"/></div>
-			</div>
-			<br/> 
-			<div>
-				<div><spring:label path="companyTitle">Company Title</spring:label></div>
-				<div><spring:input path="companyTitle" type="text" value="${searchCompanyDto.companyTitle}"/>
-				<spring:errors path="companyTitle" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="operation">Operation</spring:label></div>
-				<div><spring:input path="operation" type="text" value="${searchCompanyDto.operation}"/>
-				<spring:errors path="operation" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="shareCount">Share Count</spring:label></div>
-				<div><spring:input path="shareCount" type="text" value="${searchCompanyDto.shareCount}"/>
-				<spring:errors path="shareCount" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="sharePrice">Share Price</spring:label></div>
-				<div><spring:input path="sharePrice" type="text" value="${searchCompanyDto.sharePrice}"/>
-				<spring:errors path="sharePrice" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="sector">Sector</spring:label></div>
-				<div><spring:input path="sector" type="text" value="${searchCompanyDto.sector}"/>
-				<spring:errors path="sector" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="currency">Currency</spring:label></div>
-				<div><spring:input path="currency" type="text" value="${searchCompanyDto.currency}"/>
-				<spring:errors path="currency" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="turnover">Turnover</spring:label></div>
-				<div><spring:input path="turnover" type="text" value="${searchCompanyDto.turnover}"/>
-				<spring:errors path="turnover" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="dateTimeIPO">Date Time IPO</spring:label></div>
-				<div><spring:input path="dateTimeIPO" type="text" value="${searchCompanyDto.dateTimeIPO}"/>
-				<spring:errors path="dateTimeIPO" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="stockExchange">Stock Exchange</spring:label></div>
-				<div><spring:input path="stockExchange" type="text" value="${searchCompanyDto.stockExchange}"/>
-				<spring:errors path="stockExchange" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="ipoPrice">IPO Price</spring:label></div>
-				<div><spring:input path="ipoPrice" type="text" value="${searchCompanyDto.ipoPrice}"/>
-				<spring:errors path="ipoPrice" cssClass="error"/></div>
-			</div>
-			<br/>
-			<input type="submit" Value="Modify Company">
+		<spring:form action="${pageContext.request.contextPath}/bouser/modifyCompany" method="POST" modelAttribute="companyNewOutputDto">
+			<table>
+				<tr>
+					<td><spring:label path="companyCode">Company ID</spring:label></td>
+					<td><spring:input path="companyCode" type="text" value="${searchCompanyDto.companyCode}" readonly="true"/></td>
+					<td><spring:errors path="companyCode" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="companyTitle">Company Title</spring:label></td>
+					<td><spring:input path="companyTitle" type="text" value="${searchCompanyDto.companyTitle}"/></td>
+					<td><spring:errors path="companyTitle" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="operation">Operation</spring:label></td>
+					<td><spring:input path="operation" type="text" value="${searchCompanyDto.operation}"/></td>
+					<td><spring:errors path="operation" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="shareCount">Share Count</spring:label></td>
+					<td><spring:input path="shareCount" type="text" value="${searchCompanyDto.shareCount}"/></td>
+					<td><spring:errors path="shareCount" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="sharePrice">Share Price</spring:label></td>
+					<td><spring:input path="sharePrice" type="text" value="${searchCompanyDto.sharePrice}"/></td>
+					<td><spring:errors path="sharePrice" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="sector">Sector</spring:label></td>
+					<td><spring:input path="sector" type="text" value="${searchCompanyDto.sector}"/></td>
+					<td><spring:errors path="sector" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="currency">Currency</spring:label></td>
+					<td><spring:input path="currency" type="text" value="${searchCompanyDto.currency}"/></td>
+					<td><spring:errors path="currency" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="turnover">Turnover</spring:label></td>
+					<td><spring:input path="turnover" type="text" value="${searchCompanyDto.turnover}"/></td>
+					<td><spring:errors path="turnover" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="dateTimeIPO">Date Time IPO</spring:label></td>
+					<td><spring:input path="dateTimeIPO" type="text" value="${searchCompanyDto.dateTimeIPO}"/></td>
+					<td><spring:errors path="dateTimeIPO" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="stockExchange">Stock Exchange</spring:label></td>
+					<td><spring:input path="stockExchange" type="text" value="${searchCompanyDto.stockExchange}"/></td>
+					<td><spring:errors path="stockExchange" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="ipoPrice">IPO Price</spring:label></td>
+					<td><spring:input path="ipoPrice" type="text" value="${searchCompanyDto.ipoPrice}"/></td>
+					<td><spring:errors path="ipoPrice" cssClass="error" id ="error"/></td>
+				</tr>
+				<tr><td colspan=2><input type="submit" value="Modify Company"></td></tr>
+			</table>
 		</spring:form>
 	</div>
 	<script>

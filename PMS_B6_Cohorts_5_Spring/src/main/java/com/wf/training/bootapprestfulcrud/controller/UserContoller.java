@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
-import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
-import com.wf.training.bootapprestfulcrud.dto.CompanyOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.exception.EmployeeException;
 import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
@@ -82,7 +82,7 @@ public class UserContoller {
 	
 	@RequestMapping("/searchCompany")
 	public String company(Model model) {
-		SearchCompanyInputDto company = new SearchCompanyInputDto();
+		SearchCompanyDto company = new SearchCompanyDto();
 		model.addAttribute("company", company);
 		return "SearchCompany";
 	}
@@ -93,18 +93,18 @@ public class UserContoller {
 	private CompanyHistoricalDataService historicalService;
 	
 	@PostMapping("/searchCompanyName")
-	public String searchCompanyName(@Valid @ModelAttribute SearchCompanyInputDto company, Model model, BindingResult result) {
+	public String searchCompanyName(@Valid @ModelAttribute SearchCompanyDto company, Model model, BindingResult result) {
 		if(result.hasErrors()) {
 			throw new EmployeeException("Invalid data format!");
 		}
-		CompanyOutputDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
+		CompanyDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "Company";
 	}
 	
 	@RequestMapping("/historicalPrices")
-	public String companyHistoricalPrice(@ModelAttribute CompanyOutputDto searchCompany, Model model) {
+	public String companyHistoricalPrice(@ModelAttribute CompanyDto searchCompany, Model model) {
 		
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchAllCompanies();

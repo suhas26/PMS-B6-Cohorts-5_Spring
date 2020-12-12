@@ -1,19 +1,32 @@
 package com.wf.training.bootapprestfulcrud.dto;
 
-public class CompanyOutputDto {
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+public class CompanyDto {
 
 	private Long companyCode;
+	@NotBlank
 	private String companyTitle;
+	@NotBlank
 	private String operation;
+	@Min(value = 1000)
 	private int shareCount; 
+	@DecimalMin("0.1") 
 	private float sharePrice;
+	@NotBlank
 	private String sector;
-	private String currency; 
+	@NotBlank
+	private String currency;
+	@Min(value = 1000)
 	private long turnover;
-//	private int boUserId;
+	@NotBlank
 	private String dateTimeIPO;
+	@NotBlank
 	private String stockExchange;
-	private String ipoPrice;
+	@DecimalMin("0.1") 
+	private float ipoPrice;
 	
 	public Long getCompanyCode() {
 		return companyCode;
@@ -75,10 +88,10 @@ public class CompanyOutputDto {
 	public void setStockExchange(String stockExchange) {
 		this.stockExchange = stockExchange;
 	}
-	public String getIpoPrice() {
+	public float getIpoPrice() {
 		return ipoPrice;
 	}
-	public void setIpoPrice(String ipoPrice) {
+	public void setIpoPrice(float ipoPrice) {
 		this.ipoPrice = ipoPrice;
 	}
 

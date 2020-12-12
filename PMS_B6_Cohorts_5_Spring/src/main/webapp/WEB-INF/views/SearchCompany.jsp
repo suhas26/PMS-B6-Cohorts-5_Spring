@@ -121,7 +121,7 @@ span{
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/searchCompanyName" method="post" modelAttribute="company">
 				<input type="search" name="companyName" placeholder="Search Company by ID">
-				<input type=Submit name=Submit Value=Submit>
+				<button type=Submit name=Submit Value=Submit></button>
 			</spring:form>
 		</div>
 	</div>

@@ -87,6 +87,7 @@ body {
 }
 
 #primaryNavigators{
+	margin-left:50px;
 	color:white;
 	position:relative;
 }
@@ -95,6 +96,16 @@ body {
 	margin:auto;
 	margin-top: 100px;
 	width:15%;
+	border: 1px solid green;
+	text-align:center;
+}
+
+span{
+	margin:auto;
+}
+
+#errors{
+	color:red;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -141,6 +152,9 @@ body {
 		<spring:form action="${pageContext.request.contextPath}/bouser/returnModifyCompany" method="POST" modelAttribute="selectCompany">
 			<spring:label path="companyName">Enter Company Name</spring:label>
 			<spring:input path="companyName"/>
+			<td><spring:errors path="companyName" cssClass="error" id="errors"/></td>
+			<hr/>
+			<button>Submit</button>
 		</spring:form>
 	</div>
 	<script>

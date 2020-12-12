@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wf.training.bootapprestfulcrud.dto.AddCompanyInputDto;
-import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
-import com.wf.training.bootapprestfulcrud.dto.CompanyOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
@@ -18,7 +16,7 @@ public class CompanyServiceImp implements CompanyService {
 	@Autowired
 	private CompanyRepository companyRepository;
 	
-	private Company convertInputAddCompanyToEntity(AddCompanyInputDto addCompanyInputDto) {
+	private Company convertInputAddCompanyToEntity(CompanyDto addCompanyInputDto) {
 		 Company company = new Company();
 		 
 		 company.setCompanyTitle(addCompanyInputDto.getCompanyTitle());
@@ -35,8 +33,8 @@ public class CompanyServiceImp implements CompanyService {
 		 return company;
 	}
 	
-	private CompanyOutputDto convertCompanyEntityToOutputDto(Company company) {
-		CompanyOutputDto companyOutputCompany = new CompanyOutputDto();
+	private CompanyDto convertCompanyEntityToOutputDto(Company company) {
+		CompanyDto companyOutputCompany = new CompanyDto();
 		
 		companyOutputCompany.setCompanyCode(company.getCompanyCode());
 		companyOutputCompany.setCompanyTitle(company.getCompanyTitle());
@@ -53,7 +51,7 @@ public class CompanyServiceImp implements CompanyService {
 		return companyOutputCompany;
 	}
 	
-	private Company convertCompanyOutputToEntity(CompanyOutputDto companyOutputDto) {
+	private Company convertCompanyOutputToEntity(CompanyDto companyOutputDto) {
 		Company company = new Company();
 		
 		company.setCompanyCode(companyOutputDto.getCompanyCode());
@@ -81,33 +79,33 @@ public class CompanyServiceImp implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyOutputDto> fetchAllCompanies() {
+	public List<CompanyDto> fetchAllCompanies() {
 		return null;
 	}
 
 	@Override
-	public CompanyOutputDto fetchSingleCompany(Long id) {
+	public CompanyDto fetchSingleCompany(Long id) {
 		// fetch record from DB
 		Company company = this.companyRepository.findById(id).orElse(null);
 		// convert entity into output dto
-		CompanyOutputDto companyOutputDto =  this.convertCompanyEntityToOutputDto(company);
+		CompanyDto companyOutputDto =  this.convertCompanyEntityToOutputDto(company);
 		return companyOutputDto;
 	}
 	
 	@Override
-	public CompanyOutputDto fetchSingleCompanyByName(SearchCompanyDto searchCompanyDto) {
+	public CompanyDto fetchSingleCompanyByName(SearchCompanyDto searchCompanyDto) {
 		Company company = this.convertSearchCompanyDtoToEntity(searchCompanyDto);
 		
 		// fetch record from DB
 		Company newcompany = this.companyRepository.findBycompanyTitle(company.getCompanyTitle()).orElseThrow(()->new NullPointerException());
 		// convert entity into output dto
-		CompanyOutputDto companyOutputDto =  this.convertCompanyEntityToOutputDto(newcompany);
+		CompanyDto companyOutputDto =  this.convertCompanyEntityToOutputDto(newcompany);
 		return companyOutputDto;
 	}
 
 	@Override
-	public CompanyOutputDto addCompany(AddCompanyInputDto addCompanyInputDto) {
-		CompanyOutputDto addCompanyOutputDto = new CompanyOutputDto();
+	public CompanyDto addCompany(CompanyDto addCompanyInputDto) {
+		CompanyDto addCompanyOutputDto = new CompanyDto();
 		
 		Company company =  this.convertInputAddCompanyToEntity(addCompanyInputDto);
 		Company newCompany = this.companyRepository.save(company);
@@ -117,22 +115,22 @@ public class CompanyServiceImp implements CompanyService {
 	}
 
 	@Override
-	public CompanyOutputDto editCompany(Long id, SearchCompanyInputDto employeeInputDto) {
+	public CompanyDto editCompany(Long id, SearchCompanyDto employeeInputDto) {
 		return null;
 	}
 	
 	@Override
-	public CompanyOutputDto modifyCompany(CompanyOutputDto companyOutputDto) {
+	public CompanyDto modifyCompany(CompanyDto companyOutputDto) {
 		Company company = this.convertCompanyOutputToEntity(companyOutputDto);
 		Company modifyCompany = this.companyRepository.save(company);
 		
-		CompanyOutputDto companyNewOutputDto = this.convertCompanyEntityToOutputDto(modifyCompany);
+		CompanyDto companyNewOutputDto = this.convertCompanyEntityToOutputDto(modifyCompany);
 		
 		return companyNewOutputDto;
 	}
 
 	@Override
-	public CompanyOutputDto deleteCompany(Long id) {
+	public CompanyDto deleteCompany(Long id) {
 		return null;
 	}
 

@@ -1,9 +1,9 @@
 package com.wf.training.bootapprestfulcrud.dto;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 public class SearchCompanyDto {
-	@NotNull
+	@NotBlank
 	private String companyName;
 
 	public String getCompanyName() {

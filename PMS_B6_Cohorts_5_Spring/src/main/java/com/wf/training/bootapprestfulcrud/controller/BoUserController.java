@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wf.training.bootapprestfulcrud.dto.AddCompanyInputDto;
-import com.wf.training.bootapprestfulcrud.dto.CompanyOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 
@@ -38,7 +37,7 @@ public class BoUserController {
 	}
 	
 	@RequestMapping("/returnAddCompany")
-	public String returnAddCompany(@ModelAttribute("createCompany") AddCompanyInputDto createCompany) {
+	public String returnAddCompany(@ModelAttribute("createCompany") CompanyDto createCompany) {
 		// add business logic
 		
 		
@@ -47,12 +46,12 @@ public class BoUserController {
 	}
 	
 	@PostMapping("/createCompany")
-	public String addCompany(@Valid AddCompanyInputDto addCompany,BindingResult result, Model model) {
+	public String addCompany(@Valid @ModelAttribute("createCompany") CompanyDto createCompany,BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "CreateCompany";
 		}
 		
-		CompanyOutputDto addCompanyOutputDto = this.companyService.addCompany(addCompany);
+		CompanyDto addCompanyOutputDto = this.companyService.addCompany(createCompany);
 		
 		model.addAttribute("CompanyOutput", addCompanyOutputDto);
 		// respond back with a view page name
@@ -65,11 +64,11 @@ public class BoUserController {
 	}
 	
 	@RequestMapping("/returnModifyCompany")
-	public String returnModifyCompany(@Valid SearchCompanyDto searchCompanyDto, BindingResult result, @ModelAttribute("companyNewOutputDto") CompanyOutputDto companyNewOutputDto, Model model) {
+	public String returnModifyCompany(@Valid @ModelAttribute("selectCompany") SearchCompanyDto searchCompanyDto, BindingResult result, @ModelAttribute("companyNewOutputDto") CompanyDto companyNewOutputDto, Model model) {
 		if (result.hasErrors()) {
 			return "SelectModifyCompany";
 		}
-		CompanyOutputDto companyOutputDto = new CompanyOutputDto();
+		CompanyDto companyOutputDto = new CompanyDto();
 		
 		companyOutputDto = this.companyService.fetchSingleCompanyByName(searchCompanyDto);
 		model.addAttribute("searchCompanyDto", companyOutputDto);
@@ -78,7 +77,7 @@ public class BoUserController {
 	}
 	
 	@RequestMapping("/modifyCompany")
-	public String modifyCompany(@Valid @ModelAttribute("companyNewOutputDto") CompanyOutputDto companyNewOutputDto, BindingResult result, Model model) {
+	public String modifyCompany(@Valid @ModelAttribute("companyNewOutputDto") CompanyDto companyNewOutputDto, BindingResult result, Model model) {
 		System.out.println("modifyCompany");
 		System.out.println(companyNewOutputDto);
 		System.out.println("modifyCompany");
@@ -87,7 +86,7 @@ public class BoUserController {
 			return "ModifyCompany";
 		}
 		
-		CompanyOutputDto companyOutputDto =this.companyService.modifyCompany(companyNewOutputDto);
+		CompanyDto companyOutputDto =this.companyService.modifyCompany(companyNewOutputDto);
 		model .addAttribute("CompanyOutput", companyOutputDto);
 		System.out.println("modifyCompany1");
 		System.out.println(companyOutputDto);

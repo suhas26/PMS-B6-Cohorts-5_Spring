@@ -105,12 +105,21 @@ body {
 }
 
 #addCompanyForm{
+	
 	margin: auto;
-	width: 15%;
-	margin-top: 5%;
-	border: 3px solid green;
-	padding: 10px;
 	text-align: center;
+	border: 2px solid green;
+	width: 30%;
+	margin-top:5%;
+	
+}
+
+span{
+	margin:auto;
+}
+
+#errors{
+	color:red;
 }
 
 
@@ -149,9 +158,7 @@ body {
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a></div>
-			<span>
-				<span class="text-light font-weight-bold">Create Company</span>
-			</span>
+			<span class="text-light font-weight-bold">Create Company</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
@@ -159,68 +166,64 @@ body {
 	</div>
 	
 	<div id=addCompanyForm>
-		<spring:form action="${pageContext.request.contextPath}/bouser/createCompany" method="POST" modelAttribute="createCompany"> 
-			<div>
-				<div><spring:label path="companyTitle">Company Title</spring:label></div>
-				<div><spring:input path="companyTitle" type="text" />
-				<spring:errors path="companyTitle" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="operation">Operation</spring:label></div>
-				<div><spring:input path="operation" type="text" />
-				<spring:errors path="operation" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="shareCount">Share Count</spring:label></div>
-				<div><spring:input path="shareCount" type="text" />
-				<spring:errors path="shareCount" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="sharePrice">Share Price</spring:label></div>
-				<div><spring:input path="sharePrice" type="text" />
-				<spring:errors path="sharePrice" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="sector">Sector</spring:label></div>
-				<div><spring:input path="sector" type="text" />
-				<spring:errors path="sector" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="currency">Currency</spring:label></div>
-				<div><spring:input path="currency" type="text" />
-				<spring:errors path="currency" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="turnover">Turnover</spring:label></div>
-				<div><spring:input path="turnover" type="text" />
-				<spring:errors path="turnover" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="dateTimeIPO">Date Time IPO</spring:label></div>
-				<div><spring:input path="dateTimeIPO" type="text" />
-				<spring:errors path="dateTimeIPO" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="stockExchange">Stock Exchange</spring:label></div>
-				<div><spring:input path="stockExchange" type="text" />
-				<spring:errors path="stockExchange" cssClass="error"/></div>
-			</div>
-			<br/>
-			<div>
-				<div><spring:label path="ipoPrice">IPO Price</spring:label></div>
-				<div><spring:input path="ipoPrice" type="text" />
-				<spring:errors path="ipoPrice" cssClass="error"/></div>
-			</div>
-			<br/>
-			<input type="submit" Value="Add Company">
+		<h2>Create Company Form</h2>
+		<hr/>
+		<spring:form action="${pageContext.request.contextPath}/bouser/createCompany" method="POST" modelAttribute="createCompany">
+			<table>
+				<tr>
+					<td><spring:label path="companyTitle">Company Title</spring:label></td>
+					<td><spring:input path="companyTitle" type="text" /></td>
+					<td><spring:errors path="companyTitle" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="operation">Operation</spring:label></td>
+					<td><spring:input path="operation" type="text" /></td>
+					<td><spring:errors path="operation" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="shareCount">Share Count</spring:label></td>
+					<td><spring:input path="shareCount" type="text" /></td>
+					<td><spring:errors path="shareCount" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="sharePrice">Share Price</spring:label></td>
+					<td><spring:input path="sharePrice" type="text" /></td>
+					<td><spring:errors path="sharePrice" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="sector">Sector</spring:label></td>
+					<td><spring:input path="sector" type="text" /></td>
+					<td><spring:errors path="sector" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="currency">Currency</spring:label></td>
+					<td><spring:input path="currency" type="text" /></td>
+					<td><spring:errors path="currency" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="turnover">Turnover</spring:label></td>
+					<td><spring:input path="turnover" type="text" /></td>
+					<td><spring:errors path="turnover" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="dateTimeIPO">Date Time IPO</spring:label></td>
+					<td><spring:input path="dateTimeIPO" type="text" /></td>
+					<td><spring:errors path="dateTimeIPO" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="stockExchange">Stock Exchange</spring:label></td>
+					<td><spring:input path="stockExchange" type="text" /></td>
+					<td><spring:errors path="stockExchange" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="ipoPrice">IPO Price</spring:label></td>
+					<td><spring:input path="ipoPrice" type="text" /></td>
+					<td><spring:errors path="ipoPrice" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td colspan=2><hr/><input type="submit" Value="Add Company"></td>
+				</tr> 
+			</table>
 		</spring:form>
 	</div>
 	<script>

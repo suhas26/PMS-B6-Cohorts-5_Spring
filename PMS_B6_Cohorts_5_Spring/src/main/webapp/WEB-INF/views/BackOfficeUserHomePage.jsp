@@ -98,7 +98,12 @@ body {
 	margin:50px;
 }
 
+span{
+	margin:auto;
+}
+
 #primaryNavigators{
+	margin-left:50px;
 	color:white;
 	position:relative;
 }
@@ -135,9 +140,7 @@ body {
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
-			<span>
-				<span class="text-light font-weight-bold">BackOfficeUser Dashboard</span>
-			</span>
+			<span class="text-light font-weight-bold">BackOfficeUser Dashboard</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
