@@ -61,17 +61,17 @@
 <div id = output>
 	<h2>Saved Details...</h2>
 	<hr/>
-	<h5>Company Code : ${AddCompanyOutput.companyCode}</h5>
-	<h5>Company Title : ${AddCompanyOutput.companyTitle}</h5>
-	<h5>Operation: ${AddCompanyOutput.operation}</h5>
-	<h5>Share Count: ${AddCompanyOutput.shareCount}</h5>
-	<h5>Share Price: ${AddCompanyOutput.sharePrice}</h5>
-	<h5>Sector: ${AddCompanyOutput.sector}</h5>
-	<h5>Currency: ${AddCompanyOutput.currency}</h5>
-	<h5>Turnover: ${AddCompanyOutput.turnover}</h5>
-	<h5>Date Time IPO: ${AddCompanyOutput.dateTimeIPO}</h5>
-	<h5>Stock Exchange: ${AddCompanyOutput.stockExchange}</h5>
-	<h5>IPO Price: ${AddCompanyOutput.ipoPrice}</h5>
+	<h5>Company Code : ${CompanyOutput.companyCode}</h5>
+	<h5>Company Title : ${CompanyOutput.companyTitle}</h5>
+	<h5>Operation: ${CompanyOutput.operation}</h5>
+	<h5>Share Count: ${CompanyOutput.shareCount}</h5>
+	<h5>Share Price: ${CompanyOutput.sharePrice}</h5>
+	<h5>Sector: ${CompanyOutput.sector}</h5>
+	<h5>Currency: ${CompanyOutput.currency}</h5>
+	<h5>Turnover: ${CompanyOutput.turnover}</h5>
+	<h5>Date Time IPO: ${CompanyOutput.dateTimeIPO}</h5>
+	<h5>Stock Exchange: ${CompanyOutput.stockExchange}</h5>
+	<h5>IPO Price: ${CompanyOutput.ipoPrice}</h5>
 </div>
 </body>
 </html>

@@ -1,7 +1,9 @@
 package com.wf.training.bootapprestfulcrud.dto;
 
-public class SearchCompanyDto {
+import javax.validation.constraints.NotNull;
 
+public class SearchCompanyDto {
+	@NotNull
 	private String companyName;
 
 	public String getCompanyName() {
@@ -11,6 +13,5 @@ public class SearchCompanyDto {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-
 
 }

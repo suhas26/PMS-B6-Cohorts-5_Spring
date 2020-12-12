@@ -117,7 +117,7 @@ body {
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 		<a href="${pageContext.request.contextPath}/bouser/returnAddCompany">Add Company</a>
-		<a href="${pageContext.request.contextPath}/bouser/modifycompany">Modify Company</a>
+		<a href="${pageContext.request.contextPath}/bouser/selectModifyCompany">Modify Company</a>
 		<a href="#">Create/Modify Commodity</a>
 		
 		<label class="generateCommision">Generate Commission</label>
