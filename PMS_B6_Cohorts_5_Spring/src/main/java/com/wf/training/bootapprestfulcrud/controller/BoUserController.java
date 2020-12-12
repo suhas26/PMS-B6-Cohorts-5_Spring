@@ -78,9 +78,6 @@ public class BoUserController {
 	
 	@RequestMapping("/modifyCompany")
 	public String modifyCompany(@Valid @ModelAttribute("companyNewOutputDto") CompanyDto companyNewOutputDto, BindingResult result, Model model) {
-		System.out.println("modifyCompany");
-		System.out.println(companyNewOutputDto);
-		System.out.println("modifyCompany");
 		
 		if (result.hasErrors()) {
 			return "ModifyCompany";
@@ -88,9 +85,6 @@ public class BoUserController {
 		
 		CompanyDto companyOutputDto =this.companyService.modifyCompany(companyNewOutputDto);
 		model .addAttribute("CompanyOutput", companyOutputDto);
-		System.out.println("modifyCompany1");
-		System.out.println(companyOutputDto);
-		System.out.println("modifyCompany1");
 		
 		// respond back with a view page name
 		return "SavedCompany";

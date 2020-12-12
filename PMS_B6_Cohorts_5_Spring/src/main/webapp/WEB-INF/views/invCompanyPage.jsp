@@ -82,9 +82,9 @@
 	</div>
 	
 	<div id=currentPrice>
-		<h5>${searchCompany.companyTitle}</h5>
+		<h5>Company Name: ${searchCompany.companyTitle}</h5>
 		<hr>
-		<h6>${searchCompany.sharePrice}</h6>
+		<h6>Current Price: ${searchCompany.sharePrice}</h6>
 	</div>
 	<div>
 		<br/>

@@ -71,7 +71,7 @@ body {
 	padding-top:10%;
 	display: flex;
     justify-content: center;
- 	
+    text-align: center;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -92,6 +92,10 @@ span{
 	margin-left:50px;
 	color:white;
 	position:relative;
+}
+
+#errors{
+	color:red;
 }
 
 </style>
@@ -120,8 +124,11 @@ span{
 		</nav>
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/searchCompanyName" method="post" modelAttribute="company">
-				<input type="search" name="companyName" placeholder="Search Company by ID">
-				<button type=Submit name=Submit Value=Submit></button>
+				<spring:input type="search" path="companyName" placeholder="Search Company Name"></spring:input>
+				<br>
+				<spring:errors path="companyName" cssClass="error" id="errors"/>
+				<hr/>
+				<button type=Submit name=Submit>Submit</button>
 			</spring:form>
 		</div>
 	</div>

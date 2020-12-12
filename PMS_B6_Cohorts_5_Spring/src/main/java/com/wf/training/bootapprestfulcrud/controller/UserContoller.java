@@ -24,88 +24,57 @@ import com.wf.training.bootapprestfulcrud.service.CompanyService;
 @Controller
 @RequestMapping("/user")
 public class UserContoller {
+	@Autowired
+	private CompanyService service;
+	@Autowired
+	private CompanyHistoricalDataService historicalService;
 
 	//dashboard for user
-	@RequestMapping(value= {"/home","/dashboard","/index"})  // /employee/home
+	@RequestMapping(value= {"/home","/dashboard","/index"})
 	public String home(Principal principal) {
-		// business logic
 		
 		return "UserHomePage";
 	}
 	
-	// default mapping for parent url
 	@RequestMapping()
 	public String defaultResponse() {
 		// return "user-base";
-		return "redirect:/user/home";// ~sendRedirect()
+		return "redirect:/user/home";
 	}
 	
-	// respond back profile-entry form
-	@RequestMapping("/profile-entry") // /employee/profile-entry
+	@RequestMapping("/profile-entry")
 	public String profileEntry(Model model) {
-//		// share a blank/empty employee object with jsp to map with spring form
-//		User user = new User();
-//		user.setCountry("IN");
-//		String[] languages = new String[] {"Python","C#"};
-//		employee.setFavoriteLanguages(languages);
-//		model.addAttribute("employee", employee);
 		return "employee-profile-entry";
 	}
 	
-	// auto add param value to model container
-	// we want to validation : @Valid
-//	@PostMapping("/profile-save")
-//	public String saveProfile(@Valid @ModelAttribute Employee employee, 
-//							  BindingResult result) {
-//		if(result.hasErrors()) {
-//			// revert back the entry form
-//			return "employee-profile-entry";
-//		}
-//		
-//		return "profile-confirm";
-//	}
-	
-	
-//	// @RequestMapping(value = { "/profile-save" }, method = RequestMethod.GET)
-//	@GetMapping("/profile-save")
-//	public String saveProfilePro(String name, String email, String contact) {
-//		System.out.println("GET DATA : " + name + " | " + email + " | " + contact);
-//		return "profile-confirm";
-//	}
 	
 	@RequestMapping("/wallet")
 	public String wallet(Principal principal) {
-		// business logic
 		
 		return "Wallet";
 	}
 	
 	@RequestMapping("/searchCompany")
-	public String company(Model model) {
-		SearchCompanyDto company = new SearchCompanyDto();
-		model.addAttribute("company", company);
-		return "SearchCompany";
+	public String company(@ModelAttribute("company") SearchCompanyDto company) {
+		return "invSearchCompany";
 	}
 	
-	@Autowired
-	private CompanyService service;
-	@Autowired
-	private CompanyHistoricalDataService historicalService;
 	
-	@PostMapping("/searchCompanyName")
-	public String searchCompanyName(@Valid @ModelAttribute SearchCompanyDto company, Model model, BindingResult result) {
+	
+	@RequestMapping("/searchCompanyName")
+	public String searchCompanyName(@Valid @ModelAttribute("company") SearchCompanyDto company, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-			throw new EmployeeException("Invalid data format!");
+			return "invSearchCompany";
 		}
-		CompanyDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
+		CompanyDto searchCompany = this.service.fetchSingleCompanyByName(company);
 		
 		model.addAttribute("searchCompany",searchCompany);
-		return "Company";
+		return "invCompanyPage";
 	}
 	
 	@RequestMapping("/historicalPrices")
-	public String companyHistoricalPrice(@ModelAttribute CompanyDto searchCompany, Model model) {
-		
+	public String companyHistoricalPrice(Principal principal,@ModelAttribute("searchCompany") CompanyDto searchCompany, Model model) {
+		System.out.println(principal);
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchAllCompanies();
 		
