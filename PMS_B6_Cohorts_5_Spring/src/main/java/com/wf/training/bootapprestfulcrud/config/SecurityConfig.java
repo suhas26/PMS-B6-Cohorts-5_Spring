@@ -26,9 +26,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//  create user (in-memory auth)
 		UserBuilder builder = User.withDefaultPasswordEncoder(); 
 		auth.inMemoryAuthentication()
-			.withUser(builder.username("1").password("abc").roles("User"))
-			.withUser(builder.username("002").password("abc").roles("SuperUser"))
-			.withUser(builder.username("003").password("abc").roles("bouser"));
+//			.withUser(builder.username("1").password("abc").roles("User"))
+//			.withUser(builder.username("002").password("abc").roles("SuperUser"))
+//			.withUser(builder.username("003").password("abc").roles("bouser"));
+		.withUser(builder.username("admin").password("admin").roles("User"));
 		
 	}
 	
@@ -37,9 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		// auto maintains session for user
 		http.authorizeRequests() // start defining auth rule
-			.antMatchers("/user/**").hasRole("User")
-			.antMatchers("/superuser/**").hasRole("SuperUser")
-			.antMatchers("/bouser/**").hasRole("bouser")
+			//.antMatchers("/user/**").hasRole("User")
+			//.antMatchers("/superuser/**").hasRole("SuperUser")
+			//.antMatchers("/bouser/**").hasRole("bouser")
 			.anyRequest() // all are secured
 			.authenticated()
 		.and()
@@ -49,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.loginProcessingUrl("/validate") // inbuilt handler (free of cost)
 			//.permitAll() // allow everyone to access login
 		.and()
-			.logout().logoutSuccessUrl("/logout").permitAll() // free implementation of handler method (/logout(default url))
+	.logout().logoutSuccessUrl("/logout").permitAll()
 		.and()
 			.exceptionHandling() // security exception
 				.accessDeniedPage("/access-denied"); // url of custom access denied (handler)

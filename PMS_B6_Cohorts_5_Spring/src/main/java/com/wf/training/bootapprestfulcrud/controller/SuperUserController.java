@@ -32,8 +32,10 @@ public class SuperUserController {
 	
 	@PostMapping("/confirm")
 	public String boCreateConfirm(@Valid @ModelAttribute("backofficeuser") BackofficeInputDto user,BindingResult result) {
-		if(result.hasErrors())
+		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors());
 			return "backOfficeUserCreation";
+		}
 		else {
 			if(this.superUserService.addBackOfficeUser(user))	
 		return "BackOfficeUserCreated";

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.BackofficeInputDto;
 import com.wf.training.bootapprestfulcrud.dto.BackofficeOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
 import com.wf.training.bootapprestfulcrud.entity.BackOfficeUser;
 import com.wf.training.bootapprestfulcrud.entity.SuperUser;
 import com.wf.training.bootapprestfulcrud.repository.BackOfficeUserRepository;
@@ -33,8 +34,20 @@ public class SuperUserServiceImpl implements SuperUserService {
 		buser.setPassword(user.getPassword());
 		this.borepo.save(buser);
 		user.setLoginId(buser.getLoginId());
-		
 		return true;
+	}
+
+	@Override
+	public boolean validateUser(SuperUserLoginDto user) {
+		SuperUser superUser=repo.findBySuperUserId(user.getSuperUserId());
+		if(superUser==null)
+			return false;
+		else
+			if(superUser.getPassword().equals(user.getPassword()))
+				return true;
+			else
+				return false;
+	
 	}
 	
 }

@@ -18,14 +18,13 @@ import javax.persistence.Id;
 public class SuperUser {
 	@Column(name="Name")
 	private String name;
+	
 	@Id
 	@Column(name="SuperUserID")
-	@NotNull(message = "User ID is mandatory!")
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer superUserId;
+	
 	@Column(name="Password")
-	@NotBlank(message = "password is mandatory!")
-
 	private String password;
 	public SuperUser(String name, Integer superUserId, String password) {
 		super();

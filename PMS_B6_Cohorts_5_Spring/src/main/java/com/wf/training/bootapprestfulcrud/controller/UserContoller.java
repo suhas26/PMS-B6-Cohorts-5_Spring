@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyInputDto;
-import com.wf.training.bootapprestfulcrud.dto.SearchCompanyOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.CompanyOutputDto;
 import com.wf.training.bootapprestfulcrud.exception.EmployeeException;
 import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
@@ -97,20 +97,21 @@ public class UserContoller {
 		if(result.hasErrors()) {
 			throw new EmployeeException("Invalid data format!");
 		}
-		SearchCompanyOutputDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
+		CompanyOutputDto searchCompany = this.service.fetchSingleCompany(Long.parseLong(company.getCompanyName()));
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "Company";
 	}
 	
 	@RequestMapping("/historicalPrices")
-	public String companyHistoricalPrice(@ModelAttribute SearchCompanyOutputDto searchCompany, Model model) {
+	public String companyHistoricalPrice(@ModelAttribute CompanyOutputDto searchCompany, Model model) {
 		
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchAllCompanies();
 		
 		model.addAttribute("companyHistoricalDataOutputDto", companyHistoricalDataOutputDto);
 		model.addAttribute("searchCompany", searchCompany);
+		System.out.println(searchCompany.getCompanyTitle());
 		return "company-historicalPrices"; 
 	}
 	

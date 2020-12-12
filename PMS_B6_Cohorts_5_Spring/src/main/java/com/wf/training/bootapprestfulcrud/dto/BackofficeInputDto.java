@@ -17,7 +17,6 @@ public class BackofficeInputDto {
 	@NotBlank(message="Password is Mandatory")
 	private String password;
 	
-	@NotNull(message="Login id is Mandatory")
 	private Integer loginId;
 
 	public Integer getLoginId() {

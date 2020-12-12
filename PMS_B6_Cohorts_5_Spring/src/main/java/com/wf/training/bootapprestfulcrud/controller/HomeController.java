@@ -10,67 +10,69 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wf.training.bootapprestfulcrud.dto.BackofficeInputDto;
-import com.wf.training.bootapprestfulcrud.entity.BackOfficeUser;
+import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
+import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
 import com.wf.training.bootapprestfulcrud.entity.SuperUser;
+import com.wf.training.bootapprestfulcrud.service.BackOfficeUserService;
 import com.wf.training.bootapprestfulcrud.service.SuperUserService;
-import com.wf.training.bootapprestfulcrud.service.SuperUserServiceImpl;
 
 @Controller
 public class HomeController {
 	
 	@Autowired
-	private SuperUserServiceImpl superUserService;
+	private SuperUserService superService;
+	
+	@Autowired
+	private BackOfficeUserService boService;
 	
 	@RequestMapping("/")
 	public String home() {
-		// add business logic
-		
-		// respond back with a view page name
-		return "UserHomePage";
+		return "index";
 	}
 	
 	@RequestMapping("/Userlogin")
 	public String userLogin() {
-		// add business logic
-		
-		// respond back with a view page name
 		return "login";
 	}
 	
 	
 	@RequestMapping("/SuperUserLogin")
 	public String superUserLogin(Model model) {
-		SuperUser superuser = new SuperUser();
+		SuperUserLoginDto superuser = new SuperUserLoginDto();
 		model.addAttribute("superuser", superuser);
 		return "SuperUserLogin";
 	}
 	
 	@RequestMapping("/BOUserLogin")
 	public String backOfficeUserLogin(Model model) {
-		BackofficeInputDto backofficeuser=new BackofficeInputDto();
+		BackOfficeLoginDto backofficeuser=new BackOfficeLoginDto();
 		model.addAttribute("backofficeuser", backofficeuser);
 		return "BackOfficeUserLogin";
 	}
 	
 	@PostMapping("/validate")
-	public String loginValidate(@Valid @ModelAttribute("superuser") SuperUser superuser,BindingResult result) {
-		if(result.hasErrors())
+	public String loginValidate(@Valid @ModelAttribute("superuser") SuperUserLoginDto dto,BindingResult result) {
+		System.out.println("Logging in");
+		if(result.hasErrors()) {
 			return "SuperUserLogin";
-		else if(superuser.getSuperUserId().equals(1) && superuser.getPassword().equals("abc")) {
-				return "SuperUserHomePage";
-			}else
+		} 
+		//else if(superuser.getSuperUserId().equals(1) && superuser.getPassword().equals("abc")) {
+		else if(superService.validateUser(dto)) {
+			System.out.println("superuser");
+			return "SuperUserHomePage";
+		}else
 			return "SuperUserLogin";
 	}
 	
 	@PostMapping("/bovalidate")
-	public String boLoginValidate(@Valid @ModelAttribute("backofficeuser") BackofficeInputDto user,BindingResult result) {
-		if(result.hasErrors())
+	public String boLoginValidate(@Valid @ModelAttribute("backofficeuser") BackOfficeLoginDto user,BindingResult result) {
+		if(result.hasErrors()) {
 			return "BackOfficeUserLogin";
-		else if(user.getLoginId().equals(1) && user.getPassword().equals("abc")) {
-				return "BackOfficeUserLogin";
+		}
+		else if(boService.validateUser(user)) {
+				return "BackOfficeUserHomePage";
 			}else
-			return "error";
+			return "BackOfficeUserLogin";
 	}
 	
 	@RequestMapping("/UserRegistration")
