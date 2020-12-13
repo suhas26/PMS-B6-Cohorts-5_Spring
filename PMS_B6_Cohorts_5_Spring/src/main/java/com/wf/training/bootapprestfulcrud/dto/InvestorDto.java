@@ -1,7 +1,9 @@
 package com.wf.training.bootapprestfulcrud.dto;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class InvestorDto {
@@ -11,9 +13,11 @@ public class InvestorDto {
 	private String firstName;
 	@NotBlank
 	private String lastName;
-	@Size(min=10,max=10)
-	private Integer mobileNumber;
+	@NotNull
+	@Min(value = 1000000000)
+	private long mobileNumber;
 	@NotBlank
+	@Size(min=10, max =10)
 	private String panId;
 	@NotBlank
 	private String gender;
@@ -43,10 +47,10 @@ public class InvestorDto {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Integer getMobileNumber() {
+	public long getMobileNumber() {
 		return mobileNumber;
 	}
-	public void setMobileNumber(Integer mobileNumber) {
+	public void setMobileNumber(long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
 	public String getPanId() {

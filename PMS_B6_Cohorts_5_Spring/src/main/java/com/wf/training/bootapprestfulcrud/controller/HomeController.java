@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
+import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.service.BackOfficeUserService;
 import com.wf.training.bootapprestfulcrud.service.InvestorService;
 import com.wf.training.bootapprestfulcrud.service.SuperUserService;
@@ -34,9 +35,9 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping("/Userlogin")
-	public String userLogin() {
-		return "login";
+	@RequestMapping("/InvestorLogin")
+	public String userLogin(@ModelAttribute("investorLoginDto") LoginDto investorLoginDto) {
+		return "invLogin";
 	}
 	
 	
@@ -81,20 +82,36 @@ public class HomeController {
 	
 	@RequestMapping("/InvestorRegistration")
 	public String userRegistration(@ModelAttribute("newInvestor") InvestorDto newInvestor) {
-		
 		return "invRegistration";
 	}
 	
 	@RequestMapping("/createInvestor")
 	public String createInvestor(@Valid @ModelAttribute("newInvestor") InvestorDto newInvestor, BindingResult result, Model model) {
+		System.out.println(result.getErrorCount()+"+"+result.getAllErrors());
 		if (result.hasErrors()) {
 			return "invRegistration";
 		}
+		System.out.println("Passed");
 		InvestorDto newInvestorOut = this.investorService.addInvestor(newInvestor);
 		
 		model.addAttribute("newInvestorOut", newInvestorOut);
 		
-		return "invRegistration";
+		return "SavedInvestor";
+	}
+	
+	@RequestMapping("/invValidate")
+	public String invValidate(@Valid @ModelAttribute("investorLoginDto") LoginDto investorLoginDto, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "invLogin";
+		}
+		
+		boolean status = this.investorService.validateInvestor(investorLoginDto);
+		if (status==true) {
+			return "invHomePage";
+		}else {
+			model.addAttribute("Message", "Invalid Credentials");
+			return "invLogin";
+		}
 	}
 	
 	@RequestMapping("/access-denied")

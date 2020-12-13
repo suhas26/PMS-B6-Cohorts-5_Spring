@@ -45,35 +45,69 @@
 			<table>
 				<tr>
 					<td><spring:label path="firstName">First name: </spring:label> </td>
-					<td colspan=2><spring:input type="text" path="firstName"></spring:input> </td>
+				<td colspan=2><spring:input type="text" path="firstName"></spring:input> </td>
+				</tr>
+				<tr>
+					<td></td>
 					<td><spring:errors path="firstName" cssClass="error" id="errors"/></td>
-			   </tr>
+				</tr>
 			    <tr>
 					<td><spring:label path="lastName">Last Name:</spring:label>  </td>
 					<td colspan=2> <spring:input type="text" path="lastName"></spring:input> </td>
-					<td><spring:errors path="lastName" cssClass="error" id="errors"/></td>
 			 	</tr>
+			 	<tr>
+					<td></td>
+					<td><spring:errors path="lastName" cssClass="error" id="errors"/></td>
+				</tr>
 			 	<tr>
 					 <td><spring:label path="gender"> Gender: </spring:label></td>
 					 <td colspan=2>
 					 <spring:radiobutton path="gender" value="Male"/>Male 
 					 <spring:radiobutton path="gender" value="Female"/>Female 
 					 </td>
-					 <td><spring:errors path="mobileNumber" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><spring:errors path="gender" cssClass="error" id="errors"/></td>
 				</tr>
 				<tr>
 					<td><spring:label path="mobileNumber"> Mobile Number: </spring:label></td>
 					<td colspan=2><spring:input type="text" path="mobileNumber"></spring:input> </td>
+				</tr>
+				<tr>
+					<td></td>
 					<td><spring:errors path="mobileNumber" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="panId"> Pan ID: </spring:label></td>
+					<td colspan=2><spring:input type="text" path="panId"></spring:input> </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><spring:errors path="panId" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="emailId"> Email Id: </spring:label></td>
+					<td colspan=2><spring:input type="email" path="emailId"></spring:input> </td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><spring:errors path="emailId" cssClass="error" id="errors"/></td>
 				</tr>
 				<tr>
 					<td><spring:label path="loginKey"> Login key: </spring:label></td>
 					<td colspan=2><spring:input type="text" path="loginKey"></spring:input> </td>
+				</tr>
+				<tr>
+					<td></td>
 					<td><spring:errors path="loginKey" cssClass="error" id="errors"/></td>
 				</tr>
 				<tr>
 					<td><spring:label path="password"> Password: </spring:label></td>
 					<td colspan=2><spring:input type="password" path="password"></spring:input> </td>
+				</tr>
+				<tr>
+					<td></td>
 					<td><spring:errors path="password" cssClass="error" id="errors"/></td>
 				</tr>
 				<tr>

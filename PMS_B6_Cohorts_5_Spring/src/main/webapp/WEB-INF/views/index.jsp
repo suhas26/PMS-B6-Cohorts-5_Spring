@@ -44,7 +44,7 @@
 			<tr><td><hr></td><td><hr></td></tr>
 			<tr>
 				<td>User Login </td> 
-				<td id = leftline><a href="${pageContext.request.contextPath}/Userlogin">Login</a></td>
+				<td id = leftline><a href="${pageContext.request.contextPath}/InvestorLogin">Login</a></td>
 			</tr>
 			<tr><td><hr></td><td><hr></td></tr>
 			<tr>

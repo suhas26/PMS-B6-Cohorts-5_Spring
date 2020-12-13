@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
+import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
 import com.wf.training.bootapprestfulcrud.entity.Investor;
 import com.wf.training.bootapprestfulcrud.repository.InvestorRepository;
 import com.wf.training.bootapprestfulcrud.service.InvestorService;
@@ -76,6 +78,20 @@ public class InvestorServiceImp implements InvestorService {
 	public InvestorDto deleteInvestor(Long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public boolean validateInvestor(LoginDto investorLoginDto) {
+		boolean status = false;
+		Investor investor = this.invRepository.findByLoginKey(investorLoginDto.getLoginKey()).orElse(null);
+		
+		if(investor!=null) {
+			if(investor.getPassword().equalsIgnoreCase(investorLoginDto.getPassword())) {
+				status = true;
+			}
+		}
+		
+		return status;
 	}
 
 }

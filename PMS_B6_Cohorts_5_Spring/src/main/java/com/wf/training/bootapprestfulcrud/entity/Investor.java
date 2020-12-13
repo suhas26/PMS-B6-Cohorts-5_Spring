@@ -1,5 +1,6 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,11 +14,13 @@ public class Investor {
 	private int investorId;
 	private String firstName;
 	private String lastName;
-	private int mobileNumber;
+	private long mobileNumber;
+	@Column(unique=true)
 	private String panId;
 	private String gender;
 	private String emailId;
 	private String password;
+	@Column(unique=true)
 	private String loginKey;
 	
 	public String getLoginKey() {
@@ -40,10 +43,10 @@ public class Investor {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public int getMobileNumber() {
+	public long getMobileNumber() {
 		return mobileNumber;
 	}
-	public void setMobileNumber(int mobileNumber) {
+	public void setMobileNumber(long mobileNumber) {
 		this.mobileNumber = mobileNumber;
 	}
 	public String getPanId() {
