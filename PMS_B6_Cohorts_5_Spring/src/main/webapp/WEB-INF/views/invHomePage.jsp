@@ -91,6 +91,9 @@ span{
 		color:white;
 		position:relative;
 	}
+	#logout{
+		background-color: Dodgerblue;
+	}
 </style>
 <body>
 	<div id="mySidebar" class="sidebar">
@@ -114,9 +117,9 @@ span{
 			<span>
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST" id="primaryNavigators">
-				<input type="submit" value="Logout" />
-				</spring:form></div>
+			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
+				<button type=Submit name=Logout id=logout>Logout</button>
+			</spring:form></div>
 		</nav>
 		<div class="container">
 			<!-- 	<h1>Employee Register Form:</h1> -->

@@ -34,7 +34,7 @@ public class InvestorContoller {
 	@RequestMapping(value= {"/home","/dashboard","/index"})
 	public String home(Principal principal) {
 		
-		return "UserHomePage";
+		return "invHomePage";
 	}
 	
 	@RequestMapping()
