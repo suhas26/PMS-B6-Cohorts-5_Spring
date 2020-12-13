@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +11,7 @@
 	crossorigin="anonymous">
 <style>
 	table, th, td {
-	  border: 1px solid black;
-	  border-collapse: collapse;
+	  
 	  margin-left: 10px;
 	  height: 50px;
 	}
@@ -30,6 +30,8 @@
 		width:85%;
 		margin-left:50px;
 		text-align: center;
+		border: 1px solid black;
+	  	border-collapse: collapse;
 	}
 	#primaryNavigators{
 		margin-left:50px;
@@ -62,10 +64,9 @@
 		padding: 10px;
 	}
 	#button{
-		margin-left:20px;
-		padding: 10px;
-		background: DodgerBlue;
-		color: white;
+		background-color:DodgerBlue;
+		margin-left :10px;
+		color:white;
 	}
 </style>
 <title>Company</title>
@@ -82,9 +83,9 @@
 	</div>
 	
 	<div id=currentPrice>
-		<h5>${searchCompany.companyTitle}</h5>
+		<h5>Company Name: ${searchCompany.companyTitle}</h5>
 		<hr>
-		<h6>${searchCompany.sharePrice}</h6>
+		<h6>Current Price: ${searchCompany.sharePrice}</h6>
 	</div>
 	<div>
 		<br/>
@@ -130,9 +131,26 @@
 	
 	<hr/>
 	<div id=buttons>
-		<a id=button href="${pageContext.request.contextPath}/user/buy">Buy</a>
+		<table>
+			<tr>
+				<td><spring:form action="${pageContext.request.contextPath}/user/buy/${searchCompany.companyCode}" method="POST" modelAttribute="searchCompany">
+					<button type=Submit name=Submit id=button>Buy</button>
+				</spring:form></td>
+			
+				<td><spring:form action="${pageContext.request.contextPath}/user/sell" method="POST" modelAttribute="searchCompany">
+					<button type=Submit name=Submit id=button>Sell</button>
+				</spring:form></td>
+				
+				<td><spring:form action="${pageContext.request.contextPath}/user/historicalPrices/${searchCompany.companyCode}" method="POST">
+					<button type=Submit name=Submit id=button>Historical Prices</button>
+				</spring:form></td>
+
+			</tr>
+		</table>
+		<!--
+		<a id=button href="${pageContext.request.contextPath}/user/buy">Buy</a> 
 		<a id=button href="${pageContext.request.contextPath}/user/sell">Sell</a>
-		<a id=button href="${pageContext.request.contextPath}/user/historicalPrices">Historical Prices</a>
+		<a id=button href="${pageContext.request.contextPath}/user/historicalPrices">Historical Prices</a> -->
 	</div>
 
 </body>

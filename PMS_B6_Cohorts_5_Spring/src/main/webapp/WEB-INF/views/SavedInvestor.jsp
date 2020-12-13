@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Company Creation</title>
+<title>Created Investor</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -44,34 +44,26 @@
 </style>
 </head>
 <body>
-<div>
+	<div>
 		<nav class="navbar navbar-dark bg-primary">
-			<div><a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a></div>
+			<div><a href="${pageContext.request.contextPath}" id="primaryNavigators">Index</a></div>
 			<span>
-				<span class="text-light font-weight-bold" >Company Created Successfully</span>
+				<span class="text-light font-weight-bold" >Investor Created Successfully</span>
 			</span>
-			<div>
-				<spring:form action="${pageContext.request.contextPath}/logout" method="POST">
-					<input type="submit" value="Logout" />
-				</spring:form>
-			</div>
 		</nav>
 	</div>
-<hr/>
-<div id = output>
-	<h2>Saved Details...</h2>
 	<hr/>
-	<h5>Company Code : ${CompanyOutput.companyCode}</h5>
-	<h5>Company Title : ${CompanyOutput.companyTitle}</h5>
-	<h5>Operation: ${CompanyOutput.operation}</h5>
-	<h5>Share Count: ${CompanyOutput.shareCount}</h5>
-	<h5>Share Price: ${CompanyOutput.sharePrice}</h5>
-	<h5>Sector: ${CompanyOutput.sector}</h5>
-	<h5>Currency: ${CompanyOutput.currency}</h5>
-	<h5>Turnover: ${CompanyOutput.turnover}</h5>
-	<h5>Date Time IPO: ${CompanyOutput.dateTimeIPO}</h5>
-	<h5>Stock Exchange: ${CompanyOutput.stockExchange}</h5>
-	<h5>IPO Price: ${CompanyOutput.ipoPrice}</h5>
-</div>
+	<div id = output>
+		<h2>Saved Details...</h2>
+		<hr/>
+		<h5>Investor Id: ${newInvestorOut.investorId}</h5>
+		<h5>First Name: ${newInvestorOut.firstName}</h5>
+		<h5>Last Name: ${newInvestorOut.lastName}</h5>
+		<h5>Mobile Number: ${newInvestorOut.mobileNumber}</h5>
+		<h5>Pan Id: ${newInvestorOut.panId}</h5>
+		<h5>Gender: ${newInvestorOut.gender}</h5>
+		<h5>Email Id: ${newInvestorOut.emailId}</h5>
+		<h5>Login Key: ${newInvestorOut.loginKey}</h5>
+	</div>
 </body>
 </html>

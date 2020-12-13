@@ -14,6 +14,6 @@ public interface CompanyService {
 	public CompanyDto editCompany(Long id, SearchCompanyDto employeeInputDto);
 	public CompanyDto deleteCompany(Long id);
 	public CompanyDto fetchSingleCompanyByName(SearchCompanyDto searchCompanyDto);
-	CompanyDto modifyCompany(CompanyDto companyOutputDto);
+	public CompanyDto modifyCompany(CompanyDto companyOutputDto);
 	
 }

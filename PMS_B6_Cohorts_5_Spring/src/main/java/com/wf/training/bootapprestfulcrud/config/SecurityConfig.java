@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		// auto maintains session for user
 		http.authorizeRequests() // start defining auth rule
-			//.antMatchers("/user/**").hasRole("User")
+			.antMatchers("/user/**").hasRole("User")
 			//.antMatchers("/superuser/**").hasRole("SuperUser")
 			//.antMatchers("/bouser/**").hasRole("bouser")
 			.anyRequest() // all are secured

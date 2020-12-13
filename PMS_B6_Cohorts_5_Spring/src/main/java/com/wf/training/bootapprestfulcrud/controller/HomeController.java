@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
-import com.wf.training.bootapprestfulcrud.entity.SuperUser;
+import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.service.BackOfficeUserService;
+import com.wf.training.bootapprestfulcrud.service.InvestorService;
 import com.wf.training.bootapprestfulcrud.service.SuperUserService;
 
 @Controller
@@ -25,8 +26,11 @@ public class HomeController {
 	@Autowired
 	private BackOfficeUserService boService;
 	
-	@RequestMapping("/")
-	public String home() {
+	@Autowired
+	private InvestorService investorService;
+	
+	@RequestMapping(value ={"/logout","/index",""})
+	public String logout() {
 		return "index";
 	}
 	
@@ -75,36 +79,32 @@ public class HomeController {
 			return "BackOfficeUserLogin";
 	}
 	
-	@RequestMapping("/UserRegistration")
-	public String userRegistration() {
-		// add business logic
+	@RequestMapping("/InvestorRegistration")
+	public String userRegistration(@ModelAttribute("newInvestor") InvestorDto newInvestor) {
 		
-		// respond back with a view page name
-		return "userRegistration";
+		return "invRegistration";
+	}
+	
+	@RequestMapping("/createInvestor")
+	public String createInvestor(@Valid @ModelAttribute("newInvestor") InvestorDto newInvestor, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "invRegistration";
+		}
+		InvestorDto newInvestorOut = this.investorService.addInvestor(newInvestor);
+		
+		model.addAttribute("newInvestorOut", newInvestorOut);
+		
+		return "invRegistration";
 	}
 	
 	@RequestMapping("/access-denied")
 	public String accessDenied() {
-		// add business logic
-		
-		// respond back with a view page name
 		return "error-page";
 	}
 	
 	@RequestMapping("/custom-login")
 	public String customLogin() {
-		// add business logic
-		
-		// respond back with a view page name
 		return "custom-login";
 	}
 	
-	@RequestMapping("/logout")
-	public String logout() {
-		// add business logic
-		
-		// respond back with a view page name
-		return "index";
-	}
-		
 }
