@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -72,16 +73,13 @@ public class UserContoller {
 		return "invCompanyPage";
 	}
 	
-	@RequestMapping("/historicalPrices")
-	public String companyHistoricalPrice(Principal principal,@ModelAttribute("searchCompany") CompanyDto searchCompany, Model model) {
-		System.out.println(principal);
+	@RequestMapping("/historicalPrices/{companyCode}")
+	public String companyHistoricalPrice(@PathVariable Long companyCode, Model model) {
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
-				this.historicalService.fetchAllCompanies();
+				this.historicalService.fetchSingleByCompanyId(companyCode);
 		
 		model.addAttribute("companyHistoricalDataOutputDto", companyHistoricalDataOutputDto);
-		model.addAttribute("searchCompany", searchCompany);
-		System.out.println(searchCompany.getCompanyTitle());
-		return "company-historicalPrices"; 
+		return "invCompHistoricalPrices"; 
 	}
 	
 
