@@ -132,7 +132,7 @@ span{
 				</div>
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Recently Viewed Companies</div>
+						<div class="card-body"><a href="${pageContext.request.contextPath}/user/recentViewCompanies">Recently Viewed Companies</a></div>
 					</div>
 				</div>
 			</div>

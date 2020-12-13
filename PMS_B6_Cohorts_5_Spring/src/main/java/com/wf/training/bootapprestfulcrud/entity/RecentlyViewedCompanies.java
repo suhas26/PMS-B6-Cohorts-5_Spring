@@ -4,26 +4,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-//@Entity
+@Entity
 public class RecentlyViewedCompanies {
 	@Id  // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
-	private Long recentViewId;
-	private int investorId;
-	private int companyCode;
+	private long recentViewId;
+	private String loginKey;
+	private String companyTitle;
 	private String dateTime;
 	
-	public int getInvestorId() {
-		return investorId;
+	public long getRecentViewId() {
+		return recentViewId;
 	}
-	public void setInvestorId(int investorId) {
-		this.investorId = investorId;
+	public void setRecentViewId(long recentViewId) {
+		this.recentViewId = recentViewId;
 	}
-	public int getCompanyCode() {
-		return companyCode;
+	public String getLoginKey() {
+		return loginKey;
 	}
-	public void setCompanyCode(int companyCode) {
-		this.companyCode = companyCode;
+	public void setLoginKey(String loginKey) {
+		this.loginKey = loginKey;
+	}
+	public String getCompanyTitle() {
+		return companyTitle;
+	}
+	public void setCompanyTitle(String companyTitle) {
+		this.companyTitle = companyTitle;
 	}
 	public String getDateTime() {
 		return dateTime;
@@ -31,6 +37,5 @@ public class RecentlyViewedCompanies {
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
-	
 	
 }

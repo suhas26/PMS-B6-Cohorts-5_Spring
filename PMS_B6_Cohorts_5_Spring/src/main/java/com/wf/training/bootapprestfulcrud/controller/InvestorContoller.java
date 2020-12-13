@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
@@ -21,14 +22,18 @@ import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
+import com.wf.training.bootapprestfulcrud.service.InvestorService;
 
 @Controller
+@SessionAttributes("Investor")
 @RequestMapping("/user")
 public class InvestorContoller {
 	@Autowired
-	private CompanyService service;
+	private CompanyService companyService;
 	@Autowired
 	private CompanyHistoricalDataService historicalService;
+	@Autowired
+	private InvestorService investorService;
 
 	//dashboard for user
 	@RequestMapping(value= {"/home","/dashboard","/index"})
@@ -62,11 +67,13 @@ public class InvestorContoller {
 	}
 	
 	@RequestMapping("/searchCompanyName")
-	public String searchCompanyName(@Valid @ModelAttribute("company") SearchCompanyDto company, BindingResult result, Model model) {
+	public String searchCompanyName(@Valid @ModelAttribute("company") SearchCompanyDto company, BindingResult result, Model model,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
 		if(result.hasErrors()) {
 			return "invSearchCompany";
 		}
-		CompanyDto searchCompany = this.service.fetchSingleCompanyByName(company);
+		CompanyDto searchCompany = this.companyService.fetchSingleCompanyByName(company);
+		this.investorService.addRecentViewCompany(investorLoginDto, searchCompany);
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "invCompanyPage";
@@ -81,11 +88,15 @@ public class InvestorContoller {
 		return "invCompHistoricalPrices"; 
 	}
 	
-
-
-
-
-
+	@RequestMapping("/recentViewCompanies")
+	public String recentViewCompanies(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model) {
+		
+		List<CompanyDto> companyDto = this.investorService.getAllRecentViewCompanies(investorLoginDto.getLoginKey());
+		
+		model.addAttribute("recentViewCompanies", companyDto);
+		
+		return "invRecentViewCompanies";
+	}
 
 
 

@@ -34,7 +34,7 @@ public class CompanyServiceImp implements CompanyService {
 		 return company;
 	}
 	
-	private CompanyDto convertCompanyEntityToOutputDto(Company company) {
+	public CompanyDto convertCompanyEntityToOutputDto(Company company) {
 		CompanyDto companyOutputCompany = new CompanyDto();
 		
 		companyOutputCompany.setCompanyCode(company.getCompanyCode());
