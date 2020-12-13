@@ -1,4 +1,4 @@
-package com.wf.training.bootapprestfulcrud.service;
+package com.wf.training.bootapprestfulcrud.service.imp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import com.wf.training.bootapprestfulcrud.dto.EmployeeInputDto;
 import com.wf.training.bootapprestfulcrud.dto.EmployeeOutputDto;
 import com.wf.training.bootapprestfulcrud.entity.Employee;
 import com.wf.training.bootapprestfulcrud.repository.EmployeeRepository;
+import com.wf.training.bootapprestfulcrud.service.EmployeeService;
 
 // @Component
 @Service

@@ -1,4 +1,4 @@
-package com.wf.training.bootapprestfulcrud.service;
+package com.wf.training.bootapprestfulcrud.service.imp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCompany;
 import com.wf.training.bootapprestfulcrud.repository.CompanyHistoricalDataRepository;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
+import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 
 @Service
 public class CompanyHistoricalDataServiceImp implements CompanyHistoricalDataService {

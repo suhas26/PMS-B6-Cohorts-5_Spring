@@ -1,4 +1,4 @@
-package com.wf.training.bootapprestfulcrud.service;
+package com.wf.training.bootapprestfulcrud.service.imp;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
+import com.wf.training.bootapprestfulcrud.service.CompanyService;
 @Service
 public class CompanyServiceImp implements CompanyService {
 	

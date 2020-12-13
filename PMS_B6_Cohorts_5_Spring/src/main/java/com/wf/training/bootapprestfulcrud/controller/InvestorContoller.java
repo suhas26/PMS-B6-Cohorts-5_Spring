@@ -24,7 +24,7 @@ import com.wf.training.bootapprestfulcrud.service.CompanyService;
 
 @Controller
 @RequestMapping("/user")
-public class UserContoller {
+public class InvestorContoller {
 	@Autowired
 	private CompanyService service;
 	@Autowired
