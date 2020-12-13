@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BackOffice User Home Page</title>
+<title>Modify Commodity</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -86,26 +86,26 @@ body {
 	transition: margin-left .5s;
 }
 
-#logout{
-	background-color:red;
+#primaryNavigators{
+	margin-left:50px;
 	color:white;
 	position:relative;
-	left:5px;
-	padding:5px;
 }
 
-.container{
-	margin:50px;
+#centre{
+	margin:auto;
+	margin-top: 100px;
+	width:15%;
+	border: 1px solid green;
+	text-align:center;
 }
 
 span{
 	margin:auto;
 }
 
-#primaryNavigators{
-	margin-left:50px;
-	color:white;
-	position:relative;
+#errors{
+	color:red;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -141,14 +141,22 @@ span{
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
-			<span class="text-light font-weight-bold">BackOfficeUser Dashboard</span>
+			<span>
+				<span class="text-light font-weight-bold">Modify Commodity</span>
+			</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
 		</nav>
-		<div class="container">
-			<h4>Welcome to the BO User HomePage:</h4>
-		</div>
+	</div>
+	<div id=centre>
+		<spring:form action="${pageContext.request.contextPath}/bouser/returnModifyCommodity" method="POST" modelAttribute="selectCommodity">
+			<spring:label path="commodityName">Enter Commodity Name</spring:label>
+			<spring:input path="commodityName"/>
+			<td><spring:errors path="commodityName" cssClass="error" id="errors"/></td>
+			<hr/>
+			<button>Submit</button>
+		</spring:form>
 	</div>
 	<script>
 		function openNav() {

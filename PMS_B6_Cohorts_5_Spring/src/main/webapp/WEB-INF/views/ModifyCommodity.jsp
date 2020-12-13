@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BackOffice User Home Page</title>
+<title>Modify Commodity</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -86,6 +86,11 @@ body {
 	transition: margin-left .5s;
 }
 
+#primaryNavigators{
+	color:white;
+	position:relative;
+}
+
 #logout{
 	background-color:red;
 	color:white;
@@ -98,14 +103,20 @@ body {
 	margin:50px;
 }
 
-span{
-	margin:auto;
+#modifyCommodityForm{
+	margin: auto;
+	width: 30%;
+	margin-top: 5%;
+	border: 3px solid green;
+	padding: 10px;
+	text-align: center;
+}
+#error{
+	color:red;
 }
 
-#primaryNavigators{
-	margin-left:50px;
-	color:white;
-	position:relative;
+span{
+	margin:auto;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -134,21 +145,54 @@ span{
 		</ul>
 	</div>
 	<div id="main">
+
 		<nav class="navbar navbar-dark bg-primary">
 			<button class="navbar-toggler" type="button" onclick="openNav()"
 				aria-controls="navbarToggleExternalContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
-			<span class="text-light font-weight-bold">BackOfficeUser Dashboard</span>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
+			<div><a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a></div>
+			<span class="text-light font-weight-bold">Modify Commodity</span>
+			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
 		</nav>
-		<div class="container">
-			<h4>Welcome to the BO User HomePage:</h4>
-		</div>
+	</div>
+	
+	<div id=modifyCommodityForm>
+		<spring:form action="${pageContext.request.contextPath}/bouser/modifyCommodity" method="POST" modelAttribute="comDto">
+			<table>
+				<tr>
+					<td><spring:label path="commodityId">Commodity ID</spring:label></td>
+					<td><spring:input path="commodityId" type="text" value="${searchCommodityDto.commodityId}" readonly="true"/></td>
+					<td><spring:errors path="commodityId" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="commodityName">Commodity Name</spring:label></td>
+					<td><spring:input path="commodityName" type="text" value="${searchCommodityDto.commodityName}" /></td>
+					<td><spring:errors path="commodityName" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="currency">Currency</spring:label></td>
+					<td><spring:input path="currency" type="text" value="${searchCommodityDto.currency}" /></td>
+					<td><spring:errors path="currency" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="price">Price</spring:label></td>
+					<td><spring:input path="price" type="text" value="${searchCommodityDto.price}"/></td>
+					<td><spring:errors path="price" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="dateTime">Date Time</spring:label></td>
+					<td><spring:input path="dateTime" type="text" value="${searchCommodityDto.dateTime}"/></td>
+					<td><spring:errors path="dateTime" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td colspan=2><hr/><input type="submit" Value="Modify Commodity"></td>
+				</tr> 
+			</table>
+		</spring:form>
 	</div>
 	<script>
 		function openNav() {

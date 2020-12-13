@@ -1,5 +1,7 @@
 package com.wf.training.bootapprestfulcrud.controller;
 
+import java.time.LocalDateTime;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +12,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
+import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.service.CommodityService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 
 @Controller
 @RequestMapping("/bouser")
 public class BoUserController {
+	
 	@Autowired
 	private CompanyService companyService;
+	
+	@Autowired
+	private CommodityService commodityService;
 	
 	@RequestMapping("/home")
 	public String returnHome() {
@@ -96,5 +106,62 @@ public class BoUserController {
 		return "SavedCompany";
 	}
 	
+	
+	@RequestMapping("/returnCreateCommodity")
+	public String returnAddCommodity(Model model ) {
+		CommodityDto commodityDto=new CommodityDto();
+		commodityDto.setDateTime(LocalDateTime.now());
+		model.addAttribute("commodity", commodityDto);
+		
+		return "CreateCommodity";
+	}
+	
+	@PostMapping("/createCommodity")
+	public String addCommodity(@Valid @ModelAttribute("commodity") CommodityDto dto,BindingResult result,Model model) {
+		if (result.hasErrors()) {
+			return "CreateCommodity";
+		}
+		CommodityDto output=this.commodityService.addCommodity(dto);
+		model.addAttribute("CommodityOutput", output);
+		return "SavedCommodity";
+	}
+	
+	@RequestMapping("/selectModifyCommodity")
+	public String selectModifyCommodity(@ModelAttribute("selectCommodity") SearchCommodityDto searchCommodityDto) {
+		return "SelectModifyCommodity";
+	}
+	
+	@RequestMapping("/returnModifyCommodity")
+	public String returnModifyCommodity(@Valid @ModelAttribute("selectCommodity") SearchCommodityDto searchCommodityDto, BindingResult result, @ModelAttribute("comDto") CommodityDto comDto, Model model) {
+		if (result.hasErrors()) {
+			return "SelectModifyCommodity";
+		}
+		CommodityDto output = new CommodityDto();
+		
+		output = this.commodityService.fetchSingleCommodityByName(searchCommodityDto);
+		comDto.setDateTime(LocalDateTime.now());
+		model.addAttribute("searchCommodityDto", output);
+		// respond back with a view page name
+		return "ModifyCommodity";
+	}
+	
+	@RequestMapping("/modifyCommodity")
+	public String modifyCommodity(@Valid @ModelAttribute("commodityNewOutputDto") CommodityDto commodityNewOutputDto, BindingResult result, Model model) {
+		System.out.println("modifyCommodity");
+		System.out.println(commodityNewOutputDto);
+		System.out.println("modifyCommodity");
+		
+		if (result.hasErrors()) {
+			return "ModifyCommodity";
+		}
+		
+		CommodityDto commodityOutputDto =this.commodityService.modifyCommodity(commodityNewOutputDto);
+		model .addAttribute("CommodityOutput", commodityOutputDto);
+		System.out.println("modifyCommodity1");
+		System.out.println(commodityOutputDto);
+		System.out.println("modifyCommodity1");
+		
+		return "SavedCommodity";
+	}
 	
 }

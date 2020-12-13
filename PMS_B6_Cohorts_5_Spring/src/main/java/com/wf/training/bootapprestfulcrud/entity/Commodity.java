@@ -2,16 +2,24 @@ package com.wf.training.bootapprestfulcrud.entity;
 
 import java.time.LocalDateTime;
 
-public class Commodities {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Commodity {
 
 	private String commodityName;
 	private String currency;
 	private float price;
 	private LocalDateTime dateTime;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int commodityId;
 	private int boUserId;
 	
-	public Commodities(String commodityName, String currency, float price, LocalDateTime dateTime, int commodityId,
+	public Commodity(String commodityName, String currency, float price, LocalDateTime dateTime, int commodityId,
 			int boUserId) {
 		super();
 		this.commodityName = commodityName;
@@ -22,6 +30,10 @@ public class Commodities {
 		this.boUserId = boUserId;
 	}
 	
+	public Commodity() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCommodityName() {
 		return commodityName;
 	}
