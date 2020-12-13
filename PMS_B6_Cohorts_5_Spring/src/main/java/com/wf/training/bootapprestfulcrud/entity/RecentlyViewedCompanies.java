@@ -1,19 +1,18 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
-import java.time.LocalDateTime;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+//@Entity
 public class RecentlyViewedCompanies {
-
+	@Id  // primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
+	private Long recentViewId;
 	private int investorId;
 	private int companyCode;
-	private LocalDateTime dateTime;
+	private String dateTime;
 	
-	public RecentlyViewedCompanies(int investorId, int companyCode, LocalDateTime dateTime) {
-		super();
-		this.investorId = investorId;
-		this.companyCode = companyCode;
-		this.dateTime = dateTime;
-	}
 	public int getInvestorId() {
 		return investorId;
 	}
@@ -26,10 +25,10 @@ public class RecentlyViewedCompanies {
 	public void setCompanyCode(int companyCode) {
 		this.companyCode = companyCode;
 	}
-	public LocalDateTime getDateTime() {
+	public String getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
 	

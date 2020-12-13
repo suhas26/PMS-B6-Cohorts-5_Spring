@@ -11,5 +11,7 @@ import com.wf.training.bootapprestfulcrud.entity.Investor;
 public interface InvestorRepository extends JpaRepository<Investor, Integer>{
 	
 	Optional<Investor> findByLoginKey(String loginKey);
+	
+	Optional<Investor> findByPanId(String panId);
 
 }

@@ -113,7 +113,8 @@ span{
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<div id="primaryNavigators">Welcome <security:authentication property="principal.username"/></div>
+			<div id="primaryNavigators">Welcome ${Investor.loginKey}</div>
+			 <!-- <security : authentication property= "principal . username"/></div> -->
 			<span>
 				<span class="text-light font-weight-bold">Investor Dashboard</span>
 			</span>

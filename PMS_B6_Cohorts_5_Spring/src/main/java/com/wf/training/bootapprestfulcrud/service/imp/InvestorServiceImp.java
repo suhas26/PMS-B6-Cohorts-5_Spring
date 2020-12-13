@@ -62,6 +62,10 @@ public class InvestorServiceImp implements InvestorService {
 
 	@Override
 	public InvestorDto addInvestor(InvestorDto investorDto) {
+		boolean status = this.validateLoginKeyPanPresent(investorDto);
+		if (status == true) {
+			return null;
+		}
 		Investor investor = this.convertInvestorDtoToEntity(investorDto);
 		Investor newInvestor = this.invRepository.save(investor);
 		InvestorDto outInvestorDto = this.convertInvestorEntityToDto(newInvestor);
@@ -89,6 +93,23 @@ public class InvestorServiceImp implements InvestorService {
 			if(investor.getPassword().equalsIgnoreCase(investorLoginDto.getPassword())) {
 				status = true;
 			}
+		}
+		
+		return status;
+	}
+	
+	public boolean validateLoginKeyPanPresent(InvestorDto investorDto) {
+		boolean status = false;
+		Investor investor = this.invRepository.findByLoginKey(investorDto.getLoginKey()).orElse(null);
+		
+		if(investor!=null) {
+			status = true;
+		}
+		
+		Investor panInvestor = this.invRepository.findByPanId(investorDto.getPanId()).orElse(null);
+		
+		if(panInvestor!=null) {
+			status = true;
 		}
 		
 		return status;

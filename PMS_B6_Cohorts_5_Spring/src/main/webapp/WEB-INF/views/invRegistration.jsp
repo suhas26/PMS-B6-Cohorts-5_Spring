@@ -41,6 +41,8 @@
 		</nav>
 	</div>
 	<div id=center>
+		<h4 id="errors">${Message}</h4>
+		<hr>
 		<spring:form action="${pageContext.request.contextPath}/createInvestor" method="POST" modelAttribute="newInvestor">
 			<table>
 				<tr>
@@ -112,8 +114,7 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type=Submit name=Submit Value=Submit></td>
-					<td><input type=reset name=reset Value=reset></td>
+					<td colspan=2><input type=Submit name=Submit Value=Submit></td>
 					<td></td>
 				</tr>
 			</table>

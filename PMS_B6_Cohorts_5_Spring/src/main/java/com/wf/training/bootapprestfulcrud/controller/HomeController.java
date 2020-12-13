@@ -1,14 +1,18 @@
 package com.wf.training.bootapprestfulcrud.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
@@ -19,6 +23,7 @@ import com.wf.training.bootapprestfulcrud.service.InvestorService;
 import com.wf.training.bootapprestfulcrud.service.SuperUserService;
 
 @Controller
+@SessionAttributes("Investor")
 public class HomeController {
 	
 	@Autowired
@@ -87,12 +92,15 @@ public class HomeController {
 	
 	@RequestMapping("/createInvestor")
 	public String createInvestor(@Valid @ModelAttribute("newInvestor") InvestorDto newInvestor, BindingResult result, Model model) {
-		System.out.println(result.getErrorCount()+"+"+result.getAllErrors());
 		if (result.hasErrors()) {
 			return "invRegistration";
 		}
-		System.out.println("Passed");
 		InvestorDto newInvestorOut = this.investorService.addInvestor(newInvestor);
+		
+		if(newInvestorOut==null) {
+			model.addAttribute("Message", "Investor already registered");
+			return "invRegistration";
+		}
 		
 		model.addAttribute("newInvestorOut", newInvestorOut);
 		
@@ -100,12 +108,17 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/invValidate")
-	public String invValidate(@Valid @ModelAttribute("investorLoginDto") LoginDto investorLoginDto, BindingResult result, Model model) {
+	public String invValidate(@Valid @ModelAttribute("investorLoginDto") LoginDto investorLoginDto, BindingResult result, Model model,
+			HttpServletRequest request, HttpSession session) {
 		if (result.hasErrors()) {
 			return "invLogin";
 		}
 		
+		session.invalidate();
+	    HttpSession newSession = request.getSession();
+		
 		boolean status = this.investorService.validateInvestor(investorLoginDto);
+		newSession.setAttribute("Investor", investorLoginDto);
 		if (status==true) {
 			return "invHomePage";
 		}else {

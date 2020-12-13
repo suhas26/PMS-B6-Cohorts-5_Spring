@@ -38,17 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		// auto maintains session for user
 		http.authorizeRequests() // start defining auth rule
-			.antMatchers("/user/**").hasRole("User")
-			//.antMatchers("/superuser/**").hasRole("SuperUser")
-			//.antMatchers("/bouser/**").hasRole("bouser")
-			.anyRequest() // all are secured
-			.authenticated()
+//			.antMatchers("/user/**").hasRole("User")
+//			//.antMatchers("/superuser/**").hasRole("SuperUser")
+//			//.antMatchers("/bouser/**").hasRole("bouser")
+//			.anyRequest() // all are secured
+//			.authenticated()
 		.and()
-			.httpBasic()
-//			.formLogin()  // auth type is form based login 
-//			.loginPage("/login.jsp") // url of custom login page (handler method)
+//			.httpBasic()
+			.formLogin()  // auth type is form based login 
+			.loginPage("/index") // url of custom login page (handler method)
 //			.loginProcessingUrl("/validate") // inbuilt handler (free of cost)
-			//.permitAll() // allow everyone to access login
+			.permitAll() // allow everyone to access login
 		.and()
 	.logout().logoutSuccessUrl("/logout").permitAll()
 		.and()
