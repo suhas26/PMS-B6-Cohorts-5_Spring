@@ -66,6 +66,11 @@ public class InvestorContoller {
 		return "invSearchCompany";
 	}
 	
+	@RequestMapping("/searchCommodity")
+	public String commodity() {
+		return "invSearchCompany";
+	}
+	
 	@RequestMapping("/searchCompanyName")
 	public String searchCompanyName(@Valid @ModelAttribute("company") SearchCompanyDto company, BindingResult result, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
@@ -79,7 +84,18 @@ public class InvestorContoller {
 		return "invCompanyPage";
 	}
 	
-	@RequestMapping("/historicalPrices/{companyCode}")
+	@RequestMapping("/company/{companyTitle}")
+	public String searchCompanyByName(@PathVariable("companyTitle") String companyTitle, Model model,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+
+		CompanyDto searchCompany = this.companyService.fetchSingleCompanyByName(companyTitle);
+		this.investorService.addRecentViewCompany(investorLoginDto, searchCompany);
+		
+		model.addAttribute("searchCompany",searchCompany);
+		return "invCompanyPage";
+	}
+	
+	@RequestMapping("/{companyTitle}/historicalPrices/{companyCode}")
 	public String companyHistoricalPrice(@PathVariable Long companyCode, Model model) {
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchSingleByCompanyId(companyCode);
