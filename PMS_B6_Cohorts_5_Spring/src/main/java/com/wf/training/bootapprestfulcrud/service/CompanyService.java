@@ -17,6 +17,7 @@ public interface CompanyService {
 	public CompanyDto editCompany(Long id, SearchCompanyDto employeeInputDto);
 	public CompanyDto deleteCompany(Long id);
 	public CompanyDto fetchSingleCompanyByName(SearchCompanyDto searchCompanyDto);
+	public CompanyDto fetchSingleCompanyByName(String companyTitle);
 	public CompanyDto modifyCompany(CompanyDto companyOutputDto);
 	public boolean addStockPrice(AddStockPriceDto addStockDto);
 	public List<String> fetchAllCompanyNames();

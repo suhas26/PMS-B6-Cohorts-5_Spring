@@ -38,9 +38,7 @@ public class CompanyHistoricalDataServiceImp implements CompanyHistoricalDataSer
 			listPrice.setDateTime(historicalPrice.getDateTime());
 			listPrice.setStockPrice(historicalPrice.getStockPrice());
 			companyHistoricalDataOutputDto.add(listPrice);
-			
 		}
-		System.out.println(companyHistoricalDataOutputDto);
 		
 		return companyHistoricalDataOutputDto;
 	}

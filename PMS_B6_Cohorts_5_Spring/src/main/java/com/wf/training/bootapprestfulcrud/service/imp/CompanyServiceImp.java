@@ -175,4 +175,11 @@ public class CompanyServiceImp implements CompanyService {
 		return false;
 	}
 
+	@Override
+	public CompanyDto fetchSingleCompanyByName(String companyTitle) {
+		Company company = this.companyRepository.findBycompanyTitle(companyTitle).orElse(null);
+		CompanyDto companyDto = this.convertCompanyEntityToOutputDto(company);
+		return companyDto;
+	}
+
 }

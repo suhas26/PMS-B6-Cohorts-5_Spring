@@ -65,7 +65,6 @@ public class InvestorServiceImp implements InvestorService {
 		
 		recentlyViewedCompanies.setCompanyTitle(companyDto.getCompanyTitle());
 		LocalDate date = LocalDate.now();
-		System.out.println(date);
 		recentlyViewedCompanies.setDateTime(date.toString());
 		recentlyViewedCompanies.setLoginKey(investorLoginDto.getLoginKey());
 		
@@ -118,7 +117,6 @@ public class InvestorServiceImp implements InvestorService {
 	
 	@Override
 	public RecentlyViewedCompanies addRecentViewCompany(LoginDto investorLoginDto, CompanyDto companyDto) {
-		System.out.println("add recent company");
 		RecentlyViewedCompanies recentlyViewedCompanies = this.convertRecentViewDtoToEntity(investorLoginDto,companyDto);
 		
 		RecentlyViewedCompanies existingRecentlyViewed = this.recentViewRepository.findByLoginKeyAndCompanyTitle(recentlyViewedCompanies.getLoginKey(), 
