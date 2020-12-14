@@ -123,8 +123,10 @@ span{
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 		<a href="${pageContext.request.contextPath}/bouser/returnAddCompany">Add Company</a>
 		<a href="${pageContext.request.contextPath}/bouser/selectModifyCompany">Modify Company</a>
+		<a href="${pageContext.request.contextPath}/bouser/addCompanyStockPrice">Add Company Stock Price</a>
 		<a href="${pageContext.request.contextPath}/bouser/returnCreateCommodity">Create Commodity</a>
 		<a href="${pageContext.request.contextPath}/bouser/selectModifyCommodity">Modify Commodity</a>
+		<a href="${pageContext.request.contextPath}/bouser/addCommodityPrice">Add Commodity Price</a>
 		
 		<label class="generateCommision">Generate Commission</label>
 		<ul>

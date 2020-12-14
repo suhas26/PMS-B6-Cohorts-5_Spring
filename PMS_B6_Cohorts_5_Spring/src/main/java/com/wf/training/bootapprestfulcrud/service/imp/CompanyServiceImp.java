@@ -1,13 +1,19 @@
 package com.wf.training.bootapprestfulcrud.service.imp;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wf.training.bootapprestfulcrud.dto.AddStockPriceDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.entity.Company;
+import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCommodity;
+import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCompany;
+import com.wf.training.bootapprestfulcrud.repository.CompanyHistoricalDataRepository;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 @Service
@@ -16,6 +22,9 @@ public class CompanyServiceImp implements CompanyService {
 	// inject repository as dependency
 	@Autowired
 	private CompanyRepository companyRepository;
+	
+	@Autowired
+	private CompanyHistoricalDataRepository histRepo;
 	
 	private Company convertInputAddCompanyToEntity(CompanyDto addCompanyInputDto) {
 		 Company company = new Company();
@@ -81,7 +90,21 @@ public class CompanyServiceImp implements CompanyService {
 
 	@Override
 	public List<CompanyDto> fetchAllCompanies() {
-		return null;
+		List<Company> company=this.companyRepository.findAll();
+		List<CompanyDto> dto=new ArrayList<CompanyDto>();
+		for(Company c:company)
+			dto.add(this.convertCompanyEntityToOutputDto(c));
+		return dto;
+	}
+	
+	@Override
+	public List<String> fetchAllCompanyNames() {
+		List<CompanyDto> companyList=this.fetchAllCompanies();
+		List<String> companyNames=new ArrayList<String>();
+		for(CompanyDto c:companyList)
+		 companyNames.add(c.getCompanyTitle());
+		
+		return companyNames;
 	}
 
 	@Override
@@ -133,6 +156,23 @@ public class CompanyServiceImp implements CompanyService {
 	@Override
 	public CompanyDto deleteCompany(Long id) {
 		return null;
+	}
+
+	@Override
+	public boolean addStockPrice(AddStockPriceDto addStockDto) {
+		Company company=this.companyRepository.findBycompanyTitle(addStockDto.getCompanyName()).orElse(null);
+		if(company!=null) {
+		HistoricalRecordCompany entity=new HistoricalRecordCompany();
+		entity.setCompanyCode(company.getCompanyCode());
+		entity.setCurrency(company.getCurrency());
+		entity.setStockPrice(addStockDto.getSharePrice());
+		entity.setDateTime(LocalDateTime.now().toString());
+		this.histRepo.save(entity);
+		//add statement to update price in company table
+		return true;
+		}
+		
+		return false;
 	}
 
 }
