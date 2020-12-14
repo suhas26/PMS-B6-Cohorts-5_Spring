@@ -1,4 +1,4 @@
-package com.wf.training.bootapprestfulcrud.service;
+package com.wf.training.bootapprestfulcrud.service.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +7,7 @@ import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.entity.Commodity;
 import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
+import com.wf.training.bootapprestfulcrud.service.CommodityService;
 
 @Service
 public class CommodityServiceImp implements CommodityService {
@@ -107,6 +108,14 @@ public class CommodityServiceImp implements CommodityService {
 		commodity.setDateTime(commodityNewOutputDto.getDateTime());
 		commodity.setPrice(commodityNewOutputDto.getPrice());
 		return commodity;
+	}
+
+	@Override
+	public CommodityDto fetchSingleCommodityByName(String commodityName) {
+		
+		Commodity commodity = this.commodityRepository.findByCommodityName(commodityName);
+		CommodityDto commodityDto = this.convertCommodityEntityToOutputDto(commodity);
+		return commodityDto;
 	}
 
 	

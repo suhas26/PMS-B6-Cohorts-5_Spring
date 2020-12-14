@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.entity.Commodity;
 import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.Investor;
 import com.wf.training.bootapprestfulcrud.entity.RecentlyViewedCompanies;
+import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvestorRepository;
 import com.wf.training.bootapprestfulcrud.repository.RecentViewCompRepository;
@@ -170,5 +172,5 @@ public class InvestorServiceImp implements InvestorService {
 		
 		return status;
 	}
-
+	
 }

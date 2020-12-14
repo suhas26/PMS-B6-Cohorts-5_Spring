@@ -14,11 +14,11 @@ public class CommodityDto {
 	@NotNull(message="Price is required")
 	private Float price;
 	
-	private LocalDateTime dateTime;
+	private String dateTime;
 	private int commodityId;
 	private int boUserId;
 	
-	public CommodityDto(String commodityName, String currency, Float price, LocalDateTime dateTime, int commodityId,
+	public CommodityDto(String commodityName, String currency, Float price, String dateTime, int commodityId,
 			int boUserId) {
 		super();
 		this.commodityName = commodityName;
@@ -51,10 +51,10 @@ public class CommodityDto {
 	public void setPrice(Float price) {
 		this.price = price;
 	}
-	public LocalDateTime getDateTime() {
+	public String getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
 	public int getCommodityId() {

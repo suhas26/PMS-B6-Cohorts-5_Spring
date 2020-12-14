@@ -23,6 +23,7 @@ public interface CommodityService {
 
 	public CommodityDto fetchSingleCommodityByName(SearchCommodityDto searchCommodityDto);
 
+	public CommodityDto fetchSingleCommodityByName(String commodityName);
 	public CommodityDto modifyCommodity(CommodityDto commodityNewOutputDto);
 	
 }

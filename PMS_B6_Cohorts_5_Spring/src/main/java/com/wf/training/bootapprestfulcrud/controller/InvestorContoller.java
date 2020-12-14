@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
+import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.service.CommodityService;
 import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 import com.wf.training.bootapprestfulcrud.service.InvestorService;
@@ -34,6 +37,8 @@ public class InvestorContoller {
 	private CompanyHistoricalDataService historicalService;
 	@Autowired
 	private InvestorService investorService;
+	@Autowired
+	private CommodityService commodityService;
 
 	//dashboard for user
 	@RequestMapping(value= {"/home","/dashboard","/index"})
@@ -67,8 +72,8 @@ public class InvestorContoller {
 	}
 	
 	@RequestMapping("/searchCommodity")
-	public String commodity() {
-		return "invSearchCompany";
+	public String commodity(@ModelAttribute("commodity") SearchCommodityDto commodity) {
+		return "invSearchCommodity";
 	}
 	
 	@RequestMapping("/searchCompanyName")
@@ -93,6 +98,15 @@ public class InvestorContoller {
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "invCompanyPage";
+	}
+	
+	@RequestMapping("/commodity/{commodityName}")
+	public String searchCommodityByName(@PathVariable("commodityName") String commodityName, Model model) {
+
+		CommodityDto commodityDto = this.commodityService.fetchSingleCommodityByName(commodityName);
+		
+		model.addAttribute("commodityDto",commodityDto);
+		return "invCommodityPage";
 	}
 	
 	@RequestMapping("/{companyTitle}/historicalPrices/{companyCode}")
