@@ -107,7 +107,7 @@ public class BoUserController {
 	@RequestMapping("/returnCreateCommodity")
 	public String returnAddCommodity(Model model ) {
 		CommodityDto commodityDto=new CommodityDto();
-		commodityDto.setDateTime(LocalDateTime.now());
+		commodityDto.setDateTime(LocalDateTime.now().toString());
 		model.addAttribute("commodity", commodityDto);
 		
 		return "CreateCommodity";
@@ -136,7 +136,7 @@ public class BoUserController {
 		CommodityDto output = new CommodityDto();
 		
 		output = this.commodityService.fetchSingleCommodityByName(searchCommodityDto);
-		comDto.setDateTime(LocalDateTime.now());
+		comDto.setDateTime(LocalDateTime.now().toString());
 		model.addAttribute("searchCommodityDto", output);
 		// respond back with a view page name
 		return "ModifyCommodity";
