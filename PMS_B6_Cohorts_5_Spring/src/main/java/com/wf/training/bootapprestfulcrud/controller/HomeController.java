@@ -61,7 +61,7 @@ public class HomeController {
 	}
 	
 	@PostMapping("/validate")
-	public String loginValidate(@Valid @ModelAttribute("superuser") SuperUserLoginDto dto,BindingResult result) {
+	public String loginValidate(@Valid @ModelAttribute("superuser") SuperUserLoginDto dto,BindingResult result,Model model) {
 		System.out.println("Logging in");
 		if(result.hasErrors()) {
 			return "SuperUserLogin";
@@ -71,18 +71,21 @@ public class HomeController {
 			System.out.println("superuser");
 			return "SuperUserHomePage";
 		}else
+			model.addAttribute("Message", "Invalid Credentials");
 			return "SuperUserLogin";
 	}
 	
 	@PostMapping("/bovalidate")
-	public String boLoginValidate(@Valid @ModelAttribute("backofficeuser") BackOfficeLoginDto user,BindingResult result) {
+	public String boLoginValidate(@Valid @ModelAttribute("backofficeuser") BackOfficeLoginDto user,BindingResult result,Model model) {
 		if(result.hasErrors()) {
 			return "BackOfficeUserLogin";
 		}
 		else if(boService.validateUser(user)) {
 				return "BackOfficeUserHomePage";
-			}else
+			}else {
+				model.addAttribute("Message", "Invalid Credentials");
 			return "BackOfficeUserLogin";
+			}
 	}
 	
 	@RequestMapping("/InvestorRegistration")

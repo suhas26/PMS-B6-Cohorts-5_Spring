@@ -8,8 +8,8 @@ public class SuperUserLoginDto {
 	@NotBlank(message="Password is Mandatory")
 	private String password;
 	
-	@NotNull(message="Login id is Mandatory")
-	private Integer superUserId;
+	@NotBlank(message="Login id is Mandatory")
+	private String superUserId;
 
 	public String getPassword() {
 		return password;
@@ -19,11 +19,11 @@ public class SuperUserLoginDto {
 		this.password = password;
 	}
 
-	public Integer getSuperUserId() {
+	public String getSuperUserId() {
 		return superUserId;
 	}
 
-	public void setSuperUserId(Integer superUserId) {
+	public void setSuperUserId(String superUserId) {
 		this.superUserId = superUserId;
 	}
 

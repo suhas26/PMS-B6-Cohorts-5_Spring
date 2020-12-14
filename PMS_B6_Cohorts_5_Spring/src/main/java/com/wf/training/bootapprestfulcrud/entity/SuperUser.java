@@ -16,14 +16,14 @@ import javax.persistence.Id;
 @Entity
 @Table(name = "superuser")
 public class SuperUser {
-	@Column(name="Name")
-	private String name;
 	
 	@Id
 	@Column(name="SuperUserID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Integer superUserId;
 	
+	@Column(name="Name",unique = true)
+	private String name;
 	@Column(name="Password")
 	private String password;
 	public SuperUser(String name, Integer superUserId, String password) {

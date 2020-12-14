@@ -40,7 +40,7 @@ public class SuperUserServiceImpl implements SuperUserService {
 
 	@Override
 	public boolean validateUser(SuperUserLoginDto user) {
-		SuperUser superUser=repo.findBySuperUserId(user.getSuperUserId());
+		SuperUser superUser=repo.findByName(user.getSuperUserId());
 		if(superUser==null)
 			return false;
 		else
@@ -48,7 +48,6 @@ public class SuperUserServiceImpl implements SuperUserService {
 				return true;
 			else
 				return false;
-	
 	}
 	
 }

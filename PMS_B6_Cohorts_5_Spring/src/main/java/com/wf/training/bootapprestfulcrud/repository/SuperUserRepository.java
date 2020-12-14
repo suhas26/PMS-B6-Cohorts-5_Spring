@@ -12,5 +12,7 @@ public interface SuperUserRepository extends JpaRepository<SuperUser, Integer>{
 
 	SuperUser findBySuperUserId(Integer superUserId);
 	
+	SuperUser findByName(String name);
+	
 	
 }

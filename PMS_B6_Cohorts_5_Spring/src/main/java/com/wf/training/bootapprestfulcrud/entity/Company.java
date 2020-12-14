@@ -6,12 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.UniqueConstraint;
 @Entity
 public class Company {
 	@Id  // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
 	private Long companyCode;
-	@Column(unique = true)
+	@Column(name = "company_title", unique = true)
 	private String companyTitle;
 	private String operation;
 	private int shareCount; 
