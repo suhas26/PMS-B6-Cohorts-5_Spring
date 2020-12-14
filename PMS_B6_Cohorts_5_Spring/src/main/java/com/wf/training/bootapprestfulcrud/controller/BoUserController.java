@@ -1,6 +1,8 @@
 package com.wf.training.bootapprestfulcrud.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wf.training.bootapprestfulcrud.dto.AddStockPriceDto;
 import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
@@ -158,4 +161,36 @@ public class BoUserController {
 		return "SavedCommodity";
 	}
 	
+	@RequestMapping("/addCompanyStockPrice")
+	public String addCompanyStockPrice(@ModelAttribute("addstockprice") AddStockPriceDto addStockDto,Model model) {
+//		 List<CompanyDto> companyList=this.companyService.fetchAllCompanies();
+//		 List<String> companyNames=new ArrayList<String>();
+//		for(CompanyDto c:companyList)
+//		 companyNames.add(c.getCompanyTitle());
+		List<String> companyNames=this.companyService.fetchAllCompanyNames();
+		model.addAttribute("companyNames",companyNames);
+		return "BoAddCompanyStockPrice";
+	}
+	
+	//@ModelAttribute("companyNames")
+	@PostMapping("/newStockPrice")
+	public String newStockPrice(@Valid @ModelAttribute("addstockprice") AddStockPriceDto addStockDto,BindingResult result,Model model) {
+		List<String> companyNames=this.companyService.fetchAllCompanyNames();
+		model.addAttribute("companyNames",companyNames);
+		if (result.hasErrors()) {
+			
+			return "BoAddCompanyStockPrice";
+		}
+		if(this.companyService.addStockPrice(addStockDto))
+		{
+			model.addAttribute("Message", "Stock added successfully");
+			return "BoAddCompanyStockPrice";
+		}
+		return "BoAddCompanyStockPrice";
+	}
+	
+	@RequestMapping("/addCommodityPrice")
+	public String addCommodityPrice(@ModelAttribute("selectCompany") SearchCompanyDto searchCompanyDto) {
+		return "SelectModifyCompany";
+	}
 }

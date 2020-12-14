@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Modify Commodity</title>
+<title>Add Stock Price</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -97,7 +97,16 @@ body {
 	margin-top: 100px;
 	width:15%;
 	border: 1px solid green;
-	text-align:center;
+}
+
+#sample{
+	
+	margin: auto;
+	text-align: center;
+	border: 2px solid green;
+	width: 30%;
+	margin-top:5%;
+	
 }
 
 span{
@@ -107,6 +116,15 @@ span{
 #errors{
 	color:red;
 }
+
+#centreError{
+		margin: auto;
+		width: 20%;
+		margin-top: 5%;
+		color:red;
+		padding-left: 50px;
+		
+	}
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
@@ -144,20 +162,37 @@ span{
 			</button>
 			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
 			<span>
-				<span class="text-light font-weight-bold">Modify Commodity</span>
+				<span class="text-light font-weight-bold">Add Stock Price</span>
 			</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
 		</nav>
 	</div>
-	<div id=centre>
-		<spring:form action="${pageContext.request.contextPath}/bouser/returnModifyCommodity" method="POST" modelAttribute="selectCommodity">
-			<spring:label path="commodityName">Enter Commodity Name</spring:label>
-			<spring:input path="commodityName"/>
-			<td><spring:errors path="commodityName" cssClass="error" id="errors"/></td>
-			<hr/>
-			<button>Submit</button>
+	
+	<h6 id = centreError>${Message}</h6>
+	
+	<div id=sample>
+		<h2>Add Stock Price</h2>
+		<hr/>
+		<spring:form action="${pageContext.request.contextPath}/bouser/newStockPrice" method="POST" modelAttribute="addstockprice">
+		<table>
+				<tr>
+					<td><spring:label path="companyName">Company Name</spring:label></td>
+					<td>	<spring:select path="companyName">
+							<spring:options items="${companyNames}"/>	
+						</spring:select> </td>
+					<td><spring:errors path="companyName" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td><spring:label path="sharePrice">Share price</spring:label></td>
+					<td><spring:input path="sharePrice"/></td>
+					<td><spring:errors path="sharePrice" cssClass="error" id="errors"/></td>
+				</tr>
+				<tr>
+					<td colspan=2><hr/><button>Submit</button></td>
+				</tr>
+		</table>
 		</spring:form>
 	</div>
 	<script>
