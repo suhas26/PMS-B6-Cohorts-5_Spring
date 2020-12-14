@@ -123,7 +123,7 @@ span{
 			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 		</nav>
 		<div class="search">
-			<spring:form action="${pageContext.request.contextPath}/user/commodity/{commodity.commodityName}" method="post" modelAttribute="commodity">
+			<spring:form action="${pageContext.request.contextPath}/user/commodity" method="post" modelAttribute="commodity">
 				<spring:input type="search" path="commodityName" placeholder="Search Commodity Name"></spring:input>
 				<br>
 				<spring:errors path="commodityName" cssClass="error" id="errors"/>

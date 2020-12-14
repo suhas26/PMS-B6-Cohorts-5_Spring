@@ -27,8 +27,8 @@
 		right:15%;
 	}
 	.commodity{
-		width:85%;
-		margin-left:50px;
+		width:65%;
+		margin:auto;
 		text-align: center;
 		border: 1px solid black;
 	  	border-collapse: collapse;
@@ -42,7 +42,7 @@
 		position:absolute;
 	}
 	#currentPrice{
-		margin-left:100px;
+		margin-left:300px;
 		position: relative;
 		top:10px;
 		border: 4px solid red;

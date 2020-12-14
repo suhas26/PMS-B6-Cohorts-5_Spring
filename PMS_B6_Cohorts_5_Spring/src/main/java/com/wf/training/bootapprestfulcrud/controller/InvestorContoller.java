@@ -89,6 +89,20 @@ public class InvestorContoller {
 		return "invCompanyPage";
 	}
 	
+	@RequestMapping("/commodity")
+	public String searchCommodityName(@Valid @ModelAttribute("commodityName") SearchCommodityDto searchCommodityDto, BindingResult result,
+			Model model) {
+		
+		if(result.hasErrors()) {
+			return "invSearchCommodity";
+		}
+		
+		CommodityDto commodityDto = this.commodityService.fetchSingleCommodityByName(searchCommodityDto);
+		
+		model.addAttribute("commodityDto",commodityDto);
+		return "invCommodityPage";
+	}
+	
 	@RequestMapping("/company/{companyTitle}")
 	public String searchCompanyByName(@PathVariable("companyTitle") String companyTitle, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
@@ -98,15 +112,6 @@ public class InvestorContoller {
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "invCompanyPage";
-	}
-	
-	@RequestMapping("/commodity/{commodityName}")
-	public String searchCommodityByName(@PathVariable("commodityName") String commodityName, Model model) {
-
-		CommodityDto commodityDto = this.commodityService.fetchSingleCommodityByName(commodityName);
-		
-		model.addAttribute("commodityDto",commodityDto);
-		return "invCommodityPage";
 	}
 	
 	@RequestMapping("/{companyTitle}/historicalPrices/{companyCode}")
