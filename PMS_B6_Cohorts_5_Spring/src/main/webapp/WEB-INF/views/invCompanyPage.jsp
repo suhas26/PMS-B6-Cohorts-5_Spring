@@ -11,7 +11,6 @@
 	crossorigin="anonymous">
 <style>
 	table, th, td {
-	  
 	  margin-left: 10px;
 	  height: 50px;
 	}
@@ -147,10 +146,6 @@
 
 			</tr>
 		</table>
-		<!--
-		<a id=button href="${pageContext.request.contextPath}/user/buy">Buy</a> 
-		<a id=button href="${pageContext.request.contextPath}/user/sell">Sell</a>
-		<a id=button href="${pageContext.request.contextPath}/user/historicalPrices">Historical Prices</a> -->
 	</div>
 
 </body>

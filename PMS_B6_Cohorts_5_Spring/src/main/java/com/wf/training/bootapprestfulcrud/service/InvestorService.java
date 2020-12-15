@@ -5,6 +5,8 @@ import java.util.List;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.WalletDto;
+import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.entity.RecentlyViewedCompanies;
 
 public interface InvestorService {
@@ -16,6 +18,10 @@ public interface InvestorService {
 	public InvestorDto deleteInvestor(Long id);
 	boolean validateInvestor(LoginDto investorLoginDto);
 	public RecentlyViewedCompanies addRecentViewCompany(LoginDto investorLoginDto, CompanyDto companyDto);
-	public List<CompanyDto> getAllRecentViewCompanies(String loginKey);	
+	public List<CompanyDto> getAllRecentViewCompanies(String loginKey);
+	public WalletDto fetchWalletDetails(String loginKey);
+	String addMoneyToWallet(String loginKey, double amount);
+	String withdrawMoneyFromWallet(String loginKey, double amount);
+	List<WalletTransactionsDto> fetchAllWalletTransactions(String loginKey);	
 	
 }

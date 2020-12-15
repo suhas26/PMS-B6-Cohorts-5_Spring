@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.WalletDto;
+import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.Investor;
 import com.wf.training.bootapprestfulcrud.entity.InvestorWallet;
@@ -219,6 +221,128 @@ public class InvestorServiceImp implements InvestorService {
 		}
 		
 		return status;
+	}
+	
+	public WalletDto convertLoginKeyToWalletDto(String loginKey) {
+		WalletDto walletDto = new WalletDto();
+		
+		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		String name = investor.getFirstName()+" "+investor.getLastName();
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		
+		List<InvestorWalletTransaction> walletTransactions = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId())
+				.orElse(null);
+		
+		double amountInvested = 0.0;
+		double balance = 0.0;
+		
+		for(InvestorWalletTransaction transaction:walletTransactions) {
+			if (transaction.getTransactionType().equalsIgnoreCase("Credit")) {
+				balance = balance + transaction.getAmount();
+			}else if (transaction.getTransactionType().equalsIgnoreCase("Debit")) {
+				balance = balance - transaction.getAmount();
+			}else if (transaction.getTransactionType().equalsIgnoreCase("Buy")) {
+				balance = balance - transaction.getAmount();
+				amountInvested = amountInvested + transaction.getAmount();
+			}else if (transaction.getTransactionType().equalsIgnoreCase("Sell")) {
+				balance = balance + transaction.getAmount();
+				amountInvested = amountInvested - transaction.getAmount();
+			}
+		}
+		
+		walletDto.setWalletId(invWallet.getWalletId());
+		walletDto.setInvestorID(investor.getInvestorId());
+		walletDto.setFullName(name);
+		walletDto.setAmount(amountInvested);
+		walletDto.setBalance(balance);
+		
+		return walletDto;
+	}
+	
+	public InvestorWalletTransaction convertLoginKeyAmountToWalletTransactionEntity(String loginKey, String transactionType, double amount,
+			long shareTransactionId) {
+		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
+		Investor investor= this.invRepository.findByLoginKey(loginKey).orElse(null);
+		
+		InvestorWallet investorWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		
+		investorWalletTransaction.setWalletId(investorWallet.getWalletId());
+		investorWalletTransaction.setTransactionType(transactionType);
+		investorWalletTransaction.setAmount(amount);
+		investorWalletTransaction.setDateTime(LocalDateTime.now().toString());
+		investorWalletTransaction.setShareTransactionId(shareTransactionId);
+		
+		return investorWalletTransaction;
+	}
+	
+	@Override
+	public WalletDto fetchWalletDetails(String loginKey) {
+		WalletDto walletDto = this.convertLoginKeyToWalletDto(loginKey);
+		return walletDto;
+	}
+	
+	
+	//Add Money
+	@Override
+	public String addMoneyToWallet(String loginKey, double amount) {
+		
+		InvestorWalletTransaction walletTransaction = this.convertLoginKeyAmountToWalletTransactionEntity(loginKey, "Credit", amount, 0);
+		
+		InvestorWalletTransaction newWalletTransaction = this.walletTransactionRepository.save(walletTransaction);
+		
+		if (newWalletTransaction==null) {
+			return "Error in Adding Money";
+		}
+		
+		return "Added "+amount+" Money Successfully";
+	}
+	
+	//WithDraw Money
+	@Override
+	public String withdrawMoneyFromWallet(String loginKey, double amount) {
+		
+		InvestorWalletTransaction walletTransaction = this.convertLoginKeyAmountToWalletTransactionEntity(loginKey, "Debit", amount, 0);
+		
+		InvestorWalletTransaction newWalletTransaction = this.walletTransactionRepository.save(walletTransaction);
+		
+		if (newWalletTransaction==null) {
+			return "Error in Withdraw Money";
+		}
+		
+		return "Withdraw "+amount+" Money Successfully";
+	}
+	
+	//Fetch all transactions
+	@Override
+	public List<WalletTransactionsDto> fetchAllWalletTransactions(String loginKey) {
+		
+		List<WalletTransactionsDto> walletTransactionsDto = this.convertLoginKeyToWalletTransactionsDto(loginKey);
+		
+		return walletTransactionsDto;
+	}
+	
+	public List<WalletTransactionsDto> convertLoginKeyToWalletTransactionsDto(String loginKey) {
+		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
+		List<InvestorWalletTransaction> investorWalletTransaction= this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId())
+				.orElse(null);
+		if (investorWalletTransaction==null) {
+			return null;
+		}
+		
+		List<WalletTransactionsDto> walletTransactionsDto = investorWalletTransaction.stream().map(this::convertInvestorWalletTransactionToDto).collect(Collectors.toList());
+		return walletTransactionsDto;
+	}
+	
+	public WalletTransactionsDto convertInvestorWalletTransactionToDto(InvestorWalletTransaction invWalletTransaction) {
+		WalletTransactionsDto walletTransactionsDto = new WalletTransactionsDto();
+		
+		walletTransactionsDto.setAmount(invWalletTransaction.getAmount());
+		walletTransactionsDto.setDateTime(invWalletTransaction.getDateTime());
+		walletTransactionsDto.setShareTransactionId(invWalletTransaction.getShareTransactionId());
+		walletTransactionsDto.setTransactionType(invWalletTransaction.getTransactionType());
+		walletTransactionsDto.setWalletId(invWalletTransaction.getWalletId());
+		return walletTransactionsDto;
 	}
 	
 }

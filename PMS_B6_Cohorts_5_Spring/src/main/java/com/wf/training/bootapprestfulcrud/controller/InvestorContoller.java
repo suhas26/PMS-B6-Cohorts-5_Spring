@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.MoneyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.WalletDto;
+import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
 import com.wf.training.bootapprestfulcrud.service.CompanyHistoricalDataService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
@@ -61,9 +64,52 @@ public class InvestorContoller {
 	
 	
 	@RequestMapping("/wallet")
-	public String wallet() {
+	public String wallet(@SessionAttribute("Investor") LoginDto investorLoginDto, Model model) {
+		WalletDto walletDto = this.investorService.fetchWalletDetails(investorLoginDto.getLoginKey());
+		
+		model.addAttribute("walletDto", walletDto);
 		
 		return "invWallet";
+	}
+	
+	@RequestMapping("/returnAddmoney")
+	public String returnAddMoney(@ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto) {
+		return "invAddMoneyPage";
+	}
+	
+	@RequestMapping("/returnWithdrawmoney")
+	public String returnWithdrawMoney(@ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto) {
+		return "invWithdrawMoneyPage";
+	}
+	
+	@RequestMapping("/addmoney")
+	public String walletAddMoney(@Valid @ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto,BindingResult result, Model model,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		
+		if(result.hasErrors()) {
+			return "invAddMoneyPage";
+		}
+		
+		String message = this.investorService.addMoneyToWallet(investorLoginDto.getLoginKey(), moneyInputDto.getAmount());
+		
+		model.addAttribute("message", message);
+		
+		return "invAddMoneyPage";
+	}
+	
+	@RequestMapping("/withdrawmoney")
+	public String walletWithdrawMoney(@Valid @ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto,BindingResult result, Model model,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		
+		if(result.hasErrors()) {
+			return "invWithdrawMoneyPage";
+		}
+		
+		String message = this.investorService.withdrawMoneyFromWallet(investorLoginDto.getLoginKey(), moneyInputDto.getAmount());
+		
+		model.addAttribute("message", message);
+		
+		return "invWithdrawMoneyPage";
 	}
 	
 	@RequestMapping("/searchCompany")
@@ -124,7 +170,7 @@ public class InvestorContoller {
 	}
 	
 	@RequestMapping("/recentViewCompanies")
-	public String recentViewCompanies(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model) {
+	public String recentViewCompanies(@SessionAttribute("Investor") LoginDto investorLoginDto, Model model) {
 		
 		List<CompanyDto> companyDto = this.investorService.getAllRecentViewCompanies(investorLoginDto.getLoginKey());
 		
@@ -133,7 +179,14 @@ public class InvestorContoller {
 		return "invRecentViewCompanies";
 	}
 
-
+	@RequestMapping("/walletTransactionSummary")
+	public String transactionSummary(@SessionAttribute("Investor") LoginDto investorLoginDto, Model model) {
+		
+		List<WalletTransactionsDto> walletTransactionsDto = this.investorService.fetchAllWalletTransactions(investorLoginDto.getLoginKey());
+		
+		model.addAttribute("walletTransactionsDto", walletTransactionsDto);
+		return "invWalletTransactions";
+	}
 
 
 

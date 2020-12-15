@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Search Company Name</title>
+<title>Withdraw Money Page</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -68,7 +68,7 @@ body {
 	transition: margin-left .5s;
 }
 .search{
-	padding-top:10%;
+	padding-top:5%;
 	display: flex;
     justify-content: center;
     text-align: center;
@@ -102,7 +102,7 @@ span{
 <body>
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-		<a href="#">Dashboard</a> 
+		<a href="${pageContext.request.contextPath}/user">Dashboard</a> 
 		<a href="${pageContext.request.contextPath}/user/company">Search Company</a> 
 		<a href="#">Sector</a>
 		<a href="#">Portfolio Report</a> 
@@ -117,16 +117,17 @@ span{
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<span class="text-light font-weight-bold">Search Company</span>
+			<span class="text-light font-weight-bold">Withdraw Money</span>
 			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 		</nav>
+		<h4 id="errors" class="search">${message}</h4>
 		<div class="search">
-			<spring:form action="${pageContext.request.contextPath}/user/searchCompanyName" method="post" modelAttribute="company">
-				<spring:input type="search" path="companyName" placeholder="Search Company Name"></spring:input>
+			<spring:form action="${pageContext.request.contextPath}/user/withdrawmoney" method="post" modelAttribute="moneyInputDto">
+				<spring:input type="text" path="amount" placeholder="Enter Amount"></spring:input>
 				<br>
-				<spring:errors path="companyName" cssClass="error" id="errors"/>
+				<spring:errors path="amount" cssClass="error" id="errors"/>
 				<hr/>
-				<button type=Submit name=Submit>Submit</button>
+				<button type=Submit name=Submit>Withdraw Money</button>
 			</spring:form>
 		</div>
 	</div>
