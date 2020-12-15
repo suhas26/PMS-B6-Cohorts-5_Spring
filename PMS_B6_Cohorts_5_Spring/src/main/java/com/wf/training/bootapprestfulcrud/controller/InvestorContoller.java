@@ -63,7 +63,7 @@ public class InvestorContoller {
 	@RequestMapping("/wallet")
 	public String wallet() {
 		
-		return "Wallet";
+		return "invWallet";
 	}
 	
 	@RequestMapping("/searchCompany")

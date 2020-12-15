@@ -43,7 +43,9 @@
 		position:relative;
 	}
 	.walletDetails{
-		margin-top: 30px;
+		margin:auto;
+		margin-top: 5%;
+		width: 70%;
 	}
 	span{
 		margin: auto;
@@ -56,25 +58,21 @@
 		<div>
 			<nav class="navbar navbar-dark bg-primary">
 				<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-				<span>
-					<span class="text-light font-weight-bold" >My Wallet</span>
-				</span>
+				<span class="text-light font-weight-bold" >My Wallet</span>
 				<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 			</nav>
 		</div>
 		
-		 <div class="row d-flex" >
-	    <div class="col-sm-8 ">
+	    <div>
 	      <table class="walletDetails">
 			<thead>
 				<tr>
-				<td colspan="5" style="color: white;font-size:20px;text-align:center"><b>My Wallet details</b></td>
+				<td colspan="4" style="color: white;font-size:20px;text-align:center"><b>My Wallet details</b></td>
 				</tr>
 				<tr>
 					<th scope="col" colspan="1">Investor ID</th>
-					<th scope="col" colspan="1">Name</th>
+					<th scope="col" colspan="1">Investor Name</th>
 					<th scope="col" colspan="1">Amount invested</th>
-					<th scope="col" colspan="1">Amount Earned</th>
 					<th scope="col" colspan="1">Balance</th>
 				</tr>
 			</thead>
@@ -83,62 +81,13 @@
 					<td>1</td>
 					<td>Suhas</td>
 					<td>100</td>
-					<td>10</td>
 					<td>110</td>
 				</tr>
 			</tbody>
 		</table>
 	    </div>
-	    <div class="col-sm-4 mt-5" >
-	      <div>
-			<form action="addMoney" method="post">
-				<input type="text" id="cash" name="cash" placeholder="Amount">
-				<input type="submit" value="Add Money">
-			</form>
-			
-			<form action="withdrawMoney" method="post">
-				<input type="text" id="cash" name="cash" placeholder="Amount">
-				<input type="submit" value="Withdraw Money">
-			</form>
-		</div>
-	    </div>
+	    
 	  </div>
 		
-	</div>
-	<hr/>
-	<div>
-		<br/>
-		<br/>
-		<table class="transactionTable">
-			<thead>
-				<tr>
-					<td colspan="5" style="color: white;font-size:20px;text-align:center"><b>Transaction details</b></td>
-				</tr>
-				<tr>
-					<th scope="col" colspan="1">Transaction Id</th>
-					<th scope="col" colspan="1">Amount</th>
-					<th scope="col" colspan="1">Transaction type</th>
-					<th scope="col" colspan="1">Date time</th>
-					<th scope="col" colspan="1">Balance</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>1234</td>
-					<td>100</td>
-					<td>Credit</td>
-					<td>10/4/2020 1:17 PM</td>
-					<td>110</td>
-				</tr>
-				<tr>
-					<td>1235</td>
-					<td>10</td>
-					<td>Credit</td>
-					<td>10/4/2020 1:00 PM</td>
-					<td>10</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
 </body>
 </html>

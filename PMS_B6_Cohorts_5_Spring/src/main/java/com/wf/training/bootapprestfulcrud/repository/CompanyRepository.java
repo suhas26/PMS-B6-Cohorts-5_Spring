@@ -9,7 +9,6 @@ import com.wf.training.bootapprestfulcrud.entity.Company;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long>{
-    // nothing to add
 	Optional<Company> findBycompanyTitle(String companyTitle);
 }
 
