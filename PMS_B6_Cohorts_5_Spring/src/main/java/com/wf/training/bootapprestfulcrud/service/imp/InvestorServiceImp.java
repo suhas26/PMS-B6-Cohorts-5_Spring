@@ -433,7 +433,6 @@ public class InvestorServiceImp implements InvestorService {
 				return shareTransaction;
 			}
 		}
-
 		shareTransaction.setWalletId(invWallet.getWalletId());
 		shareTransaction.setStockName(stockName);
 		shareTransaction.setTransactionShareCount(transactionShareCount);
@@ -516,6 +515,7 @@ public class InvestorServiceImp implements InvestorService {
 		shareTransactionDto.setTransactionShareCount(shareTransaction.getTransactionShareCount());
 		shareTransactionDto.setTransactionType(shareTransaction.getTransactionType());
 		shareTransactionDto.setWalletId(shareTransaction.getWalletId());
+		shareTransactionDto.setStockPrice(shareTransaction.getStockPrice());
 		
 		return shareTransactionDto;
 	}

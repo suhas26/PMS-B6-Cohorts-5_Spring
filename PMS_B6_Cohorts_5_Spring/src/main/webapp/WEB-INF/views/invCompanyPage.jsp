@@ -74,10 +74,8 @@
 	<div>
 		<nav class="navbar navbar-dark bg-primary">
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<span>
-				<span class="text-light font-weight-bold" >Company Page</span>
-			</span>
-			<div><a href="#" id="primaryNavigators">Logout</a></div>
+			<span class="text-light font-weight-bold" >Company Page</span>
+			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 	
@@ -127,7 +125,6 @@
 			</tbody>
 		</table>
 	</div>
-	
 	<hr/>
 	<div id=buttons>
 		<table>
@@ -143,10 +140,8 @@
 				<td><spring:form action="${pageContext.request.contextPath}/user/historicalPrices/${searchCompany.companyCode}" method="POST">
 					<button type=Submit name=Submit id=button>Historical Prices</button>
 				</spring:form></td>
-
 			</tr>
 		</table>
 	</div>
-
 </body>
 </html>

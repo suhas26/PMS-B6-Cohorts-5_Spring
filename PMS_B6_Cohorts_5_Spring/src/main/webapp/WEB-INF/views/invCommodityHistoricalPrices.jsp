@@ -46,7 +46,7 @@
 		<nav class="navbar navbar-dark bg-primary">
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 			<span class="text-light font-weight-bold" >Commodity Historical Prices Page</span>
-			<div><a href="#" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 	

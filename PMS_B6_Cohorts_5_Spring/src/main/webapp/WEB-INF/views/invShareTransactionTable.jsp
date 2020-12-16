@@ -11,7 +11,7 @@
 	crossorigin="anonymous">
 <style>
 	table, th, td {
-	  
+	  border: 1px solid black;
 	  margin-left: 10px;
 	  height: 50px;
 	}
@@ -24,7 +24,6 @@
 		width:65%;
 		margin:auto;
 		text-align: center;
-		border: 1px solid black;
 	  	border-collapse: collapse;
 	}
 	#primaryNavigators{
@@ -49,7 +48,7 @@
 		<nav class="navbar navbar-dark bg-primary">
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 			<span class="text-light font-weight-bold">Share Transaction Table</span>
-			<div><a href="#" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 

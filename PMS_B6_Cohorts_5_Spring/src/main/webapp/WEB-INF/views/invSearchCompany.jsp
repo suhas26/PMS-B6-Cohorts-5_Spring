@@ -83,17 +83,9 @@ body {
 		font-size: 18px;
 	}
 }
-
 span{
 	margin: auto;
 }
-
-#primaryNavigators{
-	margin-left:50px;
-	color:white;
-	position:relative;
-}
-
 #errors{
 	color:red;
 }
@@ -102,8 +94,9 @@ span{
 <body>
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-		<a href="#">Dashboard</a> 
-		<a href="${pageContext.request.contextPath}/user/company">Search Company</a> 
+		<a href="${pageContext.request.contextPath}/user/home">Dashboard</a> 
+		<a href="${pageContext.request.contextPath}/user/searchCompany">Search Company</a>
+		<a href="${pageContext.request.contextPath}/user/searchCommodity">Search Commodity</a> 
 		<a href="#">Sector</a>
 		<a href="#">Portfolio Report</a> 
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
@@ -116,9 +109,9 @@ span{
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
+			<div><a href="${pageContext.request.contextPath}/user/home" class="text-light font-weight-bold">Home</a></div>
 			<span class="text-light font-weight-bold">Search Company</span>
-			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/logout" class="text-light font-weight-bold">Logout</a></div>
 		</nav>
 		<h4 id="errors" class="search">${message}</h4>
 		<div class="search">

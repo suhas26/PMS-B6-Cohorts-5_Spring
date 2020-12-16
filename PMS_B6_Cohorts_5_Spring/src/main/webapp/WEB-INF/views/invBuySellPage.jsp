@@ -68,7 +68,7 @@ body {
 	transition: margin-left .5s;
 }
 .search{
-	padding-top:5%;
+	padding-top:2%;
 	display: flex;
     justify-content: center;
     text-align: center;
@@ -102,8 +102,9 @@ span{
 <body>
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-		<a href="${pageContext.request.contextPath}/user">Dashboard</a> 
-		<a href="${pageContext.request.contextPath}/user/company">Search Company</a> 
+		<a href="${pageContext.request.contextPath}/user/home">Dashboard</a> 
+		<a href="${pageContext.request.contextPath}/user/searchCompany">Search Company</a>
+		<a href="${pageContext.request.contextPath}/user/searchCommodity">Search Commodity</a> 
 		<a href="#">Sector</a>
 		<a href="#">Portfolio Report</a> 
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
@@ -118,12 +119,12 @@ span{
 			</button>
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 			<span class="text-light font-weight-bold">${transactionType} Page</span>
-			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
 		<h4 id="errors" class="search">${message}</h4><br>
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/${transactionType}${commodtiyCompany}Shares/${stockName}" method="post" modelAttribute="shareCount">
-				<spring:label path="shareCount">Enter the Quantity for ${stockName}</spring:label>
+				<spring:label path="shareCount">Enter the ${transactionType} quantity for ${stockName}</spring:label>
 				<br>
 				<spring:input type="text" path="shareCount" placeholder="Enter Stock Amount"></spring:input>
 				<br>

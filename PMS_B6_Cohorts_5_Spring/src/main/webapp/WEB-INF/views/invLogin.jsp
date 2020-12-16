@@ -33,10 +33,11 @@
 	}
 	#centreError{
 		margin: auto;
-		width: 20%;
-		margin-top: 5%;
+		width: 50%;
+		margin-top: 1%;
 		color:red;
 		padding-left: 50px;
+		text-align:center;
 		
 	}
 </style>
@@ -50,32 +51,27 @@
 		</nav>
 	</div>
 	<br/>
-	
 	<h4 id = centreError>${Message}</h4>
-	
 	<div id=login>
 		<spring:form action="${pageContext.request.contextPath}/invValidate" method="post" modelAttribute="investorLoginDto">
 			<table>
 				<tr>
 					<td><spring:label path="loginKey">Username</spring:label> </td>
-					<td colspan=2><spring:input type="text" path="loginKey"></spring:input> </td>
+					<td><spring:input type="text" path="loginKey"></spring:input> </td>
 				</tr>
 				<tr>
-					<td></td>
 					<td colspan=2><spring:errors path="loginKey" cssClass="error" id="errors"/></td>
 				</tr>
 				<tr>
 					<td><spring:label path="password">Password</spring:label> </td>
-					<td colspan=2><spring:input type="password" path="password"></spring:input> </td>
+					<td><spring:input type="password" path="password"></spring:input> </td>
 				</tr>
 				<tr>
-					<td></td>
 					<td colspan=2><spring:errors path="password" cssClass="error" id="errors"/></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><input type=Submit name=Submit Value=Submit></td>
-					<td><input type=reset name=reset Value=reset></td>
+					<td><hr/><input type=Submit name=Submit Value=Submit></td>
 				</tr>
 			</table>
 		</spring:form>

@@ -47,7 +47,7 @@
 		<nav class="navbar navbar-dark bg-primary">
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
 			<span class="text-light font-weight-bold" >Wallet Transactions</span>
-			<div><a href="#" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 	
@@ -70,7 +70,9 @@
 						<td>${transactions.walletId}</td>
 						<td>${transactions.transactionType}</td>
 						<td>${transactions.amount}</td>
-						<td><a href="${pageContext.request.contextPath}/user/shareTransaction/${transactions.shareTransactionId}">${transactions.shareTransactionId}</a></td>
+						<td>
+						<a href="${pageContext.request.contextPath}/user/shareTransaction/${transactions.shareTransactionId}">${transactions.shareTransactionId}</a>
+						</td>
 						<td>${transactions.dateTime}</td>
 					</tr>
 				</core:forEach>

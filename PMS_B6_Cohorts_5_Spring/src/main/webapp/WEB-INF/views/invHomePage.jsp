@@ -52,7 +52,7 @@ body {
 }
 
 .openbtn {
-	font-size: 20px;
+	font-size: 15px;
 	cursor: pointer;
 	background-color: #111;
 	color: white;
@@ -74,7 +74,7 @@ body {
 		padding-top: 15px;
 	}
 	.sidebar a {
-		font-size: 18px;
+		font-size: 16px;
 	}
 }
 
@@ -94,11 +94,16 @@ span{
 	#logout{
 		background-color: Dodgerblue;
 	}
+	#center{
+		margin-left:14%;
+		padding:1%;
+		color:Dodgerblue;		
+	}
 </style>
 <body>
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-		<a href="#">Dashboard</a> 
+		<a href="${pageContext.request.contextPath}/user/home">Dashboard</a> 
 		<a href="${pageContext.request.contextPath}/user/searchCompany">Search Company</a>
 		<a href="${pageContext.request.contextPath}/user/searchCommodity">Search Commodity</a> 
 		<a href="#">Sector</a>
@@ -114,15 +119,11 @@ span{
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<div id="primaryNavigators">Welcome ${Investor.loginKey}</div>
-			 <!-- <security : authentication property= "principal . username"/></div> -->
-			<span>
-				<span class="text-light font-weight-bold">Investor Dashboard</span>
-			</span>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
-				<button type=Submit name=Logout id=logout>Logout</button>
-			</spring:form></div>
+			<span class="text-light font-weight-bold">Investor Dashboard</span>
+			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
+		<h4 id=center>Welcome ${Investor.loginKey}</h4>
+		<hr>
 		<div class="container">
 			<!-- 	<h1>Employee Register Form:</h1> -->
 			<div class="row mt-3">

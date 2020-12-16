@@ -35,9 +35,15 @@ public class HomeController {
 	@Autowired
 	private InvestorService investorService;
 	
-	@RequestMapping(value ={"/logout","/index",""})
-	public String logout() {
+	@RequestMapping(value ={"/index",""})
+	public String mainPage() {
 		return "index";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(@ModelAttribute("investorLoginDto") LoginDto investorLoginDto, Model model) {
+		model.addAttribute("Message", "Logged out successfully");
+		return "invLogin";
 	}
 	
 	@RequestMapping("/InvestorLogin")
