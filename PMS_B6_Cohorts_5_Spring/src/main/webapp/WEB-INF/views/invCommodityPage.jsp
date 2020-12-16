@@ -113,15 +113,15 @@
 	<div id=buttons>
 		<table>
 			<tr>
-				<td><spring:form action="${pageContext.request.contextPath}/user/buy/${commodityDto.commodityName}" method="POST" modelAttribute="searchCompany">
+				<td><spring:form action="${pageContext.request.contextPath}/user/buyCommodity/${commodityDto.commodityName}" method="POST">
 					<button type=Submit name=Submit id=button>Buy</button>
 				</spring:form></td>
 			
-				<td><spring:form action="${pageContext.request.contextPath}/user/sell" method="POST" modelAttribute="searchCompany">
+				<td><spring:form action="${pageContext.request.contextPath}/user/sellCommodity/${commodityDto.commodityName}" method="POST">
 					<button type=Submit name=Submit id=button>Sell</button>
 				</spring:form></td>
 				
-				<td><spring:form action="${pageContext.request.contextPath}/user/${commodityDto.commodityName}/historicalPrices/${commodityDto.commodityName}" method="POST">
+				<td><spring:form action="${pageContext.request.contextPath}/user/${commodityDto.commodityName}/historicalPrices/${commodityDto.commodityId}" method="POST">
 					<button type=Submit name=Submit id=button>Historical Prices</button>
 				</spring:form></td>
 

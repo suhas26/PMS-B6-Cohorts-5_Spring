@@ -13,16 +13,20 @@ import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
+import com.wf.training.bootapprestfulcrud.entity.Commodity;
 import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.Investor;
 import com.wf.training.bootapprestfulcrud.entity.InvestorWallet;
 import com.wf.training.bootapprestfulcrud.entity.InvestorWalletTransaction;
 import com.wf.training.bootapprestfulcrud.entity.RecentlyViewedCompanies;
+import com.wf.training.bootapprestfulcrud.entity.ShareTransaction;
+import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
 import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvWalletTransactionRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvestorRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvestorWalletRepository;
 import com.wf.training.bootapprestfulcrud.repository.RecentViewCompRepository;
+import com.wf.training.bootapprestfulcrud.repository.ShareTransactionRepository;
 import com.wf.training.bootapprestfulcrud.service.InvestorService;
 @Service
 public class InvestorServiceImp implements InvestorService {
@@ -41,6 +45,12 @@ public class InvestorServiceImp implements InvestorService {
 	
 	@Autowired
 	private InvWalletTransactionRepository walletTransactionRepository;
+	
+	@Autowired
+	private ShareTransactionRepository shareTransRepository;
+	
+	@Autowired
+	private CommodityRepository commodityRepository;
 	
 	private Investor convertInvestorDtoToEntity(InvestorDto investorDto) {
 		Investor investor = new Investor();
@@ -223,6 +233,29 @@ public class InvestorServiceImp implements InvestorService {
 		return status;
 	}
 	
+	public double getWalletBalance(String loginKey) {
+		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		
+		List<InvestorWalletTransaction> walletTransactions = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId())
+				.orElse(null);
+		
+		double balance = 0.0;
+		
+		for(InvestorWalletTransaction transaction:walletTransactions) {
+			if (transaction.getTransactionType().equalsIgnoreCase("Credit")) {
+				balance = balance + transaction.getAmount();
+			}else if (transaction.getTransactionType().equalsIgnoreCase("Debit")) {
+				balance = balance - transaction.getAmount();
+			}else if (transaction.getTransactionType().equalsIgnoreCase("Buy")) {
+				balance = balance - transaction.getAmount();
+			}else if (transaction.getTransactionType().equalsIgnoreCase("Sell")) {
+				balance = balance + transaction.getAmount();
+			}
+		}
+		return balance;
+	}
+	
 	public WalletDto convertLoginKeyToWalletDto(String loginKey) {
 		WalletDto walletDto = new WalletDto();
 		
@@ -344,5 +377,111 @@ public class InvestorServiceImp implements InvestorService {
 		walletTransactionsDto.setWalletId(invWalletTransaction.getWalletId());
 		return walletTransactionsDto;
 	}
+	
+	@Override
+	public String buySellShares(String stockName, String loginKey, String transactionType,
+			String companyCommodity, int transactionShareCount) {
+		String message = "";
+		ShareTransaction shareTransaction = this.convertToShareTransactionEntity(stockName, loginKey, transactionType, 
+				companyCommodity, transactionShareCount);
+		
+		if ((!(shareTransaction.getCompanyCommodity().equalsIgnoreCase("Company")))&&
+			(!(shareTransaction.getCompanyCommodity().equalsIgnoreCase("Commodity")))){
+			return shareTransaction.getCompanyCommodity();
+		}
+		
+		this.shareTransRepository.save(shareTransaction);
+		InvestorWalletTransaction invWalletTrans =  this.convertShareTransactionToWalletTransactionEntity(shareTransaction);
+		this.walletTransactionRepository.save(invWalletTrans);
+		
+		message = "Transaction successful";
+		return message;
+	}
+	
+	public ShareTransaction convertToShareTransactionEntity(String stockName, String loginKey, String transactionType,
+			String companyCommodity, int transactionShareCount) {
+		ShareTransaction shareTransaction = new ShareTransaction();
+		double stockPrice = 0.0d;
+		double transactionAmount = 0.0d;
+		double commission = 0.0d;
+		
+		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
+		
+		if (companyCommodity.equalsIgnoreCase("Company")) {
+			Company company = this.companyRepository.findBycompanyTitle(stockName).orElse(null);
+			stockPrice = company.getSharePrice();
+		}else {
+			Commodity commodity = this.commodityRepository.findByCommodityName(stockName);
+			stockPrice = commodity.getPrice();
+		}
+		transactionAmount = stockPrice*transactionShareCount;
+
+		if (transactionType.equalsIgnoreCase("Sell")) {
+			int existingShares = this.getSharesBalance(loginKey, stockName);
+			if (existingShares<transactionShareCount) {
+				shareTransaction.setCompanyCommodity("Bought shares are less than the Selling shares");
+				return shareTransaction;
+			}
+			commission = (transactionAmount*(0.02));
+		}else {
+			double balance = this.getWalletBalance(loginKey);
+			
+			if (balance < transactionAmount) {
+				shareTransaction.setCompanyCommodity("Balance is insufficient");
+				return shareTransaction;
+			}
+		}
+
+		shareTransaction.setWalletId(invWallet.getWalletId());
+		shareTransaction.setStockName(stockName);
+		shareTransaction.setTransactionShareCount(transactionShareCount);
+		shareTransaction.setStockPrice(stockPrice);
+		shareTransaction.setCompanyCommodity(companyCommodity);
+		shareTransaction.setTransactionType(transactionType);
+		shareTransaction.setTransactionAmount(transactionAmount);
+		shareTransaction.setCommission(commission);
+		shareTransaction.setDateTime(LocalDateTime.now().toString());
+		
+		return shareTransaction;
+	}
+	
+	public int getSharesBalance(String loginKey, String stockName) {
+		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		int sharesBalance = 0;
+		
+		List<InvestorWalletTransaction> walletTransactions = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId())
+				.orElse(null);
+		
+		for(InvestorWalletTransaction transaction:walletTransactions) {
+			if(transaction.getShareTransactionId()!=0) {
+				List<ShareTransaction> shareTransactions = this.shareTransRepository.findAllByShareTransactionId(transaction.getShareTransactionId());
+				for(ShareTransaction trans:shareTransactions) {
+					if(trans.getStockName().equalsIgnoreCase(stockName)) {
+						if (trans.getTransactionType().equalsIgnoreCase("Buy")) {
+							sharesBalance = sharesBalance+trans.getTransactionShareCount();
+						}else if(trans.getTransactionType().equalsIgnoreCase("Sell")) {
+							sharesBalance = sharesBalance-trans.getTransactionShareCount();
+						}
+					}
+				}
+			}
+		}
+		return  sharesBalance;
+	}
+	
+	public InvestorWalletTransaction convertShareTransactionToWalletTransactionEntity(ShareTransaction shareTransaction) {
+		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
+		
+		investorWalletTransaction.setAmount(shareTransaction.getTransactionAmount());
+		investorWalletTransaction.setDateTime(shareTransaction.getDateTime());
+		investorWalletTransaction.setShareTransactionId(shareTransaction.getShareTransactionId());
+		investorWalletTransaction.setTransactionType(shareTransaction.getTransactionType());
+		investorWalletTransaction.setWalletId(shareTransaction.getWalletId());
+		
+		return investorWalletTransaction;
+	}
+
 	
 }

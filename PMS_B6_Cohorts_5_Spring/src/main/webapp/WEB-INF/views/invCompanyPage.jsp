@@ -132,11 +132,11 @@
 	<div id=buttons>
 		<table>
 			<tr>
-				<td><spring:form action="${pageContext.request.contextPath}/user/buy/${searchCompany.companyCode}" method="POST" modelAttribute="searchCompany">
+				<td><spring:form action="${pageContext.request.contextPath}/user/buyCompany/${searchCompany.companyTitle}" method="POST">
 					<button type=Submit name=Submit id=button>Buy</button>
 				</spring:form></td>
 			
-				<td><spring:form action="${pageContext.request.contextPath}/user/sell" method="POST" modelAttribute="searchCompany">
+				<td><spring:form action="${pageContext.request.contextPath}/user/sellCompany/${searchCompany.companyTitle}" method="POST">
 					<button type=Submit name=Submit id=button>Sell</button>
 				</spring:form></td>
 				

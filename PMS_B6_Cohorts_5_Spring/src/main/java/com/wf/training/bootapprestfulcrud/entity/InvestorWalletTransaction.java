@@ -13,7 +13,7 @@ public class InvestorWalletTransaction {
 	private String transactionType;
 	private double amount;
 	private String dateTime;
-	private long shareTransactionId;
+	private Long shareTransactionId;
 	
 	public long getInvWalletTransactionId() {
 		return invWalletTransactionId;
@@ -45,10 +45,10 @@ public class InvestorWalletTransaction {
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
-	public long getShareTransactionId() {
+	public Long getShareTransactionId() {
 		return shareTransactionId;
 	}
-	public void setShareTransactionId(long shareTransactionId) {
+	public void setShareTransactionId(Long shareTransactionId) {
 		this.shareTransactionId = shareTransactionId;
 	}
 

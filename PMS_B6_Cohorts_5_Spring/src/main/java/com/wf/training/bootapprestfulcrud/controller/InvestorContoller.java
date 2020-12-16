@@ -23,6 +23,7 @@ import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.ShareCountInputDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
@@ -136,7 +137,7 @@ public class InvestorContoller {
 	}
 	
 	@RequestMapping("/commodity")
-	public String searchCommodityName(@Valid @ModelAttribute("commodityName") SearchCommodityDto searchCommodityDto, BindingResult result,
+	public String searchCommodityName(@Valid @ModelAttribute("commodity") SearchCommodityDto searchCommodityDto, BindingResult result,
 			Model model) {
 		
 		if(result.hasErrors()) {
@@ -158,6 +159,61 @@ public class InvestorContoller {
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "invCompanyPage";
+	}
+	
+	@RequestMapping("/buyCompany/{stockName}")
+	public String returnBuyPage(@PathVariable("stockName") String companyName, Model model,
+			@ModelAttribute("shareCount") ShareCountInputDto shareCount) {
+		model.addAttribute("stockName", companyName);
+		model.addAttribute("commodtiyCompany", "Company");
+		model.addAttribute("transactionType", "Buy");
+		return "invBuySellPage";
+	}
+	
+	@RequestMapping("/BuyCompanyShares/{stockName}")
+	public String buyShares(@PathVariable("stockName") String companyName, Model model,
+			@Valid @ModelAttribute("shareCount") ShareCountInputDto shareCount, BindingResult result,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		model.addAttribute("commodtiyCompany", "Company");
+		model.addAttribute("transactionType", "Buy");
+		
+		if (result.hasErrors()) {
+			return "invBuySellPage";
+		}
+		
+		String message= this.investorService.buySellShares(companyName, investorLoginDto.getLoginKey(), "Buy", 
+				"Company", shareCount.getShareCount());
+		model.addAttribute("message", message);
+		
+		return "invBuySellPage";
+	}
+	
+	@RequestMapping("/sellCompany/{stockName}")
+	public String returnSellPage(@PathVariable("stockName") String companyName, Model model,
+			@ModelAttribute("shareCount") ShareCountInputDto shareCount) {
+		model.addAttribute("companyTitle", companyName);
+		model.addAttribute("commodtiyCompany", "Company");
+		model.addAttribute("transactionType", "Sell");
+		
+		return "invBuySellPage";
+	}
+	
+	@RequestMapping("/SellCompanyShares/{stockName}")
+	public String sellShares(@PathVariable("stockName") String companyName, Model model,
+			@Valid @ModelAttribute("shareCount") ShareCountInputDto shareCount, BindingResult result,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		model.addAttribute("commodtiyCompany", "Company");
+		model.addAttribute("transactionType", "Sell");
+		if (result.hasErrors()) {
+			return "invBuySellPage";
+		}
+		
+		String message= this.investorService.buySellShares(companyName, investorLoginDto.getLoginKey(), "Sell", 
+				"Company", shareCount.getShareCount());
+		
+		model.addAttribute("message", message);
+		
+		return "invBuySellPage";
 	}
 	
 	@RequestMapping("/{companyTitle}/historicalPrices/{companyCode}")
@@ -187,9 +243,61 @@ public class InvestorContoller {
 		model.addAttribute("walletTransactionsDto", walletTransactionsDto);
 		return "invWalletTransactions";
 	}
-
-
-
+	
+	@RequestMapping("/buyCommodity/{stockName}")
+	public String returnBuyPageCommodity(@PathVariable("stockName") String commodityName, Model model,
+			@ModelAttribute("shareCount") ShareCountInputDto shareCount) {
+		model.addAttribute("stockName", commodityName);
+		model.addAttribute("commodtiyCompany", "Commodity");
+		model.addAttribute("transactionType", "Buy");
+		return "invBuySellPage";
+	}
+	
+	@RequestMapping("/BuyCommodityShares/{stockName}")
+	public String buySharesCommodity(@PathVariable("stockName") String commodityName, Model model,
+			@Valid @ModelAttribute("shareCount") ShareCountInputDto shareCount, BindingResult result,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		model.addAttribute("commodtiyCompany", "Commodity");
+		model.addAttribute("transactionType", "Buy");
+		
+		if (result.hasErrors()) {
+			return "invBuySellPage";
+		}
+		
+		String message= this.investorService.buySellShares(commodityName, investorLoginDto.getLoginKey(), "Buy", 
+				"Commodity", shareCount.getShareCount());
+		model.addAttribute("message", message);
+		
+		return "invBuySellPage";
+	}
+	
+	@RequestMapping("/sellCommodity/{stockName}")
+	public String returnSellPageCommodity(@PathVariable("stockName") String commodityName, Model model,
+			@ModelAttribute("shareCount") ShareCountInputDto shareCount) {
+		model.addAttribute("commodityTitle", commodityName);
+		model.addAttribute("commodtiyCompany", "Commodity");
+		model.addAttribute("transactionType", "Sell");
+		
+		return "invBuySellPage";
+	}
+	
+	@RequestMapping("/SellCommodityShares/{stockName}")
+	public String sellSharesCommodity(@PathVariable("stockName") String commodityName, Model model,
+			@Valid @ModelAttribute("shareCount") ShareCountInputDto shareCount, BindingResult result,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		model.addAttribute("commodtiyCompany", "Commodity");
+		model.addAttribute("transactionType", "Sell");
+		if (result.hasErrors()) {
+			return "invBuySellPage";
+		}
+		
+		String message= this.investorService.buySellShares(commodityName, investorLoginDto.getLoginKey(), "Sell", 
+				"Commodity", shareCount.getShareCount());
+		
+		model.addAttribute("message", message);
+		
+		return "invBuySellPage";
+	}
 
 
 }

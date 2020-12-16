@@ -22,6 +22,9 @@ public interface InvestorService {
 	public WalletDto fetchWalletDetails(String loginKey);
 	String addMoneyToWallet(String loginKey, double amount);
 	String withdrawMoneyFromWallet(String loginKey, double amount);
-	List<WalletTransactionsDto> fetchAllWalletTransactions(String loginKey);	
+	List<WalletTransactionsDto> fetchAllWalletTransactions(String loginKey);
+	
+	String buySellShares(String stockName, String loginKey, String transactionType, String companyCommodity,
+			int transactionShareCount);	
 	
 }
