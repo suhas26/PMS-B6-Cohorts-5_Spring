@@ -1,26 +1,26 @@
 package com.wf.training.bootapprestfulcrud.entity;
 
-import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class HistoricalRecordCommodity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // AI
+	private Long commodityHistoricalDataId;
 	private int commodityId;
-	private String CommodityPrice; 
-	private LocalDateTime dateTime;
-		
-	public HistoricalRecordCommodity(int commodityId, String commodityPrice, LocalDateTime dateTime) {
-		super();
-		this.commodityId = commodityId;
-		CommodityPrice = commodityPrice;
-		this.dateTime = dateTime;
+	private float CommodityPrice; 
+	private String dateTime;
+	private String currency;
+	public Long getCommodityHistoricalDataId() {
+		return commodityHistoricalDataId;
 	}
-	public HistoricalRecordCommodity() {
-		// TODO Auto-generated constructor stub
+	public void setCommodityHistoricalDataId(Long commodityHistoricalDataId) {
+		this.commodityHistoricalDataId = commodityHistoricalDataId;
 	}
 	public int getCommodityId() {
 		return commodityId;
@@ -28,17 +28,23 @@ public class HistoricalRecordCommodity {
 	public void setCommodityId(int commodityId) {
 		this.commodityId = commodityId;
 	}
-	public String getCommodityPrice() {
+	public float getCommodityPrice() {
 		return CommodityPrice;
 	}
-	public void setCommodityPrice(String commodityPrice) {
+	public void setCommodityPrice(float commodityPrice) {
 		CommodityPrice = commodityPrice;
 	}
-	public LocalDateTime getDateTime() {
+	public String getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(LocalDateTime dateTime) {
+	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 	
 }

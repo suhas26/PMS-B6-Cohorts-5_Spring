@@ -140,7 +140,7 @@
 					<button type=Submit name=Submit id=button>Sell</button>
 				</spring:form></td>
 				
-				<td><spring:form action="${pageContext.request.contextPath}/user/${searchCompany.companyTitle}/historicalPrices/${searchCompany.companyCode}" method="POST">
+				<td><spring:form action="${pageContext.request.contextPath}/user/historicalPrices/${searchCompany.companyCode}" method="POST">
 					<button type=Submit name=Submit id=button>Historical Prices</button>
 				</spring:form></td>
 

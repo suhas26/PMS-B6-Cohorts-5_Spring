@@ -9,5 +9,7 @@ import com.wf.training.bootapprestfulcrud.entity.ShareTransaction;
 public interface ShareTransactionRepository extends JpaRepository<ShareTransaction, Long>{
 
 	List<ShareTransaction> findAllByShareTransactionId(Long shareTransactionId);
+	
+	ShareTransaction findByShareTransactionId(Long shareTransactionId);
 
 }

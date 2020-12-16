@@ -21,9 +21,11 @@ import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.MoneyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
+import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareCountInputDto;
+import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
@@ -130,6 +132,10 @@ public class InvestorContoller {
 			return "invSearchCompany";
 		}
 		CompanyDto searchCompany = this.companyService.fetchSingleCompanyByName(company);
+		if (searchCompany==null) {
+			model.addAttribute("message", "Company Not Found");
+			return "invSearchCompany";
+		}
 		this.investorService.addRecentViewCompany(investorLoginDto, searchCompany);
 		
 		model.addAttribute("searchCompany",searchCompany);
@@ -145,6 +151,11 @@ public class InvestorContoller {
 		}
 		
 		CommodityDto commodityDto = this.commodityService.fetchSingleCommodityByName(searchCommodityDto);
+		
+		if (commodityDto==null) {
+			model.addAttribute("message", "Commodity Not Found");
+			return "invSearchCommodity";
+		}
 		
 		model.addAttribute("commodityDto",commodityDto);
 		return "invCommodityPage";
@@ -216,13 +227,26 @@ public class InvestorContoller {
 		return "invBuySellPage";
 	}
 	
-	@RequestMapping("/{companyTitle}/historicalPrices/{companyCode}")
-	public String companyHistoricalPrice(@PathVariable Long companyCode, Model model) {
+	@RequestMapping("/historicalPrices/{companyCode}")
+	public String companyHistoricalPrice(@PathVariable("companyCode") Long companyCode, Model model) {
+		System.out.println("Company");
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchSingleByCompanyId(companyCode);
 		
 		model.addAttribute("companyHistoricalDataOutputDto", companyHistoricalDataOutputDto);
 		return "invCompHistoricalPrices"; 
+	}
+	
+	@RequestMapping("/{commodityTitle}/historicalPrices/{commodityCode}")
+	public String commodityHistoricalPrice(@PathVariable int commodityCode, Model model,@PathVariable String commodityTitle) {
+		
+		List<CommodityHistoricalDto> commodityHistoricalDto = this.commodityService.fetchAllHistoricalDataByCommodityId(commodityCode);
+		
+		model.addAttribute("commodityHistoricalDto", commodityHistoricalDto);
+		model.addAttribute("commodityTitle", commodityTitle);
+		System.out.println(commodityHistoricalDto.get(0).getCommodityPrice());
+		System.out.println(commodityHistoricalDto.get(0).getCommodityId());
+		return "invCommodityHistoricalPrices";
 	}
 	
 	@RequestMapping("/recentViewCompanies")
@@ -299,5 +323,18 @@ public class InvestorContoller {
 		return "invBuySellPage";
 	}
 
+	@RequestMapping("/shareTransaction/{shareTransId}")
+	public String shareTransactionTable(@PathVariable("shareTransId") Long shareTransactionId, Model model) {
+		
+		ShareTransactionDto shareTransactionDto = this.investorService.findShareTransactionsById(shareTransactionId);
+		
+		if (shareTransactionDto==null) {
+			return "invWalletTransactions";
+		}
+		
+		model.addAttribute("shareTransactionDto", shareTransactionDto);
+		
+		return "invShareTransactionTable";
+	}
 
 }

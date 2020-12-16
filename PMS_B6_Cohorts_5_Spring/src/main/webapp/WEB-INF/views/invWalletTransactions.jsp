@@ -70,7 +70,7 @@
 						<td>${transactions.walletId}</td>
 						<td>${transactions.transactionType}</td>
 						<td>${transactions.amount}</td>
-						<td>${transactions.shareTransactionId}</td>
+						<td><a href="${pageContext.request.contextPath}/user/shareTransaction/${transactions.shareTransactionId}">${transactions.shareTransactionId}</a></td>
 						<td>${transactions.dateTime}</td>
 					</tr>
 				</core:forEach>

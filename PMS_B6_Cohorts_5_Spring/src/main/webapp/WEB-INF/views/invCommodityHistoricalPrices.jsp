@@ -39,13 +39,13 @@
 		margin: auto;
 	}
 </style>
-<title>Company Historical Prices</title>
+<title>Commodity Historical Prices</title>
 </head>
 <body>
 	<div>
 		<nav class="navbar navbar-dark bg-primary">
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<span class="text-light font-weight-bold" >Company Historical Prices Page</span>
+			<span class="text-light font-weight-bold" >Commodity Historical Prices Page</span>
 			<div><a href="#" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
@@ -56,18 +56,18 @@
 				<tr>
 					<td colspan="4" style="color: white;font-size:20px;text-align:center"><b>Historical Prices</b></td>
 				<tr>
-					<th scope="col" colspan="1">Company ID</th>
-					<th scope="col" colspan="1">Company Name</th>
-					<th scope="col" colspan="1">Price</th>
+					<th scope="col" colspan="1">Commodity ID</th>
+					<th scope="col" colspan="1">Commodity Name</th>
+					<th scope="col" colspan="1">Commodity Price</th>
 					<th scope="col" colspan="2">Date</th>
 				</tr>
 			</thead>
 			<tbody>
-				<core:forEach var="companyHistory" items="${companyHistoricalDataOutputDto}">
+				<core:forEach var="companyHistory" items="${commodityHistoricalDto}">
 					<tr>
-						<td>${companyHistory.companyCode}</td>
-						<td>${companyHistory.companyName}</td>
-						<td>${companyHistory.stockPrice}</td>
+						<td>${companyHistory.commodityId}</td>
+						<td>${commodityTitle}</td>
+						<td>${companyHistory.commodityPrice}</td>
 						<td>${companyHistory.dateTime}</td>
 					</tr>
 				</core:forEach>

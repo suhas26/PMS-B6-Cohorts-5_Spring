@@ -1,11 +1,17 @@
 package com.wf.training.bootapprestfulcrud.service.imp;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
+import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.entity.Commodity;
+import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCommodity;
+import com.wf.training.bootapprestfulcrud.repository.CommodityHistoricalDataRepository;
 import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
 
@@ -14,6 +20,9 @@ public class CommodityServiceImp implements CommodityService {
 	
 	@Autowired
 	private CommodityRepository commodityRepository;
+	
+	@Autowired
+	private CommodityHistoricalDataRepository commodityHisDataRepository;
 	
 	private Commodity convertInputAddCommodityToEntity(CommodityDto dto) {
 		Commodity com = new Commodity();
@@ -77,6 +86,9 @@ public class CommodityServiceImp implements CommodityService {
 		Commodity commodity = this.convertSearchCommodityDtoToEntity(searchCommodityDto);
 		
 		Commodity newCommodity = this.commodityRepository.findByCommodityName(commodity.getCommodityName());
+		if(newCommodity==null) {
+			return null;
+		}
 		CommodityDto commodityOutputDto =  this.convertCommodityEntityToOutputDto(newCommodity);
 		return commodityOutputDto;
 	}
@@ -116,6 +128,33 @@ public class CommodityServiceImp implements CommodityService {
 		Commodity commodity = this.commodityRepository.findByCommodityName(commodityName);
 		CommodityDto commodityDto = this.convertCommodityEntityToOutputDto(commodity);
 		return commodityDto;
+	}
+	
+	@Override
+	public List<CommodityHistoricalDto> fetchAllHistoricalDataByCommodityId(int commodityId) {
+		List<HistoricalRecordCommodity> historicalPriceData = this.commodityHisDataRepository.findAllByCommodityId(commodityId).orElse(null);
+		
+		if(historicalPriceData==null) {
+			return null;
+		}
+		
+		List<CommodityHistoricalDto> commodityHistoricalDto = historicalPriceData.stream()
+				.map(this::convertCommodityHistoricalEntityToDto).collect(Collectors.toList());
+		
+		return commodityHistoricalDto;
+	}
+	
+	public CommodityHistoricalDto convertCommodityHistoricalEntityToDto(HistoricalRecordCommodity historicalRecordCommodity){
+		
+		CommodityHistoricalDto commodityHistoricalDto = new CommodityHistoricalDto();
+		
+		commodityHistoricalDto.setCommodityHistoricalDataId(historicalRecordCommodity.getCommodityHistoricalDataId());
+		commodityHistoricalDto.setCommodityId(historicalRecordCommodity.getCommodityId());
+		commodityHistoricalDto.setCommodityPrice(historicalRecordCommodity.getCommodityPrice());
+		commodityHistoricalDto.setCurrency(historicalRecordCommodity.getCurrency());
+		commodityHistoricalDto.setDateTime(historicalRecordCommodity.getDateTime());
+		
+		return commodityHistoricalDto;
 	}
 
 	

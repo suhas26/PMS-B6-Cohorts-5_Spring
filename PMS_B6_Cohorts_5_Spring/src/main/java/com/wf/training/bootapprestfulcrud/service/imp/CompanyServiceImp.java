@@ -120,7 +120,12 @@ public class CompanyServiceImp implements CompanyService {
 		Company company = this.convertSearchCompanyDtoToEntity(searchCompanyDto);
 		
 		// fetch record from DB
-		Company newcompany = this.companyRepository.findBycompanyTitle(company.getCompanyTitle()).orElseThrow(()->new NullPointerException());
+		Company newcompany = this.companyRepository.findBycompanyTitle(company.getCompanyTitle()).orElse(null);
+		
+		if(newcompany==null) {
+			return null;
+		}
+		
 		// convert entity into output dto
 		CompanyDto companyOutputDto =  this.convertCompanyEntityToOutputDto(newcompany);
 		return companyOutputDto;

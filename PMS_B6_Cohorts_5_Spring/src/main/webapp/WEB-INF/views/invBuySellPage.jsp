@@ -123,7 +123,7 @@ span{
 		<h4 id="errors" class="search">${message}</h4><br>
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/${transactionType}${commodtiyCompany}Shares/${stockName}" method="post" modelAttribute="shareCount">
-				<spring:label path="shareCount">Enter the Quantity for </spring:label>
+				<spring:label path="shareCount">Enter the Quantity for ${stockName}</spring:label>
 				<br>
 				<spring:input type="text" path="shareCount" placeholder="Enter Stock Amount"></spring:input>
 				<br>

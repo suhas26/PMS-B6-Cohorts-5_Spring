@@ -2,12 +2,10 @@ package com.wf.training.bootapprestfulcrud.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
-import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
-import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 
 
 public interface CommodityService {
@@ -25,5 +23,7 @@ public interface CommodityService {
 
 	public CommodityDto fetchSingleCommodityByName(String commodityName);
 	public CommodityDto modifyCommodity(CommodityDto commodityNewOutputDto);
+
+	List<CommodityHistoricalDto> fetchAllHistoricalDataByCommodityId(int commodityId);
 	
 }

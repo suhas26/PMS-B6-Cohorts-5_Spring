@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.entity.Commodity;
@@ -394,7 +395,7 @@ public class InvestorServiceImp implements InvestorService {
 		InvestorWalletTransaction invWalletTrans =  this.convertShareTransactionToWalletTransactionEntity(shareTransaction);
 		this.walletTransactionRepository.save(invWalletTrans);
 		
-		message = "Transaction successful";
+		message = "Transaction was successful";
 		return message;
 	}
 	
@@ -473,15 +474,50 @@ public class InvestorServiceImp implements InvestorService {
 	
 	public InvestorWalletTransaction convertShareTransactionToWalletTransactionEntity(ShareTransaction shareTransaction) {
 		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
+		double transactionAmount = 0.0d; 
 		
-		investorWalletTransaction.setAmount(shareTransaction.getTransactionAmount());
 		investorWalletTransaction.setDateTime(shareTransaction.getDateTime());
 		investorWalletTransaction.setShareTransactionId(shareTransaction.getShareTransactionId());
 		investorWalletTransaction.setTransactionType(shareTransaction.getTransactionType());
 		investorWalletTransaction.setWalletId(shareTransaction.getWalletId());
+		if (shareTransaction.getTransactionType().equalsIgnoreCase("Sell")) {
+			transactionAmount = shareTransaction.getTransactionAmount() - shareTransaction.getCommission();
+			investorWalletTransaction.setAmount(transactionAmount);
+		}else {
+			investorWalletTransaction.setAmount(shareTransaction.getTransactionAmount());
+		}
 		
 		return investorWalletTransaction;
 	}
-
+	
+	@Override
+	public ShareTransactionDto findShareTransactionsById(Long shareTransactionId) {
+		
+		ShareTransaction shareTransaction = this.shareTransRepository.findByShareTransactionId(shareTransactionId);
+		if (shareTransaction==null) {
+			return null;
+		}
+		
+		ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(shareTransaction);
+		
+		return shareTransactionDto;
+	}
+	
+	public ShareTransactionDto convertShareTransactionEntityToDto(ShareTransaction shareTransaction) {
+		
+		ShareTransactionDto shareTransactionDto = new ShareTransactionDto();
+		
+		shareTransactionDto.setCommission(shareTransaction.getCommission());
+		shareTransactionDto.setCompanyCommodity(shareTransaction.getCompanyCommodity());
+		shareTransactionDto.setDateTime(shareTransaction.getDateTime());
+		shareTransactionDto.setShareTransactionId(shareTransaction.getShareTransactionId());
+		shareTransactionDto.setStockName(shareTransaction.getStockName());
+		shareTransactionDto.setTransactionAmount(shareTransaction.getTransactionAmount());
+		shareTransactionDto.setTransactionShareCount(shareTransaction.getTransactionShareCount());
+		shareTransactionDto.setTransactionType(shareTransaction.getTransactionType());
+		shareTransactionDto.setWalletId(shareTransaction.getWalletId());
+		
+		return shareTransactionDto;
+	}
 	
 }

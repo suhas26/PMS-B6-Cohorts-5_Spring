@@ -5,6 +5,7 @@ import java.util.List;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
 import com.wf.training.bootapprestfulcrud.entity.RecentlyViewedCompanies;
@@ -25,6 +26,7 @@ public interface InvestorService {
 	List<WalletTransactionsDto> fetchAllWalletTransactions(String loginKey);
 	
 	String buySellShares(String stockName, String loginKey, String transactionType, String companyCommodity,
-			int transactionShareCount);	
+			int transactionShareCount);
+	ShareTransactionDto findShareTransactionsById(Long shareTransactionId);	
 	
 }

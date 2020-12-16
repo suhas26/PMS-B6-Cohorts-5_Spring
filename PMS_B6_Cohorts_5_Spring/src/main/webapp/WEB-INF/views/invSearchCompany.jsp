@@ -68,7 +68,7 @@ body {
 	transition: margin-left .5s;
 }
 .search{
-	padding-top:10%;
+	padding-top:5%;
 	display: flex;
     justify-content: center;
     text-align: center;
@@ -120,6 +120,7 @@ span{
 			<span class="text-light font-weight-bold">Search Company</span>
 			<div><a href="index.html" id="primaryNavigators">Logout</a></div>
 		</nav>
+		<h4 id="errors" class="search">${message}</h4>
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/searchCompanyName" method="post" modelAttribute="company">
 				<spring:input type="search" path="companyName" placeholder="Search Company Name"></spring:input>
