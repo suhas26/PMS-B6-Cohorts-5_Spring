@@ -145,9 +145,9 @@ span{
 		
 		<label class="generateCommision">Generate Commission</label>
 		<ul>
-			<li><a href="#">Annual Report</a></li>
-			<li><a href="#">Monthly Report</a></li>
-			<li><a href="#">Periodic Report</a></li>
+			<li><a href="/bouser/generateAnnualReport">Annual Report</a></li>
+			<li><a href="/bouser/generateMonthlyReport">Monthly Report</a></li>
+			<li><a href="/bouser/generatePeriodicReport">Periodic Report</a></li>
 		</ul>
 	</div>
 	<div id="main">

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Modify Commodity</title>
+<title>Generate Report</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -144,7 +144,7 @@ span{
 			</button>
 			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
 			<span>
-				<span class="text-light font-weight-bold">Modify Commodity</span>
+				<span class="text-light font-weight-bold">Modify Company</span>
 			</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
 				<input type="submit" value="Logout" />
@@ -152,10 +152,10 @@ span{
 		</nav>
 	</div>
 	<div id=centre>
-		<spring:form action="${pageContext.request.contextPath}/bouser/returnModifyCommodity" method="POST" modelAttribute="selectCommodity">
-			<spring:label path="commodityName">Enter Commodity Name</spring:label>
-			<spring:input path="commodityName"/>
-			<td><spring:errors path="commodityName" cssClass="error" id="errors"/></td>
+		<spring:form action="${pageContext.request.contextPath}/bouser/returnModifyCompany" method="POST" modelAttribute="selectCompany">
+			<spring:label path="companyName">Enter Company Name</spring:label>
+			<spring:input path="companyName"/>
+			<td><spring:errors path="companyName" cssClass="error" id="errors"/></td>
 			<hr/>
 			<button>Submit</button>
 		</spring:form>
