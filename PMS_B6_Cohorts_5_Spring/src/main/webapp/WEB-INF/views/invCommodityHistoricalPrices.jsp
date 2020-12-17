@@ -24,7 +24,7 @@
 	#footer {
 		width:80%;
 		position: absolute;
-		right:15%;
+		right:9%;
 	}
 	#primaryNavigators{
 		margin-left:50px;
