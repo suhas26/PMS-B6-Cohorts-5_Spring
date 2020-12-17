@@ -172,6 +172,7 @@ public class CompanyServiceImp implements CompanyService {
 		entity.setStockPrice(addStockDto.getSharePrice());
 		entity.setDateTime(LocalDateTime.now().toString());
 		this.histRepo.save(entity);
+		this.companyRepository.updateSharePrice(company.getCompanyTitle(), addStockDto.getSharePrice());
 		//add statement to update price in company table
 		return true;
 		}
