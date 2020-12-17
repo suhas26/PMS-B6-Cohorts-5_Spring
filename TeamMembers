@@ -1,0 +1,27 @@
+Milestone 1, Phase 1, Week 1: 
+
+Discussion on DB Tables and class diagram: Nitesh/Sudhan/Suhas/RajKiran/Vishal
+
+DBScript.sql - Suhas
+Model class Diagram creation - Sudhan
+Entity/Model Source code - Nitesh
+
+Milestone 2, Phase 1, Week 2:
+
+User Registration Module  - Nitesh 
+User login - Suhas
+Back office User login - Nitesh
+Commodity,SuperUserHomePage,Company,Wallet - Suhas
+UserHomePage - Sudhan
+
+Milestone 3:
+CSS for each page - Suhas
+DTO - Suhas
+
+Milestone 4:
+Conversion to Spring Project : Suhas
+
+Functionality wise - 
+Admin functionality- Nitesh
+BO user except add company flow - Nitesh
+Investor Functionality and Add Company flow in BO user - Suhas
