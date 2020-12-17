@@ -130,9 +130,9 @@ span{
 		
 		<label class="generateCommision">Generate Commission</label>
 		<ul>
-			<li><a href="/bouser/generateAnnualReport">Annual Report</a></li>
-			<li><a href="/bouser/generateMonthlyReport">Monthly Report</a></li>
-			<li><a href="/bouser/generatePeriodicReport">Periodic Report</a></li>
+			<li><a href="${pageContext.request.contextPath}/bouser/generateAnnualReport">Annual Report</a></li>
+			<li><a href="${pageContext.request.contextPath}/bouser/generateMonthlyReport">Monthly Report</a></li>
+			<li><a href="${pageContext.request.contextPath}/bouser/generatePeriodicReport">Periodic Report</a></li>
 		</ul>
 	</div>
 	<div id="main">
@@ -144,7 +144,7 @@ span{
 			</button>
 			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
 			<span>
-				<span class="text-light font-weight-bold">Modify Company</span>
+				<span class="text-light font-weight-bold">Generate Report</span>
 			</span>
 			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
 				<input type="submit" value="Logout" />
@@ -152,10 +152,13 @@ span{
 		</nav>
 	</div>
 	<div id=centre>
-		<spring:form action="${pageContext.request.contextPath}/bouser/returnModifyCompany" method="POST" modelAttribute="selectCompany">
-			<spring:label path="companyName">Enter Company Name</spring:label>
-			<spring:input path="companyName"/>
-			<td><spring:errors path="companyName" cssClass="error" id="errors"/></td>
+		<spring:form action="${pageContext.request.contextPath}/bouser/returnAnnualReport" method="POST" modelAttribute="annualreport">
+			<spring:label path="year">Select year</spring:label>
+			<spring:select path="year">
+							<spring:option value="2020" label="2020"/>
+							<spring:option value="2021" label="2021"/>	
+						</spring:select>
+			<td><spring:errors path="year" cssClass="error" id="errors"/></td>
 			<hr/>
 			<button>Submit</button>
 		</spring:form>

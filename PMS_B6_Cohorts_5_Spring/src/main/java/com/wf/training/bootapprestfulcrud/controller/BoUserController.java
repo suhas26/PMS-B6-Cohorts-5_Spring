@@ -21,6 +21,9 @@ import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.SelectMonthDto;
+import com.wf.training.bootapprestfulcrud.dto.SelectPeriodDto;
+import com.wf.training.bootapprestfulcrud.dto.SelectYearDto;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 
@@ -206,5 +209,23 @@ public class BoUserController {
 			return "BoAddCommodityPrice";
 		}
 		return "BoAddCommodityPrice";
+	}
+	
+	@RequestMapping("/generateAnnualReport")
+	public String annualReport(@ModelAttribute("annualreport") SelectYearDto year,Model model) {
+		model.addAttribute("year", year);
+		return "BoGenerateAnnualReport";
+	}
+	
+	@RequestMapping("/generateMonthlyReport")
+	public String monthlyReport(@ModelAttribute("monthlyreport") SelectMonthDto month,Model model) {
+		String[] months= {"January","Febraury","March","April","May","June","July","August","September","October","November","December"};
+		model.addAttribute("months", months);
+		return "BoGenerateMonthlyReport";
+	}
+	
+	@RequestMapping("/generatePeriodicReport")
+	public String periodicReport(@ModelAttribute("periodicreport") SelectPeriodDto period,Model model) {
+		return "BoGeneratePeriodicReport";
 	}
 }

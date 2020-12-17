@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Modify Commodity</title>
+<title>Generate Report</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -87,36 +87,25 @@ body {
 }
 
 #primaryNavigators{
+	margin-left:50px;
 	color:white;
 	position:relative;
 }
 
-#logout{
-	background-color:red;
-	color:white;
-	position:relative;
-	left:5px;
-	padding:5px;
-}
-
-.container{
-	margin:50px;
-}
-
-#modifyCommodityForm{
-	margin: auto;
-	width: 30%;
-	margin-top: 5%;
-	border: 3px solid green;
-	padding: 10px;
-	text-align: center;
-}
-#error{
-	color:red;
+#centre{
+	margin:auto;
+	margin-top: 100px;
+	width:15%;
+	border: 1px solid green;
+	text-align:center;
 }
 
 span{
 	margin:auto;
+}
+
+#errors{
+	color:red;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -147,53 +136,30 @@ span{
 		</ul>
 	</div>
 	<div id="main">
-
 		<nav class="navbar navbar-dark bg-primary">
 			<button class="navbar-toggler" type="button" onclick="openNav()"
 				aria-controls="navbarToggleExternalContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div><a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a></div>
-			<span class="text-light font-weight-bold">Modify Commodity</span>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
+			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
+			<span>
+				<span class="text-light font-weight-bold">Generate Report</span>
+			</span>
+			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
 				<input type="submit" value="Logout" />
 				</spring:form></div>
 		</nav>
 	</div>
-	
-	<div id=modifyCommodityForm>
-		<spring:form action="${pageContext.request.contextPath}/bouser/modifyCommodity" method="POST" modelAttribute="comDto">
-			<table>
-				<tr>
-					<td><spring:label path="commodityId">Commodity ID</spring:label></td>
-					<td><spring:input path="commodityId" type="text" value="${searchCommodityDto.commodityId}" readonly="true"/></td>
-					<td><spring:errors path="commodityId" cssClass="error" id="errors"/></td>
-				</tr>
-				<tr>
-					<td><spring:label path="commodityName">Commodity Name</spring:label></td>
-					<td><spring:input path="commodityName" type="text" value="${searchCommodityDto.commodityName}" /></td>
-					<td><spring:errors path="commodityName" cssClass="error" id="errors"/></td>
-				</tr>
-				<tr>
-					<td><spring:label path="currency">Currency</spring:label></td>
-					<td><spring:input path="currency" type="text" value="${searchCommodityDto.currency}" /></td>
-					<td><spring:errors path="currency" cssClass="error" id="errors"/></td>
-				</tr>
-				<tr>
-					<td><spring:label path="price">Price</spring:label></td>
-					<td><spring:input path="price" type="text" value="${searchCommodityDto.price}"/></td>
-					<td><spring:errors path="price" cssClass="error" id="errors"/></td>
-				</tr>
-				<tr>
-					<td><spring:label path="dateTime">Date Time</spring:label></td>
-					<td><spring:input path="dateTime" type="text" value="${searchCommodityDto.dateTime}"/></td>
-					<td><spring:errors path="dateTime" cssClass="error" id="errors"/></td>
-				</tr>
-				<tr>
-					<td colspan=2><hr/><input type="submit" Value="Modify Commodity"></td>
-				</tr> 
-			</table>
+	<div id=centre>
+		<spring:form action="${pageContext.request.contextPath}/bouser/returnMonthlyReport" method="POST" modelAttribute="monthlyreport">
+			<spring:label path="month">Select Month</spring:label>
+			<spring:select path="month">
+							<spring:options items="${months}"/>
+						</spring:select>
+			<td><spring:errors path="month" cssClass="error" id="errors"/></td>
+			<hr/>
+			<button>Submit</button>
 		</spring:form>
 	</div>
 	<script>
