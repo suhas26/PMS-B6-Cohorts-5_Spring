@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wf.training.bootapprestfulcrud.dto.AddCommodityPriceDto;
 import com.wf.training.bootapprestfulcrud.dto.AddStockPriceDto;
 import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
@@ -163,16 +164,11 @@ public class BoUserController {
 	
 	@RequestMapping("/addCompanyStockPrice")
 	public String addCompanyStockPrice(@ModelAttribute("addstockprice") AddStockPriceDto addStockDto,Model model) {
-//		 List<CompanyDto> companyList=this.companyService.fetchAllCompanies();
-//		 List<String> companyNames=new ArrayList<String>();
-//		for(CompanyDto c:companyList)
-//		 companyNames.add(c.getCompanyTitle());
 		List<String> companyNames=this.companyService.fetchAllCompanyNames();
 		model.addAttribute("companyNames",companyNames);
 		return "BoAddCompanyStockPrice";
 	}
 	
-	//@ModelAttribute("companyNames")
 	@PostMapping("/newStockPrice")
 	public String newStockPrice(@Valid @ModelAttribute("addstockprice") AddStockPriceDto addStockDto,BindingResult result,Model model) {
 		List<String> companyNames=this.companyService.fetchAllCompanyNames();
@@ -190,7 +186,25 @@ public class BoUserController {
 	}
 	
 	@RequestMapping("/addCommodityPrice")
-	public String addCommodityPrice(@ModelAttribute("selectCompany") SearchCompanyDto searchCompanyDto) {
-		return "SelectModifyCompany";
+	public String addCommodityPrice(@ModelAttribute("addcommodityprice") AddCommodityPriceDto addCommodityDto,Model model) {
+		List<String> commodityNames=this.commodityService.fetchAllCommodityNames();
+		model.addAttribute("commodityNames",commodityNames);
+		return "BoAddCommodityPrice";
+	}
+	
+	@PostMapping("/newCommodityPrice")
+	public String newCommodityPrice(@Valid @ModelAttribute("addcommodityprice") AddCommodityPriceDto addCommodityDto,BindingResult result,Model model) {
+		List<String> commodityNames=this.commodityService.fetchAllCommodityNames();
+		model.addAttribute("commodityNames",commodityNames);
+		if (result.hasErrors()) {
+			
+			return "BoAddCommodityPrice";
+		}
+		if(this.commodityService.addCommodityPrice(addCommodityDto))
+		{
+			model.addAttribute("Message", "Commodity added successfully");
+			return "BoAddCommodityPrice";
+		}
+		return "BoAddCommodityPrice";
 	}
 }

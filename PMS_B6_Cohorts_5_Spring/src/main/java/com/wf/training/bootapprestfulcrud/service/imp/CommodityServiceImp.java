@@ -1,16 +1,23 @@
 package com.wf.training.bootapprestfulcrud.service.imp;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wf.training.bootapprestfulcrud.dto.AddCommodityPriceDto;
+import com.wf.training.bootapprestfulcrud.dto.AddStockPriceDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
+import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.entity.Commodity;
+import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCommodity;
+import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCompany;
 import com.wf.training.bootapprestfulcrud.repository.CommodityHistoricalDataRepository;
 import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
@@ -48,12 +55,16 @@ public class CommodityServiceImp implements CommodityService {
 		 
 		return outputDto;
 	}
-//	
-//
-//	@Override
-//	public List<CompanyDto> fetchAllCompanies() {
-//		return null;
-//	}
+
+	
+	@Override
+	public List<CommodityDto> fetchAllCommodities() {
+		List<Commodity> commodity=this.commodityRepository.findAll();
+		List<CommodityDto> dto=new ArrayList<CommodityDto>();
+		for(Commodity c:commodity)
+			dto.add(this.convertCommodityEntityToOutputDto(c));
+		return dto;
+	}
 //
 //	@Override
 //	public CompanyDto fetchSingleCompany(Long id) {
@@ -65,12 +76,16 @@ public class CommodityServiceImp implements CommodityService {
 //	}
 
 //
-//	@Override
-//	public CompanyDto editCompany(Long id, SearchCompanyDto employeeInputDto) {
-//		return null;
-//	}
-//	
 
+	@Override
+	public List<String> fetchAllCommodityNames() {
+		List<CommodityDto> commodityList=this.fetchAllCommodities();
+		List<String> commodityNames=new ArrayList<String>();
+		for(CommodityDto c:commodityList)
+			commodityNames.add(c.getCommodityName());
+		
+		return commodityNames;
+	}
 
 	@Override
 	public CommodityDto addCommodity(CommodityDto dto) {
@@ -157,5 +172,21 @@ public class CommodityServiceImp implements CommodityService {
 		return commodityHistoricalDto;
 	}
 
+	@Override
+	public boolean addCommodityPrice(AddCommodityPriceDto addCommodityDto) {
+		Commodity commodity=this.commodityRepository.findByCommodityName(addCommodityDto.getCommodityName());
+		if(commodity!=null) {
+		HistoricalRecordCommodity entity=new HistoricalRecordCommodity();
+		entity.setCommodityId(commodity.getCommodityId());
+		entity.setCurrency(commodity.getCurrency());
+		entity.setCommodityPrice(addCommodityDto.getCommodityPrice());
+		entity.setDateTime(LocalDateTime.now().toString());
+		this.commodityHisDataRepository.save(entity);
+		this.commodityRepository.updateCommodityPrice(commodity.getCommodityName(), addCommodityDto.getCommodityPrice());
+		return true;
+		}
+		
+		return false;
+	}
 	
 }
