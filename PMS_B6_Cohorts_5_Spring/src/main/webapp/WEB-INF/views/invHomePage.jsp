@@ -94,10 +94,20 @@ span{
 	#logout{
 		background-color: Dodgerblue;
 	}
-	#center{
-		margin-left:14%;
-		padding:1%;
-		color:Dodgerblue;		
+	#headline{
+		margin-left:15%;
+		position:relative;
+		margin-top:2%;
+		width:10%;
+	}
+	#right{
+		position:absolute;
+		left:87%;
+		top: 70px;
+		width:10%;
+	}
+	#linkCss:hover{
+		color:red;
 	}
 </style>
 <body>
@@ -111,7 +121,6 @@ span{
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
 	</div>
 	<div id="main">
-
 		<nav class="navbar navbar-dark bg-primary">
 			<button class="navbar-toggler" type="button" onclick="openNav()"
 				aria-controls="navbarToggleExternalContent" aria-expanded="false"
@@ -122,7 +131,14 @@ span{
 			<span class="text-light font-weight-bold">Investor Dashboard</span>
 			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
-		<h4 id=center>Welcome ${Investor.loginKey}</h4>
+		<h4 id=headline>Welcome ${Investor.loginKey}</h4>
+		<div id=right>
+			<label for="currency">Choose a currency:</label>
+			<br>
+			<select id="currency" name="currency">
+			  <option value="rupees">Rupees</option>
+			</select>
+		</div>
 		<hr>
 		<div class="container">
 			<!-- 	<h1>Employee Register Form:</h1> -->
@@ -134,7 +150,9 @@ span{
 				</div>
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body"><a href="${pageContext.request.contextPath}/user/recentViewCompanies">Recently Viewed Companies</a></div>
+						<div class="card-body">
+							<a href="${pageContext.request.contextPath}/user/recentViewCompanies" id="linkCss">Recently Viewed Companies</a>
+						</div>
 					</div>
 				</div>
 			</div>
