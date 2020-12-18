@@ -2,13 +2,16 @@ package com.wf.training.bootapprestfulcrud.service.imp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
@@ -518,6 +521,58 @@ public class InvestorServiceImp implements InvestorService {
 		shareTransactionDto.setStockPrice(shareTransaction.getStockPrice());
 		
 		return shareTransactionDto;
+	}
+	
+	//************************************************************
+	//Home Page Output showing the Portfolio value, Wallet Balance 
+	//************************************************************
+	
+	public HomePageOutputDto fetchInvestorDetails(String loginKey) {
+		HomePageOutputDto homePageOutputDto = new HomePageOutputDto();
+		
+//		homePageOutputDto.setAmountEarned(amountEarned);
+//		homePageOutputDto.setAmountInvested(amountInvested);
+//		homePageOutputDto.setBalance(balance);
+//		homePageOutputDto.setCurrentPortfolioValue(currentPortfolioValue);
+		
+		return homePageOutputDto;
+	}
+	
+	public HomePageOutputDto convertLoginKeyToHomePageOutputDto(String loginKey) {
+		double amountEarned = 0d;
+		double amountInvested = 0d;
+		double balance = 0d;
+		double currentPortfolioValue = 0d;
+		
+		Map<String,Map<Integer,Double>> map = new HashMap<String,Map<Integer,Double>>();
+		
+		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		
+		List<InvestorWalletTransaction> invWalletTrans = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId()).orElse(null);
+		List<ShareTransaction> shareTrans= this.shareTransRepository.findAllByWalletId(invWallet.getWalletId());
+		
+		for (InvestorWalletTransaction wallTran:invWalletTrans) {
+			if (wallTran.getTransactionType().equalsIgnoreCase("Credit")) {
+				balance = balance + wallTran.getAmount();
+			} else if (wallTran.getTransactionType().equalsIgnoreCase("Debit")) {
+				balance = balance - wallTran.getAmount();
+			} else if (wallTran.getTransactionType().equalsIgnoreCase("Buy")) {
+				balance = balance - wallTran.getAmount();
+			} else if (wallTran.getTransactionType().equalsIgnoreCase("Sell")) {
+				balance = balance + wallTran.getAmount();
+			}
+		}
+		
+		for (ShareTransaction sT:shareTrans) {
+			if (sT.getTransactionType().equalsIgnoreCase("Buy")) {
+				amountInvested = amountInvested + sT.getTransactionAmount();
+			} else if (sT.getTransactionType().equalsIgnoreCase("Sell")) {
+				
+			}
+		}
+		
+		return null;
 	}
 	
 }

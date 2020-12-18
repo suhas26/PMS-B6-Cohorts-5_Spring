@@ -136,7 +136,7 @@ span{
 			<label for="currency">Choose a currency:</label>
 			<br>
 			<select id="currency" name="currency">
-			  <option value="rupees">Rupees</option>
+			  <option value="dollar">Dollar</option>
 			</select>
 		</div>
 		<hr>
@@ -150,9 +150,7 @@ span{
 				</div>
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">
-							<a href="${pageContext.request.contextPath}/user/recentViewCompanies" id="linkCss">Recently Viewed Companies</a>
-						</div>
+						<div class="card-body">Wallet Balance</div>
 					</div>
 				</div>
 			</div>
@@ -176,7 +174,9 @@ span{
 				</div>
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Wallet Amount</div>
+						<div class="card-body">
+							<a href="${pageContext.request.contextPath}/user/recentViewCompanies" id="linkCss">Recently Viewed Companies</a>
+						</div>
 					</div>
 				</div>
 			</div>

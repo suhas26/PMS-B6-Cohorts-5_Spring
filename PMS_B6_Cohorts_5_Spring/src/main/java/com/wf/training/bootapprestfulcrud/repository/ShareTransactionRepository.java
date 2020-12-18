@@ -11,5 +11,7 @@ public interface ShareTransactionRepository extends JpaRepository<ShareTransacti
 	List<ShareTransaction> findAllByShareTransactionId(Long shareTransactionId);
 	
 	ShareTransaction findByShareTransactionId(Long shareTransactionId);
+	
+	List<ShareTransaction> findAllByWalletId(Long walletId);
 
 }
