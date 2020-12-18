@@ -544,7 +544,7 @@ public class InvestorServiceImp implements InvestorService {
 		double balance = 0d;
 		double currentPortfolioValue = 0d;
 		
-		Map<String,Map<Integer,Double>> map = new HashMap<String,Map<Integer,Double>>();
+		Map<String,String> mapShareTrans = new HashMap<String,String>();
 		
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
@@ -552,6 +552,7 @@ public class InvestorServiceImp implements InvestorService {
 		List<InvestorWalletTransaction> invWalletTrans = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId()).orElse(null);
 		List<ShareTransaction> shareTrans= this.shareTransRepository.findAllByWalletId(invWallet.getWalletId());
 		
+		//Balance calculation
 		for (InvestorWalletTransaction wallTran:invWalletTrans) {
 			if (wallTran.getTransactionType().equalsIgnoreCase("Credit")) {
 				balance = balance + wallTran.getAmount();
@@ -564,11 +565,50 @@ public class InvestorServiceImp implements InvestorService {
 			}
 		}
 		
-		for (ShareTransaction sT:shareTrans) {
-			if (sT.getTransactionType().equalsIgnoreCase("Buy")) {
-				amountInvested = amountInvested + sT.getTransactionAmount();
-			} else if (sT.getTransactionType().equalsIgnoreCase("Sell")) {
+		for (ShareTransaction sTrans:shareTrans) {
+			Integer quantity = sTrans.getTransactionShareCount();
+			Double amount = sTrans.getTransactionAmount();
+			String stockName = sTrans.getStockName();
+			String mapValue = "";
+			if (sTrans.getTransactionType().equalsIgnoreCase("Buy")) {
+				if (mapShareTrans.containsKey(stockName)) {
+					//If the key is present then get the previous values
+					String[] mapArrayValue = mapShareTrans.get(stockName).split(";");
+					Integer initialQuant = Integer.parseInt(mapArrayValue[0]);
+					Double initialAmount = Double.parseDouble(mapArrayValue[1]);
+					
+					//Add the quantity and the amount to the previous existing values
+					quantity = initialQuant+quantity;
+					amount = initialAmount+amount;
+					
+					//replace with the latest quantity and amount
+					mapValue = quantity.toString()+";"+amount.toString();
+					mapShareTrans.replace(stockName, mapValue);
+					
+				} else {
+					//Store in Map with key as Stock name and Value as String of quantity and amount
+					mapValue = quantity.toString()+";"+amount.toString();
+					mapShareTrans.put(stockName, mapValue);
+				}
+			} else if (sTrans.getTransactionType().equalsIgnoreCase("Sell")) {
+				//Get the previous values
+				String[] mapArrayValue = mapShareTrans.get(stockName).split(";");
+				Integer initialQuant = Integer.parseInt(mapArrayValue[0]);
+				Double initialAmount = Double.parseDouble(mapArrayValue[1]);
 				
+				if (initialQuant==quantity) {
+					mapShareTrans.remove(stockName);
+				} else {
+					Double pricePerShare = initialAmount/initialQuant;
+					
+					//Subtract the quantity and the amount to the previous existing values
+					amount = initialAmount - (pricePerShare*quantity);
+					quantity = initialQuant - quantity;
+					
+					//replace with the latest quantity and amount
+					mapValue = quantity.toString()+";"+amount.toString();
+					mapShareTrans.replace(stockName, mapValue);
+				}
 			}
 		}
 		
