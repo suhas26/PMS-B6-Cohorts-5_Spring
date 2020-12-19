@@ -3,6 +3,7 @@ package com.wf.training.bootapprestfulcrud.service;
 import java.util.List;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
@@ -27,6 +28,9 @@ public interface InvestorService {
 	
 	String buySellShares(String stockName, String loginKey, String transactionType, String companyCommodity,
 			int transactionShareCount);
-	ShareTransactionDto findShareTransactionsById(Long shareTransactionId);	
+	
+	ShareTransactionDto findShareTransactionsById(Long shareTransactionId);
+	
+	HomePageOutputDto fetchPortFolioDetails(String loginKey);	
 	
 }

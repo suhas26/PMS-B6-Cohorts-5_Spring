@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
+import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.MoneyInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
@@ -50,7 +51,11 @@ public class InvestorContoller {
 	@RequestMapping(value= {"/home","/dashboard","/index"})
 //	public String home(Principal principal) {
 	public String home(@SessionAttribute("Investor") LoginDto investorLoginDto, Model model) {
+		
+		HomePageOutputDto homePageOutputDto = this.investorService.fetchPortFolioDetails(investorLoginDto.getLoginKey());
+		
 		model.addAttribute("Investor", investorLoginDto);
+		model.addAttribute("homePageOutputDto", homePageOutputDto);
 		return "invHomePage";
 	}
 	
@@ -336,5 +341,5 @@ public class InvestorContoller {
 		
 		return "invShareTransactionTable";
 	}
-
+	
 }

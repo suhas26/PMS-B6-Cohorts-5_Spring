@@ -136,7 +136,7 @@ span{
 	</div>
 	<script>
 		function openNav() {
-			document.getElementById("mySidebar").style.width = "250px";
+			document.getElementById("mySidebar").style.width = "270px";
 			document.getElementById("main").style.marginLeft = "250px";
 		}
 

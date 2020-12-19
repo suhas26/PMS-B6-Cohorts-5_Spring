@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -98,7 +99,7 @@ span{
 		margin-left:15%;
 		position:relative;
 		margin-top:2%;
-		width:10%;
+		width:15%;
 	}
 	#right{
 		position:absolute;
@@ -106,11 +107,13 @@ span{
 		top: 70px;
 		width:10%;
 	}
-	#linkCss:hover{
-		color:red;
+	
+	.card-body{
+		color: Dodgerblue;
 	}
 </style>
 <body>
+	
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 		<a href="${pageContext.request.contextPath}/user/home">Dashboard</a> 
@@ -131,7 +134,7 @@ span{
 			<span class="text-light font-weight-bold">Investor Dashboard</span>
 			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
-		<h4 id=headline>Welcome ${Investor.loginKey}</h4>
+		<h4 id=headline class="card-body">Welcome ${Investor.loginKey}</h4>
 		<div id=right>
 			<label for="currency">Choose a currency:</label>
 			<br>
@@ -145,24 +148,28 @@ span{
 			<div class="row mt-3">
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Current Portfolio value</div>
+						<div class="card-body">Current Portfolio value : 
+						<b class= color><fmt:formatNumber type="number" maxFractionDigits="2" value="${homePageOutputDto.currentPortfolioValue}"/></b></div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Wallet Balance</div>
+						<div class="card-body">Wallet Balance : 
+						<b class= color><fmt:formatNumber type="number" maxFractionDigits="2" value="${homePageOutputDto.balance}"/></b></div>
 					</div>
 				</div>
 			</div>
 			<div class="row mt-3">
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Amount Invested</div>
+						<div class="card-body">Amount Invested : 
+						<b class= color><fmt:formatNumber type="number" maxFractionDigits="2" value="${homePageOutputDto.amountInvested}"/></b></div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Amount Earned</div>
+						<div class="card-body">Amount Earned : 
+						<b class= color><fmt:formatNumber type="number" maxFractionDigits="2" value="${homePageOutputDto.amountEarned}"/></b></div>
 					</div>
 				</div>
 			</div>
@@ -175,7 +182,7 @@ span{
 				<div class="col-md-6">
 					<div class="card">
 						<div class="card-body">
-							<a href="${pageContext.request.contextPath}/user/recentViewCompanies" id="linkCss">Recently Viewed Companies</a>
+							<a href="${pageContext.request.contextPath}/user/recentViewCompanies">Recently Viewed Companies</a>
 						</div>
 					</div>
 				</div>
@@ -184,7 +191,7 @@ span{
 	</div>
 	<script>
 		function openNav() {
-			document.getElementById("mySidebar").style.width = "250px";
+			document.getElementById("mySidebar").style.width = "270px";
 			document.getElementById("main").style.marginLeft = "250px";
 		}
 
@@ -192,7 +199,19 @@ span{
 			document.getElementById("mySidebar").style.width = "0";
 			document.getElementById("main").style.marginLeft = "0";
 		}
+		
+		//This is for portfolio values
+		var elementColor = document.getElementsByClassName("color");
+		for(i=0;i<elementColor.length;i++){
+			if (parseInt(elementColor[i].innerHTML) < 1){
+				elementColor[i].style.color ="red";
+			} else {
+				elementColor[i].style.color ="#24a234";
+			}
+		}
+		
 	</script>
-
+	
+	
 </body>
 </html>

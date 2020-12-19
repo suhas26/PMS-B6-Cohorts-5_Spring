@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wf.training.bootapprestfulcrud.dto.BackOfficeLoginDto;
+import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
@@ -41,7 +42,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/logout")
-	public String logout(@ModelAttribute("investorLoginDto") LoginDto investorLoginDto, Model model) {
+	public String logout(@ModelAttribute("investorLoginDto") LoginDto investorLoginDto, Model model,HttpSession session) {
 		model.addAttribute("Message", "Logged out successfully");
 		return "invLogin";
 	}
@@ -129,6 +130,8 @@ public class HomeController {
 		boolean status = this.investorService.validateInvestor(investorLoginDto);
 		newSession.setAttribute("Investor", investorLoginDto);
 		if (status==true) {
+			HomePageOutputDto homePageOutputDto = this.investorService.fetchPortFolioDetails(investorLoginDto.getLoginKey());
+			model.addAttribute("homePageOutputDto", homePageOutputDto);
 			return "invHomePage";
 		}else {
 			model.addAttribute("Message", "Invalid Credentials");

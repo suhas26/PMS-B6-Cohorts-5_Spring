@@ -338,6 +338,12 @@ public class InvestorServiceImp implements InvestorService {
 	@Override
 	public String withdrawMoneyFromWallet(String loginKey, double amount) {
 		
+		double existingBalance = this.getWalletBalance(loginKey);
+		
+		if (existingBalance < amount) {
+			return "Balance is less";
+		}
+		
 		InvestorWalletTransaction walletTransaction = this.convertLoginKeyAmountToWalletTransactionEntity(loginKey, "Debit", amount, 0);
 		
 		InvestorWalletTransaction newWalletTransaction = this.walletTransactionRepository.save(walletTransaction);
@@ -526,25 +532,22 @@ public class InvestorServiceImp implements InvestorService {
 	//************************************************************
 	//Home Page Output showing the Portfolio value, Wallet Balance 
 	//************************************************************
-	
-	public HomePageOutputDto fetchInvestorDetails(String loginKey) {
-		HomePageOutputDto homePageOutputDto = new HomePageOutputDto();
+	@Override
+	public HomePageOutputDto fetchPortFolioDetails(String loginKey) {
 		
-//		homePageOutputDto.setAmountEarned(amountEarned);
-//		homePageOutputDto.setAmountInvested(amountInvested);
-//		homePageOutputDto.setBalance(balance);
-//		homePageOutputDto.setCurrentPortfolioValue(currentPortfolioValue);
-		
+		HomePageOutputDto homePageOutputDto = this.convertLoginKeyToHomePageOutputDto(loginKey);
+
 		return homePageOutputDto;
 	}
 	
+	//Conversion of the login key to Home page output Dto
 	public HomePageOutputDto convertLoginKeyToHomePageOutputDto(String loginKey) {
 		double amountEarned = 0d;
 		double amountInvested = 0d;
 		double balance = 0d;
 		double currentPortfolioValue = 0d;
-		
 		Map<String,String> mapShareTrans = new HashMap<String,String>();
+		HomePageOutputDto homePageOutputDto = new HomePageOutputDto();
 		
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
@@ -565,11 +568,14 @@ public class InvestorServiceImp implements InvestorService {
 			}
 		}
 		
+		//Share Quantity and Amount Calculation
 		for (ShareTransaction sTrans:shareTrans) {
+			String mapValue = "";
 			Integer quantity = sTrans.getTransactionShareCount();
 			Double amount = sTrans.getTransactionAmount();
 			String stockName = sTrans.getStockName();
-			String mapValue = "";
+			String companyCommodity = sTrans.getCompanyCommodity();
+			
 			if (sTrans.getTransactionType().equalsIgnoreCase("Buy")) {
 				if (mapShareTrans.containsKey(stockName)) {
 					//If the key is present then get the previous values
@@ -582,12 +588,12 @@ public class InvestorServiceImp implements InvestorService {
 					amount = initialAmount+amount;
 					
 					//replace with the latest quantity and amount
-					mapValue = quantity.toString()+";"+amount.toString();
+					mapValue = quantity.toString()+";"+amount.toString()+";"+companyCommodity;
 					mapShareTrans.replace(stockName, mapValue);
 					
 				} else {
 					//Store in Map with key as Stock name and Value as String of quantity and amount
-					mapValue = quantity.toString()+";"+amount.toString();
+					mapValue = quantity.toString()+";"+amount.toString()+";"+companyCommodity;
 					mapShareTrans.put(stockName, mapValue);
 				}
 			} else if (sTrans.getTransactionType().equalsIgnoreCase("Sell")) {
@@ -606,13 +612,42 @@ public class InvestorServiceImp implements InvestorService {
 					quantity = initialQuant - quantity;
 					
 					//replace with the latest quantity and amount
-					mapValue = quantity.toString()+";"+amount.toString();
+					mapValue = quantity.toString()+";"+amount.toString()+";"+companyCommodity;
 					mapShareTrans.replace(stockName, mapValue);
 				}
 			}
 		}
 		
-		return null;
+		//Calculate amountInvested and currentPortfolioValue
+		for (String key:mapShareTrans.keySet()) {
+			//Get the previous values
+			String[] mapArrayValue = mapShareTrans.get(key).split(";");
+			Integer stockQuant = Integer.parseInt(mapArrayValue[0]);
+			Double stockAmount = Double.parseDouble(mapArrayValue[1]);
+			double currentPrice = 0;
+			
+			amountInvested = amountInvested + stockAmount;
+			
+			if (mapArrayValue[2].equalsIgnoreCase("Company")) {
+				Company company = this.companyRepository.findBycompanyTitle(key).orElse(null);
+				currentPrice =  company.getSharePrice();
+			} else if (mapArrayValue[2].equalsIgnoreCase("Commodity")) {
+				Commodity commodity = this.commodityRepository.findByCommodityName(key);
+				currentPrice =  commodity.getPrice();
+			}
+			currentPortfolioValue = currentPortfolioValue + (currentPrice*stockQuant);
+		}
+		
+		//Amount Earned
+		amountEarned = currentPortfolioValue - amountInvested;
+		
+		//Push all the values to the DTO
+		homePageOutputDto.setAmountEarned(amountEarned);
+		homePageOutputDto.setAmountInvested(amountInvested);
+		homePageOutputDto.setBalance(balance);
+		homePageOutputDto.setCurrentPortfolioValue(currentPortfolioValue);
+		
+		return homePageOutputDto;
 	}
 	
 }
