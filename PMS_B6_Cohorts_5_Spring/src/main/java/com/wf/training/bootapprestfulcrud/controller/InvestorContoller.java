@@ -121,12 +121,16 @@ public class InvestorContoller {
 	}
 	
 	@RequestMapping("/searchCompany")
-	public String company(@ModelAttribute("company") SearchCompanyDto company) {
+	public String company(@ModelAttribute("company") SearchCompanyDto company, Model model) {
+		List<CompanyDto> companyDto= this.companyService.fetchAllCompanies();
+		model.addAttribute("companyDto", companyDto);
 		return "invSearchCompany";
 	}
 	
 	@RequestMapping("/searchCommodity")
-	public String commodity(@ModelAttribute("commodity") SearchCommodityDto commodity) {
+	public String commodity(@ModelAttribute("commodity") SearchCommodityDto commodity, Model model) {
+		List<CommodityDto> commodityDto = this.commodityService.fetchAllCommodities();
+		model.addAttribute("commodityDto", commodityDto);
 		return "invSearchCommodity";
 	}
 	
@@ -175,6 +179,16 @@ public class InvestorContoller {
 		
 		model.addAttribute("searchCompany",searchCompany);
 		return "invCompanyPage";
+	}
+	
+	@RequestMapping("/commodity/{commodityName}")
+	public String searchCommodityByName(@PathVariable("commodityName") String commodityName, Model model,
+			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+
+		CommodityDto commodityDto = this.commodityService.fetchSingleCommodityByName(commodityName);
+		
+		model.addAttribute("commodityDto",commodityDto);
+		return "invCommodityPage";
 	}
 	
 	@RequestMapping("/buyCompany/{stockName}")

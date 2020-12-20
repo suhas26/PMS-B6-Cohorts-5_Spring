@@ -56,6 +56,7 @@ public class CompanyServiceImp implements CompanyService {
 		companyOutputCompany.setDateTimeIPO(company.getDateTimeIPO());
 		companyOutputCompany.setStockExchange(company.getStockExchange());
 		companyOutputCompany.setIpoPrice(company.getIpoPrice());
+		System.out.println(company.getCompanyCode());
 		 
 		return companyOutputCompany;
 	}

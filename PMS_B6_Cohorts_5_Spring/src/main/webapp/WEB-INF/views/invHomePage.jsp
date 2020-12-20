@@ -130,9 +130,9 @@ span{
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
+			<div><a href="${pageContext.request.contextPath}/user/home" class="text-light font-weight-bold" id="primaryNavigators">Home</a></div>
 			<span class="text-light font-weight-bold">Investor Dashboard</span>
-			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/logout" class="text-light font-weight-bold" id="primaryNavigators">Logout</a></div>
 		</nav>
 		<h4 id=headline class="card-body">Welcome ${Investor.loginKey}</h4>
 		<div id=right>
