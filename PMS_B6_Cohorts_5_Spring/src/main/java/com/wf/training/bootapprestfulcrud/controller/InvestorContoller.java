@@ -49,7 +49,6 @@ public class InvestorContoller {
 
 	//dashboard for user
 	@RequestMapping(value= {"/home","/dashboard","/index"})
-//	public String home(Principal principal) {
 	public String home(@SessionAttribute("Investor") LoginDto investorLoginDto, Model model) {
 		
 		HomePageOutputDto homePageOutputDto = this.investorService.fetchPortFolioDetails(investorLoginDto.getLoginKey());
@@ -61,16 +60,10 @@ public class InvestorContoller {
 	
 	@RequestMapping()
 	public String defaultResponse() {
-		// return "user-base";
 		return "redirect:/user/home";
 	}
 	
-	@RequestMapping("/profile-entry")
-	public String profileEntry(Model model) {
-		return "employee-profile-entry";
-	}
-	
-	
+	//****************************Wallet*****************************************************
 	@RequestMapping("/wallet")
 	public String wallet(@SessionAttribute("Investor") LoginDto investorLoginDto, Model model) {
 		WalletDto walletDto = this.investorService.fetchWalletDetails(investorLoginDto.getLoginKey());
@@ -80,20 +73,33 @@ public class InvestorContoller {
 		return "invWallet";
 	}
 	
+	//****************************Money to be Added*****************************************************
 	@RequestMapping("/returnAddmoney")
-	public String returnAddMoney(@ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto) {
+	public String returnAddMoney(@ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto, 
+			@SessionAttribute("Investor") LoginDto investorLoginDto,
+			Model model) {
+		WalletDto walletDto = this.investorService.fetchWalletDetails(investorLoginDto.getLoginKey());
+		model.addAttribute("walletDto", walletDto);
 		return "invAddMoneyPage";
 	}
 	
+	//****************************Money to be Withdrawn*****************************************************
 	@RequestMapping("/returnWithdrawmoney")
-	public String returnWithdrawMoney(@ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto) {
+	public String returnWithdrawMoney(@ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto,
+			@SessionAttribute("Investor") LoginDto investorLoginDto,
+			Model model) {
+		WalletDto walletDto = this.investorService.fetchWalletDetails(investorLoginDto.getLoginKey());
+		model.addAttribute("walletDto", walletDto);
 		return "invWithdrawMoneyPage";
 	}
 	
+	//****************************Add Money*****************************************************
 	@RequestMapping("/addmoney")
 	public String walletAddMoney(@Valid @ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto,BindingResult result, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
 		
+		WalletDto walletDto = this.investorService.fetchWalletDetails(investorLoginDto.getLoginKey());
+		model.addAttribute("walletDto", walletDto);
 		if(result.hasErrors()) {
 			return "invAddMoneyPage";
 		}
@@ -105,9 +111,12 @@ public class InvestorContoller {
 		return "invAddMoneyPage";
 	}
 	
+	//****************************Withdraw Money*****************************************************
 	@RequestMapping("/withdrawmoney")
 	public String walletWithdrawMoney(@Valid @ModelAttribute("moneyInputDto") MoneyInputDto moneyInputDto,BindingResult result, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
+		WalletDto walletDto = this.investorService.fetchWalletDetails(investorLoginDto.getLoginKey());
+		model.addAttribute("walletDto", walletDto);
 		
 		if(result.hasErrors()) {
 			return "invWithdrawMoneyPage";
@@ -120,6 +129,7 @@ public class InvestorContoller {
 		return "invWithdrawMoneyPage";
 	}
 	
+	//****************************Search Company*****************************************************
 	@RequestMapping("/searchCompany")
 	public String company(@ModelAttribute("company") SearchCompanyDto company, Model model) {
 		List<CompanyDto> companyDto= this.companyService.fetchAllCompanies();
@@ -127,6 +137,7 @@ public class InvestorContoller {
 		return "invSearchCompany";
 	}
 	
+	//****************************Search Commodity*****************************************************
 	@RequestMapping("/searchCommodity")
 	public String commodity(@ModelAttribute("commodity") SearchCommodityDto commodity, Model model) {
 		List<CommodityDto> commodityDto = this.commodityService.fetchAllCommodities();
@@ -134,6 +145,7 @@ public class InvestorContoller {
 		return "invSearchCommodity";
 	}
 	
+	//****************************Company*****************************************************
 	@RequestMapping("/searchCompanyName")
 	public String searchCompanyName(@Valid @ModelAttribute("company") SearchCompanyDto company, BindingResult result, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
@@ -151,6 +163,7 @@ public class InvestorContoller {
 		return "invCompanyPage";
 	}
 	
+	//****************************Commodity*****************************************************
 	@RequestMapping("/commodity")
 	public String searchCommodityName(@Valid @ModelAttribute("commodity") SearchCommodityDto searchCommodityDto, BindingResult result,
 			Model model) {
@@ -170,6 +183,7 @@ public class InvestorContoller {
 		return "invCommodityPage";
 	}
 	
+	//****************************Company Page*****************************************************
 	@RequestMapping("/company/{companyTitle}")
 	public String searchCompanyByName(@PathVariable("companyTitle") String companyTitle, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
@@ -181,6 +195,7 @@ public class InvestorContoller {
 		return "invCompanyPage";
 	}
 	
+	//****************************Commodity Page*****************************************************
 	@RequestMapping("/commodity/{commodityName}")
 	public String searchCommodityByName(@PathVariable("commodityName") String commodityName, Model model,
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
@@ -191,12 +206,16 @@ public class InvestorContoller {
 		return "invCommodityPage";
 	}
 	
+	//****************************Buy Page*****************************************************
 	@RequestMapping("/buyCompany/{stockName}")
 	public String returnBuyPage(@PathVariable("stockName") String companyName, Model model,
 			@ModelAttribute("shareCount") ShareCountInputDto shareCount) {
 		model.addAttribute("stockName", companyName);
 		model.addAttribute("commodtiyCompany", "Company");
 		model.addAttribute("transactionType", "Buy");
+		CompanyDto companyDto = this.companyService.fetchSingleCompanyByName(companyName);
+		
+		model.addAttribute("stockDto",companyDto);
 		return "invBuySellPage";
 	}
 	

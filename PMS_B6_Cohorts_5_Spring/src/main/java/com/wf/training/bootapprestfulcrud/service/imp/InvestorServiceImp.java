@@ -341,7 +341,7 @@ public class InvestorServiceImp implements InvestorService {
 		double existingBalance = this.getWalletBalance(loginKey);
 		
 		if (existingBalance < amount) {
-			return "Balance is less";
+			return "Balance is lesser than Withdrawal amount";
 		}
 		
 		InvestorWalletTransaction walletTransaction = this.convertLoginKeyAmountToWalletTransactionEntity(loginKey, "Debit", amount, 0);
@@ -349,10 +349,10 @@ public class InvestorServiceImp implements InvestorService {
 		InvestorWalletTransaction newWalletTransaction = this.walletTransactionRepository.save(walletTransaction);
 		
 		if (newWalletTransaction==null) {
-			return "Error in Withdraw Money";
+			return "Error in Withdrawal of Money";
 		}
 		
-		return "Withdraw "+amount+" Money Successfully";
+		return "Withdrawal of "+amount+" Successfully";
 	}
 	
 	//Fetch all transactions

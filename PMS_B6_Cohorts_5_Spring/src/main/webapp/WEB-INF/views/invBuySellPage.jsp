@@ -126,9 +126,15 @@ span{
 			<spring:form action="${pageContext.request.contextPath}/user/${transactionType}${commodtiyCompany}Shares/${stockName}" method="post" modelAttribute="shareCount">
 				<spring:label path="shareCount">Enter the ${transactionType} quantity for ${stockName}</spring:label>
 				<br>
-				<spring:input type="text" path="shareCount" placeholder="Enter Stock Amount"></spring:input>
+				<spring:input type="text" path="shareCount" id="quantity" placeholder="Enter Stock Amount"></spring:input>
 				<br>
 				<spring:errors path="shareCount" cssClass="error" id="errors"/>
+				<br>
+				<label>${commodtiyCompany} Name : <b>${stockName}</b></label>
+				<br>
+				<label>Current Price : <b id=currentPrice>${stockDto.sharePrice}</b></label>
+				<br>
+				<label>Total Amount : <b id="totalAmount"></b></label>
 				<hr/>
 				<button type=Submit name=Submit>${transactionType}</button>
 			</spring:form>
@@ -144,6 +150,10 @@ span{
 			document.getElementById("mySidebar").style.width = "0";
 			document.getElementById("main").style.marginLeft = "0";
 		}
+		
+		document.getElementById("totalAmount").innerHTML = 
+			(document.getElementById("quantity").value)*
+			(parseInt(document.getElementById("currentPrice").innerHTML));
 	</script>
 
 </body>

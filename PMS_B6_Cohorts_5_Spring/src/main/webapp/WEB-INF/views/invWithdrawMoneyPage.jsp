@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>   
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="spring" %> 
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,6 +125,10 @@ span{
 		<h4 id="errors" class="search">${message}</h4>
 		<div class="search">
 			<spring:form action="${pageContext.request.contextPath}/user/withdrawmoney" method="post" modelAttribute="moneyInputDto">
+				<spring:label path="amount">
+				<b>Current balance is : <fmt:formatNumber type="number" maxFractionDigits="2" value="${walletDto.balance}"/></b>
+				</spring:label>
+				<br>
 				<spring:input type="text" path="amount" placeholder="Enter Amount"></spring:input>
 				<br>
 				<spring:errors path="amount" cssClass="error" id="errors"/>
