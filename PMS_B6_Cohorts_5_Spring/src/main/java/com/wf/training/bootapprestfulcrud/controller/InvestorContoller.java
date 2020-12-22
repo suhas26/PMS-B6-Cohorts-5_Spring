@@ -225,7 +225,8 @@ public class InvestorContoller {
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
 		model.addAttribute("commodtiyCompany", "Company");
 		model.addAttribute("transactionType", "Buy");
-		
+		CompanyDto companyDto = this.companyService.fetchSingleCompanyByName(companyName);
+		model.addAttribute("stockDto",companyDto);
 		if (result.hasErrors()) {
 			return "invBuySellPage";
 		}
@@ -243,6 +244,8 @@ public class InvestorContoller {
 		model.addAttribute("companyTitle", companyName);
 		model.addAttribute("commodtiyCompany", "Company");
 		model.addAttribute("transactionType", "Sell");
+		CompanyDto companyDto = this.companyService.fetchSingleCompanyByName(companyName);
+		model.addAttribute("stockDto",companyDto);
 		
 		return "invBuySellPage";
 	}
@@ -253,6 +256,8 @@ public class InvestorContoller {
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
 		model.addAttribute("commodtiyCompany", "Company");
 		model.addAttribute("transactionType", "Sell");
+		CompanyDto companyDto = this.companyService.fetchSingleCompanyByName(companyName);
+		model.addAttribute("stockDto",companyDto);
 		if (result.hasErrors()) {
 			return "invBuySellPage";
 		}
@@ -267,7 +272,6 @@ public class InvestorContoller {
 	
 	@RequestMapping("/historicalPrices/{companyCode}")
 	public String companyHistoricalPrice(@PathVariable("companyCode") Long companyCode, Model model) {
-		System.out.println("Company");
 		List<CompanyHistoricalDataOutputDto> companyHistoricalDataOutputDto = 
 				this.historicalService.fetchSingleByCompanyId(companyCode);
 		
@@ -282,8 +286,6 @@ public class InvestorContoller {
 		
 		model.addAttribute("commodityHistoricalDto", commodityHistoricalDto);
 		model.addAttribute("commodityTitle", commodityTitle);
-		System.out.println(commodityHistoricalDto.get(0).getCommodityPrice());
-		System.out.println(commodityHistoricalDto.get(0).getCommodityId());
 		return "invCommodityHistoricalPrices";
 	}
 	
@@ -312,6 +314,8 @@ public class InvestorContoller {
 		model.addAttribute("stockName", commodityName);
 		model.addAttribute("commodtiyCompany", "Commodity");
 		model.addAttribute("transactionType", "Buy");
+		CommodityDto stockDto = this.commodityService.fetchSingleCommodityByName(commodityName);
+		model.addAttribute("stockDto", stockDto);
 		return "invBuySellPage";
 	}
 	
@@ -321,6 +325,8 @@ public class InvestorContoller {
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
 		model.addAttribute("commodtiyCompany", "Commodity");
 		model.addAttribute("transactionType", "Buy");
+		CommodityDto stockDto = this.commodityService.fetchSingleCommodityByName(commodityName);
+		model.addAttribute("stockDto", stockDto);
 		
 		if (result.hasErrors()) {
 			return "invBuySellPage";
@@ -339,6 +345,8 @@ public class InvestorContoller {
 		model.addAttribute("commodityTitle", commodityName);
 		model.addAttribute("commodtiyCompany", "Commodity");
 		model.addAttribute("transactionType", "Sell");
+		CommodityDto stockDto = this.commodityService.fetchSingleCommodityByName(commodityName);
+		model.addAttribute("stockDto", stockDto);
 		
 		return "invBuySellPage";
 	}
@@ -349,6 +357,8 @@ public class InvestorContoller {
 			@SessionAttribute("Investor") LoginDto investorLoginDto) {
 		model.addAttribute("commodtiyCompany", "Commodity");
 		model.addAttribute("transactionType", "Sell");
+		CommodityDto stockDto = this.commodityService.fetchSingleCommodityByName(commodityName);
+		model.addAttribute("stockDto", stockDto);
 		if (result.hasErrors()) {
 			return "invBuySellPage";
 		}

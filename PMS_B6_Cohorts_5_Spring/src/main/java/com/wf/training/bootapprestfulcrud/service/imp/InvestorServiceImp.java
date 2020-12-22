@@ -404,7 +404,11 @@ public class InvestorServiceImp implements InvestorService {
 		InvestorWalletTransaction invWalletTrans =  this.convertShareTransactionToWalletTransactionEntity(shareTransaction);
 		this.walletTransactionRepository.save(invWalletTrans);
 		
-		message = "Transaction was successful";
+		if (shareTransaction.getTransactionType().equalsIgnoreCase("Buy")) {
+			message = "Bought "+transactionShareCount+" shares/units of "+shareTransaction.getStockName()+" successfully";
+		}else {
+			message = "Sold "+transactionShareCount+" shares/units of "+shareTransaction.getStockName()+" successfully";
+		}
 		return message;
 	}
 	
