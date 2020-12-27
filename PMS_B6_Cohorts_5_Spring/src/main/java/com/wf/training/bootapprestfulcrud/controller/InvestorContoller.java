@@ -20,6 +20,7 @@ import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.MoneyInputDto;
+import com.wf.training.bootapprestfulcrud.dto.PortfolioReportDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
@@ -370,7 +371,10 @@ public class InvestorContoller {
 		
 		return "invBuySellPage";
 	}
-
+	
+	//************************************************************
+	//Share Transactions Table
+	//************************************************************
 	@RequestMapping("/shareTransaction/{shareTransId}")
 	public String shareTransactionTable(@PathVariable("shareTransId") Long shareTransactionId, Model model) {
 		
@@ -385,6 +389,10 @@ public class InvestorContoller {
 		return "invShareTransactionTable";
 	}
 	
+	//************************************************************
+	//Earning trend chart
+	//************************************************************
+	
 	@RequestMapping("/earningTrend")
 	public String earningTrend(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model) {
 		
@@ -393,6 +401,19 @@ public class InvestorContoller {
 		model.addAttribute("earnings", earnings);
 		
 		return "invEarningTrend";
+	}
+	
+	//************************************************************
+	//Portfolio Report Data
+	//************************************************************
+	
+	@RequestMapping("/portfolioReport")
+	public String portfolioReport(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model) {
+		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey());
+		
+		model.addAttribute("portfolioReportDto", portfolioReportDto);
+		
+		return "invPortfolioReport";
 	}
 	
 }

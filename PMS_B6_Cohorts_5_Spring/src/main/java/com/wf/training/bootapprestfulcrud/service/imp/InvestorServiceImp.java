@@ -17,6 +17,7 @@ import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.PortfolioReportDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
@@ -730,6 +731,9 @@ public class InvestorServiceImp implements InvestorService {
 		return mapShareTrans;
 	}
 	
+	//************************************************************
+	//Get Earning for 10 weeks
+	//************************************************************
 	@Override
 	public List<Double> getEarningFor10Weeks(String loginKey){
 		
@@ -763,5 +767,59 @@ public class InvestorServiceImp implements InvestorService {
 		}
 		Collections.reverse(weekEarning);
 		return weekEarning;
+	}
+	//************************************************************
+	//Convert Login Key To Portfolio Dto
+	//************************************************************
+	
+	public List<PortfolioReportDto> convertLoginKeyToPortfolioDto(String loginKey){
+		List<PortfolioReportDto> portfolioReportDto = new ArrayList<PortfolioReportDto>();
+		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		Map<String, String> shareQuantAmount = this.getShareQuantityAmount(invWallet);
+		
+		for (String key:shareQuantAmount.keySet()) {
+			PortfolioReportDto portfolioDto = new PortfolioReportDto();
+			String[] mapArrayValue = shareQuantAmount.get(key).split(";");
+			Integer stockQuant = Integer.parseInt(mapArrayValue[0]);
+			Double stockAmount = Double.parseDouble(mapArrayValue[1]);
+			String companyCommodity = mapArrayValue[2];
+			double avgStockPrice = stockAmount/stockQuant;
+			double currentStockPrice = 0;
+			if (companyCommodity.equalsIgnoreCase("Company")) {
+				Company company= this.companyRepository.findBycompanyTitle(key).orElse(null);
+				currentStockPrice = company.getSharePrice();
+			}else {
+				Commodity commodity = this.commodityRepository.findByCommodityName(key);
+				currentStockPrice = commodity.getPrice();
+			}
+			
+			double currentAmount = currentStockPrice*stockQuant;
+			double earning = currentAmount-stockAmount;
+			
+			portfolioDto.setStockName(key);
+			portfolioDto.setAvgStockPrice(avgStockPrice);
+			portfolioDto.setCompanyCommodity(companyCommodity);
+			portfolioDto.setCurrentAmount(currentAmount);
+			portfolioDto.setCurrentStockPrice(currentStockPrice);
+			portfolioDto.setEarning(earning);
+			portfolioDto.setInvestedAmount(stockAmount);
+			portfolioDto.setStockQuantity(stockQuant);
+			
+			portfolioReportDto.add(portfolioDto);
+		}
+		
+		return portfolioReportDto;
+	}
+	
+	//************************************************************
+	//Get Portfolio Dto
+	//************************************************************
+	@Override
+	public List<PortfolioReportDto> getPortfolioReport(String loginKey){
+		
+		List<PortfolioReportDto> portfolioReportDto= this.convertLoginKeyToPortfolioDto(loginKey);
+		
+		return portfolioReportDto;
 	}
 }

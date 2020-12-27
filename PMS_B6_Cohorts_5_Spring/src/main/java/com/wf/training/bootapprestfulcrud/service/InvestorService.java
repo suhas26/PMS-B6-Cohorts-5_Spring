@@ -1,12 +1,12 @@
 package com.wf.training.bootapprestfulcrud.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.PortfolioReportDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
@@ -29,6 +29,7 @@ public interface InvestorService {
 	ShareTransactionDto findShareTransactionsById(Long shareTransactionId);
 	
 	HomePageOutputDto fetchPortFolioDetails(String loginKey);
-	List<Double> getEarningFor10Weeks(String loginKey);	
+	List<Double> getEarningFor10Weeks(String loginKey);
+	List<PortfolioReportDto> getPortfolioReport(String loginKey);	
 	
 }
