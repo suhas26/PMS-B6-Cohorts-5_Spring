@@ -176,7 +176,9 @@ span{
 			<div class="row mt-3">
 				<div class="col-md-6">
 					<div class="card">
-						<div class="card-body">Earning Trend Week for past 10 weeks</div>
+						<div class="card-body">
+						<a href="${pageContext.request.contextPath}/user/earningTrend">Earning Trend Week for past 10 weeks</a>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-6">

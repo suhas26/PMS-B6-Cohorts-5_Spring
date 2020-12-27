@@ -7,11 +7,50 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Search Commodity Page</title>
+<title>Earning Trend Page</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+	    google.charts.load('current', {'packages':['corechart']});
+	    google.charts.setOnLoadCallback(drawChart);
+	
+	    function drawChart() {
+	      /*var data = google.visualization.arrayToDataTable([
+	        ['Date',  'Earning'],
+	        ['2004',   400],
+	        ['2005',    460],
+	        ['2006',     1120],
+	        ['2007',     540]
+	      ]);*/
+        
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Week');
+        data.addColumn('number', 'Earning');
+
+        data.addRows([
+	       	 <core:forEach items="${earnings}" begin="0" end="10" var="item" varStatus="loop">
+		          ['Week${loop.index+1}',  ${item}],
+	         </core:forEach>
+		         /* ['2004',  1000],
+		          ['2005',  1170],
+		          ['2006',  660],
+		          ['2007',  1030]*/
+        ]);
+
+        var options = {
+          title: 'Earning Trend',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 </head>
 <style>
 body {
@@ -130,42 +169,11 @@ table, th, td {
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<span class="text-light font-weight-bold">Search Commodity</span>
+			<span class="text-light font-weight-bold">Earning Trend</span>
 			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
 		</nav>
-		<h4 id="errors" class="search">${message}</h4>
-		<div class="search">
-			<spring:form action="${pageContext.request.contextPath}/user/commodity" method="post" modelAttribute="commodity">
-				<spring:input type="search" path="commodityName" placeholder="Search Commodity Name"></spring:input>
-				<button type=Submit name=Submit>Submit</button>
-				<br>
-				<spring:errors path="commodityName" cssClass="error" id="errors"/>
-			</spring:form>
-		</div>
 	</div>
-	<hr/>
-	<div class="search">
-		<table>
-			<thead>
-				<tr>
-					<td>Commodity ID</td>
-					<td>Commodity Name</td>
-					<td>Unit Price</td>
-				</tr>
-			</thead>
-			<tbody>
-				<core:forEach var="commodity" begin="0" end="10" items="${commodityDto}">
-					<tr>
-						<td>${commodity.commodityId}</td>
-						<td>
-						<a href ="${pageContext.request.contextPath}/user/commodity/${commodity.commodityName}">${commodity.commodityName}</a>
-						</td>
-						<td>${commodity.price}</td>
-					</tr>
-				</core:forEach>
-			</tbody>
-		</table>
-	</div>
+	<div id="curve_chart" style="width: 1100px; height: 500px"></div>
 	<script>
 		function openNav() {
 			document.getElementById("mySidebar").style.width = "270px";

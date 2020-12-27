@@ -1,8 +1,8 @@
 package com.wf.training.bootapprestfulcrud.controller;
 
-
 //import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -383,6 +383,16 @@ public class InvestorContoller {
 		model.addAttribute("shareTransactionDto", shareTransactionDto);
 		
 		return "invShareTransactionTable";
+	}
+	
+	@RequestMapping("/earningTrend")
+	public String earningTrend(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model) {
+		
+		List<Double> earnings = this.investorService.getEarningFor10Weeks(investorLoginDto.getLoginKey());
+		
+		model.addAttribute("earnings", earnings);
+		
+		return "invEarningTrend";
 	}
 	
 }

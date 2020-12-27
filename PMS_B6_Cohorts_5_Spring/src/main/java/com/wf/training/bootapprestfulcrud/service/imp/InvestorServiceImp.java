@@ -2,6 +2,9 @@ package com.wf.training.bootapprestfulcrud.service.imp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,8 @@ public class InvestorServiceImp implements InvestorService {
 	@Autowired
 	private CommodityRepository commodityRepository;
 	
+	//************************************************************
+	//************************************************************
 	private Investor convertInvestorDtoToEntity(InvestorDto investorDto) {
 		Investor investor = new Investor();
 		
@@ -71,6 +76,8 @@ public class InvestorServiceImp implements InvestorService {
 		return investor;
 	}
 	
+	//************************************************************
+	//************************************************************
 	private InvestorDto convertInvestorEntityToDto(Investor investor) {
 		InvestorDto investorDto = new InvestorDto();
 		
@@ -87,6 +94,8 @@ public class InvestorServiceImp implements InvestorService {
 		return investorDto;
 	}
 	
+	//************************************************************
+	//************************************************************
 	private RecentlyViewedCompanies convertRecentViewDtoToEntity(LoginDto investorLoginDto, CompanyDto companyDto) {
 		RecentlyViewedCompanies recentlyViewedCompanies = new RecentlyViewedCompanies();
 		
@@ -98,6 +107,8 @@ public class InvestorServiceImp implements InvestorService {
 		return recentlyViewedCompanies;
 	}
 	
+	//************************************************************
+	//************************************************************
 	private CompanyDto convertRecentViewEntityToCompanyDto(RecentlyViewedCompanies recentlyViewedCompanies) {
 		
 		CompanyServiceImp csi = new CompanyServiceImp();
@@ -110,6 +121,8 @@ public class InvestorServiceImp implements InvestorService {
 		
 	}
 	
+	//************************************************************
+	//************************************************************
 	private InvestorWallet convertInvestorDtoToWalletEntity(InvestorDto investorDto) {
 		InvestorWallet investorWallet = new InvestorWallet();
 		
@@ -119,6 +132,8 @@ public class InvestorServiceImp implements InvestorService {
 		return investorWallet;
 	}
 	
+	//************************************************************
+	//************************************************************
 	private InvestorWalletTransaction convertInvestorDtoToWalletTransEntity(InvestorDto investorDto, String transactionType, double amount,
 			long shareTransactionId) {
 		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
@@ -134,16 +149,8 @@ public class InvestorServiceImp implements InvestorService {
 		return investorWalletTransaction;
 	}
 
-	@Override
-	public List<InvestorDto> fetchAllInvestors() {
-		return null;
-	}
-
-	@Override
-	public InvestorDto fetchSingleInvestor(Long id) {
-		return null;
-	}
-
+	//************************************************************
+	//************************************************************
 	@Override
 	public InvestorDto addInvestor(InvestorDto investorDto) {
 		boolean status = this.validateLoginKeyPanPresent(investorDto);
@@ -164,17 +171,9 @@ public class InvestorServiceImp implements InvestorService {
 		
 		return outInvestorDto;
 	}
-
-	@Override
-	public InvestorDto editInvestor(Long id, InvestorDto investorDto) {
-		return null;
-	}
-
-	@Override
-	public InvestorDto deleteInvestor(Long id) {
-		return null;
-	}
 	
+	//************************************************************
+	//************************************************************
 	@Override
 	public RecentlyViewedCompanies addRecentViewCompany(LoginDto investorLoginDto, CompanyDto companyDto) {
 		RecentlyViewedCompanies recentlyViewedCompanies = this.convertRecentViewDtoToEntity(investorLoginDto,companyDto);
@@ -191,6 +190,8 @@ public class InvestorServiceImp implements InvestorService {
 		return newRecentlyViewedCompanies;
 	}
 	
+	//************************************************************
+	//************************************************************
 	@Override
 	public List<CompanyDto> getAllRecentViewCompanies(String loginKey) {
 		List<RecentlyViewedCompanies> recentViewCompanies = this.recentViewRepository.findAllByLoginKey(loginKey).orElse(null);
@@ -205,7 +206,8 @@ public class InvestorServiceImp implements InvestorService {
 		return allRecentCompanies;
 	}
 
-	
+	//************************************************************
+	//************************************************************
 	@Override
 	public boolean validateInvestor(LoginDto investorLoginDto) {
 		boolean status = false;
@@ -220,6 +222,8 @@ public class InvestorServiceImp implements InvestorService {
 		return status;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public boolean validateLoginKeyPanPresent(InvestorDto investorDto) {
 		boolean status = false;
 		Investor investor = this.invRepository.findByLoginKey(investorDto.getLoginKey()).orElse(null);
@@ -237,6 +241,8 @@ public class InvestorServiceImp implements InvestorService {
 		return status;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public double getWalletBalance(String loginKey) {
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
@@ -260,6 +266,8 @@ public class InvestorServiceImp implements InvestorService {
 		return balance;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public WalletDto convertLoginKeyToWalletDto(String loginKey) {
 		WalletDto walletDto = new WalletDto();
 		
@@ -296,6 +304,8 @@ public class InvestorServiceImp implements InvestorService {
 		return walletDto;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public InvestorWalletTransaction convertLoginKeyAmountToWalletTransactionEntity(String loginKey, String transactionType, double amount,
 			long shareTransactionId) {
 		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
@@ -312,13 +322,16 @@ public class InvestorServiceImp implements InvestorService {
 		return investorWalletTransaction;
 	}
 	
+	//************************************************************
+	//************************************************************
 	@Override
 	public WalletDto fetchWalletDetails(String loginKey) {
 		WalletDto walletDto = this.convertLoginKeyToWalletDto(loginKey);
 		return walletDto;
 	}
 	
-	
+	//************************************************************
+	//************************************************************
 	//Add Money
 	@Override
 	public String addMoneyToWallet(String loginKey, double amount) {
@@ -334,7 +347,9 @@ public class InvestorServiceImp implements InvestorService {
 		return "Added "+amount+" Money Successfully";
 	}
 	
+	//************************************************************
 	//WithDraw Money
+	//************************************************************
 	@Override
 	public String withdrawMoneyFromWallet(String loginKey, double amount) {
 		
@@ -355,7 +370,9 @@ public class InvestorServiceImp implements InvestorService {
 		return "Withdrawal of "+amount+" Successfully";
 	}
 	
+	//************************************************************
 	//Fetch all transactions
+	//************************************************************
 	@Override
 	public List<WalletTransactionsDto> fetchAllWalletTransactions(String loginKey) {
 		
@@ -364,6 +381,8 @@ public class InvestorServiceImp implements InvestorService {
 		return walletTransactionsDto;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public List<WalletTransactionsDto> convertLoginKeyToWalletTransactionsDto(String loginKey) {
 		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
@@ -377,6 +396,8 @@ public class InvestorServiceImp implements InvestorService {
 		return walletTransactionsDto;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public WalletTransactionsDto convertInvestorWalletTransactionToDto(InvestorWalletTransaction invWalletTransaction) {
 		WalletTransactionsDto walletTransactionsDto = new WalletTransactionsDto();
 		
@@ -388,6 +409,8 @@ public class InvestorServiceImp implements InvestorService {
 		return walletTransactionsDto;
 	}
 	
+	//************************************************************
+	//************************************************************
 	@Override
 	public String buySellShares(String stockName, String loginKey, String transactionType,
 			String companyCommodity, int transactionShareCount) {
@@ -412,12 +435,15 @@ public class InvestorServiceImp implements InvestorService {
 		return message;
 	}
 	
+	//************************************************************
+	//************************************************************
 	public ShareTransaction convertToShareTransactionEntity(String stockName, String loginKey, String transactionType,
 			String companyCommodity, int transactionShareCount) {
 		ShareTransaction shareTransaction = new ShareTransaction();
 		double stockPrice = 0.0d;
 		double transactionAmount = 0.0d;
 		double commission = 0.0d;
+		double earning = 0.0d;
 		
 		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
@@ -437,7 +463,10 @@ public class InvestorServiceImp implements InvestorService {
 				shareTransaction.setCompanyCommodity("Bought shares are less than the Selling shares");
 				return shareTransaction;
 			}
+			
 			commission = (transactionAmount*(0.02));
+			
+			earning = this.getEarning(invWallet, stockName, transactionShareCount, stockPrice, commission);
 		}else {
 			double balance = this.getWalletBalance(loginKey);
 			
@@ -455,10 +484,32 @@ public class InvestorServiceImp implements InvestorService {
 		shareTransaction.setTransactionAmount(transactionAmount);
 		shareTransaction.setCommission(commission);
 		shareTransaction.setDateTime(LocalDateTime.now().toString());
+		shareTransaction.setEarning(earning);
 		
 		return shareTransaction;
 	}
+	//************************************************************
+	//Get Earnings
+	//************************************************************
+	public double getEarning(InvestorWallet invWallet, String stockName, int transactionShareCount, double curStockPrice,
+			double commission) {
+		Map<String, String> mapShareQuantAmount = this.getShareQuantityAmount(invWallet);
+		
+		//Get the previous values
+		String[] mapArrayValue = mapShareQuantAmount.get(stockName).split(";");
+		Integer stockQuant = Integer.parseInt(mapArrayValue[0]);
+		Double stockAmount = Double.parseDouble(mapArrayValue[1]);
+		
+		double previousStockPrice = (stockAmount/stockQuant);
+		
+		double earning = (curStockPrice*transactionShareCount) - (previousStockPrice*transactionShareCount) - commission;
+		
+		return earning;
+	}
 	
+	//************************************************************
+	//Get Shares Balance
+	//************************************************************
 	public int getSharesBalance(String loginKey, String stockName) {
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
@@ -484,6 +535,10 @@ public class InvestorServiceImp implements InvestorService {
 		return  sharesBalance;
 	}
 	
+	//************************************************************
+	//Convert ShareTransaction To WalletTransactionEntity
+	//************************************************************
+	
 	public InvestorWalletTransaction convertShareTransactionToWalletTransactionEntity(ShareTransaction shareTransaction) {
 		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
 		double transactionAmount = 0.0d; 
@@ -502,6 +557,9 @@ public class InvestorServiceImp implements InvestorService {
 		return investorWalletTransaction;
 	}
 	
+	//************************************************************
+	//To find Share Transaction By Id
+	//************************************************************
 	@Override
 	public ShareTransactionDto findShareTransactionsById(Long shareTransactionId) {
 		
@@ -514,6 +572,10 @@ public class InvestorServiceImp implements InvestorService {
 		
 		return shareTransactionDto;
 	}
+	
+	//************************************************************
+	//Share Transaction to Share Entity Dto
+	//************************************************************
 	
 	public ShareTransactionDto convertShareTransactionEntityToDto(ShareTransaction shareTransaction) {
 		
@@ -529,6 +591,7 @@ public class InvestorServiceImp implements InvestorService {
 		shareTransactionDto.setTransactionType(shareTransaction.getTransactionType());
 		shareTransactionDto.setWalletId(shareTransaction.getWalletId());
 		shareTransactionDto.setStockPrice(shareTransaction.getStockPrice());
+		shareTransactionDto.setEarning(shareTransaction.getEarning());
 		
 		return shareTransactionDto;
 	}
@@ -544,7 +607,9 @@ public class InvestorServiceImp implements InvestorService {
 		return homePageOutputDto;
 	}
 	
+	//************************************************************
 	//Conversion of the login key to Home page output Dto
+	//************************************************************
 	public HomePageOutputDto convertLoginKeyToHomePageOutputDto(String loginKey) {
 		double amountEarned = 0d;
 		double amountInvested = 0d;
@@ -557,7 +622,6 @@ public class InvestorServiceImp implements InvestorService {
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
 		
 		List<InvestorWalletTransaction> invWalletTrans = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId()).orElse(null);
-		List<ShareTransaction> shareTrans= this.shareTransRepository.findAllByWalletId(invWallet.getWalletId());
 		
 		//Balance calculation
 		for (InvestorWalletTransaction wallTran:invWalletTrans) {
@@ -571,6 +635,48 @@ public class InvestorServiceImp implements InvestorService {
 				balance = balance + wallTran.getAmount();
 			}
 		}
+		
+		//Share Quantity and Amount Calculation
+		mapShareTrans = this.getShareQuantityAmount(invWallet);
+		
+		//Calculate amountInvested and currentPortfolioValue
+		for (String key:mapShareTrans.keySet()) {
+			//Get the previous values
+			String[] mapArrayValue = mapShareTrans.get(key).split(";");
+			Integer stockQuant = Integer.parseInt(mapArrayValue[0]);
+			Double stockAmount = Double.parseDouble(mapArrayValue[1]);
+			double currentPrice = 0;
+			
+			amountInvested = amountInvested + stockAmount;
+			
+			if (mapArrayValue[2].equalsIgnoreCase("Company")) {
+				Company company = this.companyRepository.findBycompanyTitle(key).orElse(null);
+				currentPrice =  company.getSharePrice();
+			} else if (mapArrayValue[2].equalsIgnoreCase("Commodity")) {
+				Commodity commodity = this.commodityRepository.findByCommodityName(key);
+				currentPrice =  commodity.getPrice();
+			}
+			currentPortfolioValue = currentPortfolioValue + (currentPrice*stockQuant);
+		}
+		
+		//Amount Earned
+		amountEarned = currentPortfolioValue - amountInvested;
+		
+		//Push all the values to the DTO
+		homePageOutputDto.setAmountEarned(amountEarned);
+		homePageOutputDto.setAmountInvested(amountInvested);
+		homePageOutputDto.setBalance(balance);
+		homePageOutputDto.setCurrentPortfolioValue(currentPortfolioValue);
+		
+		return homePageOutputDto;
+	}
+	
+	//************************************************************
+	//Get Shares Quantity and Amount
+	//************************************************************
+	public Map<String, String> getShareQuantityAmount(InvestorWallet invWallet){
+		Map<String,String> mapShareTrans = new HashMap<String,String>();
+		List<ShareTransaction> shareTrans= this.shareTransRepository.findAllByWalletId(invWallet.getWalletId());
 		
 		//Share Quantity and Amount Calculation
 		for (ShareTransaction sTrans:shareTrans) {
@@ -621,37 +727,41 @@ public class InvestorServiceImp implements InvestorService {
 				}
 			}
 		}
-		
-		//Calculate amountInvested and currentPortfolioValue
-		for (String key:mapShareTrans.keySet()) {
-			//Get the previous values
-			String[] mapArrayValue = mapShareTrans.get(key).split(";");
-			Integer stockQuant = Integer.parseInt(mapArrayValue[0]);
-			Double stockAmount = Double.parseDouble(mapArrayValue[1]);
-			double currentPrice = 0;
-			
-			amountInvested = amountInvested + stockAmount;
-			
-			if (mapArrayValue[2].equalsIgnoreCase("Company")) {
-				Company company = this.companyRepository.findBycompanyTitle(key).orElse(null);
-				currentPrice =  company.getSharePrice();
-			} else if (mapArrayValue[2].equalsIgnoreCase("Commodity")) {
-				Commodity commodity = this.commodityRepository.findByCommodityName(key);
-				currentPrice =  commodity.getPrice();
-			}
-			currentPortfolioValue = currentPortfolioValue + (currentPrice*stockQuant);
-		}
-		
-		//Amount Earned
-		amountEarned = currentPortfolioValue - amountInvested;
-		
-		//Push all the values to the DTO
-		homePageOutputDto.setAmountEarned(amountEarned);
-		homePageOutputDto.setAmountInvested(amountInvested);
-		homePageOutputDto.setBalance(balance);
-		homePageOutputDto.setCurrentPortfolioValue(currentPortfolioValue);
-		
-		return homePageOutputDto;
+		return mapShareTrans;
 	}
 	
+	@Override
+	public List<Double> getEarningFor10Weeks(String loginKey){
+		
+		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
+		List<ShareTransaction> listShareTrans= this.shareTransRepository.findAllByWalletIdAndTransactionType(invWallet.getWalletId(), "Sell");
+		List<Double> weekEarning = new ArrayList<Double>();
+		
+		Collections.reverse(listShareTrans);
+		
+		for (int i = 1; i<11;i++) {
+			double earning = 0;
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(Calendar.WEEK_OF_YEAR, -i);
+			LocalDate startDateTime = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+
+			calendar.add(Calendar.WEEK_OF_YEAR, +1);
+			LocalDate endDateTime = LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+			for (ShareTransaction shareTrans: listShareTrans) {
+				LocalDate sellDate = LocalDateTime.parse(shareTrans.getDateTime()).toLocalDate();
+				
+				if (sellDate.compareTo(endDateTime)<=0) {
+					if (sellDate.compareTo(startDateTime)>0) {
+						earning = earning + shareTrans.getEarning();
+					}else {
+						break;
+					}
+				}
+			}
+			weekEarning.add(earning);
+		}
+		Collections.reverse(weekEarning);
+		return weekEarning;
+	}
 }

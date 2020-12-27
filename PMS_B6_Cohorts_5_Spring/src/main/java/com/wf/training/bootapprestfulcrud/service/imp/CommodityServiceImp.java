@@ -65,17 +65,6 @@ public class CommodityServiceImp implements CommodityService {
 			dto.add(this.convertCommodityEntityToOutputDto(c));
 		return dto;
 	}
-//
-//	@Override
-//	public CompanyDto fetchSingleCompany(Long id) {
-//		// fetch record from DB
-//		Company company = this.companyRepository.findById(id).orElse(null);
-//		// convert entity into output dto
-//		CompanyDto companyOutputDto =  this.convertCompanyEntityToOutputDto(company);
-//		return companyOutputDto;
-//	}
-
-//
 
 	@Override
 	public List<String> fetchAllCommodityNames() {
