@@ -2,7 +2,6 @@ package com.wf.training.bootapprestfulcrud.controller;
 
 //import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -20,7 +19,9 @@ import com.wf.training.bootapprestfulcrud.dto.CompanyHistoricalDataOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.MoneyInputDto;
+import com.wf.training.bootapprestfulcrud.dto.PortfolioDto;
 import com.wf.training.bootapprestfulcrud.dto.PortfolioReportDto;
+import com.wf.training.bootapprestfulcrud.dto.ReportTypeInputDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
@@ -404,14 +405,32 @@ public class InvestorContoller {
 	}
 	
 	//************************************************************
-	//Portfolio Report Data
+	//Portfolio Data
 	//************************************************************
 	
 	@RequestMapping("/portfolioReport")
-	public String portfolioReport(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model) {
-		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey());
+	public String portfolio(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model, 
+			@ModelAttribute ReportTypeInputDto reportTypeInputDto) {
+		List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
+		
+		model.addAttribute("portfolioDto", portfolioDto);
+		
+		return "invPortfolio";
+	}
+	
+	//************************************************************
+	//Portfolio Report Data
+	//************************************************************
+	
+	@RequestMapping("/portfolioReportData")
+	public String portfolioReportData(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model, 
+			@ModelAttribute ReportTypeInputDto reportTypeInputDto) {
+		
+		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey(), 
+				reportTypeInputDto);
 		
 		model.addAttribute("portfolioReportDto", portfolioReportDto);
+		System.out.println(portfolioReportDto);
 		
 		return "invPortfolioReport";
 	}

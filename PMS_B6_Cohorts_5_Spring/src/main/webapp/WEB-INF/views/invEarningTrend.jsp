@@ -18,13 +18,6 @@
 	    google.charts.setOnLoadCallback(drawChart);
 	
 	    function drawChart() {
-	      /*var data = google.visualization.arrayToDataTable([
-	        ['Date',  'Earning'],
-	        ['2004',   400],
-	        ['2005',    460],
-	        ['2006',     1120],
-	        ['2007',     540]
-	      ]);*/
         
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Week');
@@ -34,10 +27,6 @@
 	       	 <core:forEach items="${earnings}" begin="0" end="10" var="item" varStatus="loop">
 		          ['Week${loop.index+1}',  ${item}],
 	         </core:forEach>
-		         /* ['2004',  1000],
-		          ['2005',  1170],
-		          ['2006',  660],
-		          ['2007',  1030]*/
         ]);
 
         var options = {
@@ -158,7 +147,7 @@ table, th, td {
 		<a href="${pageContext.request.contextPath}/user/searchCompany">Search Company</a>
 		<a href="${pageContext.request.contextPath}/user/searchCommodity">Search Commodity</a> 
 		<a href="#">Sector</a>
-		<a href="#">Portfolio Report</a> 
+		<a href="${pageContext.request.contextPath}/user/portfolioReport">Portfolio Report</a> 
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
 	</div>
 	<div id="main">

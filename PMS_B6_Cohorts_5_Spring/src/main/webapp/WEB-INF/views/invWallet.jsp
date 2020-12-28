@@ -85,7 +85,6 @@
 					<th scope="col" colspan="1">Wallet ID</th>
 					<th scope="col" colspan="1">Investor ID</th>
 					<th scope="col" colspan="1">Investor Name</th>
-					<th scope="col" colspan="1">Amount invested</th>
 					<th scope="col" colspan="1">Wallet Balance</th>
 				</tr>
 			</thead>
@@ -94,7 +93,6 @@
 					<td>${walletDto.walletId}</td>
 					<td>${walletDto.investorID}</td>
 					<td>${walletDto.fullName}</td>
-					<td><fmt:formatNumber type="number" maxFractionDigits="2" value="${walletDto.amount}"/></td>
 					<td><fmt:formatNumber type="number" maxFractionDigits="2" value="${walletDto.balance}"/></td>
 				</tr>
 			</tbody>

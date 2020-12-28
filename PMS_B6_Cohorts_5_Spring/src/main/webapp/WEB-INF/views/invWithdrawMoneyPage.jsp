@@ -107,7 +107,7 @@ span{
 		<a href="${pageContext.request.contextPath}/user/searchCompany">Search Company</a>
 		<a href="${pageContext.request.contextPath}/user/searchCommodity">Search Commodity</a> 
 		<a href="#">Sector</a>
-		<a href="#">Portfolio Report</a> 
+		<a href="${pageContext.request.contextPath}/user/portfolioReport">Portfolio Report</a> 
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
 	</div>
 	<div id="main">

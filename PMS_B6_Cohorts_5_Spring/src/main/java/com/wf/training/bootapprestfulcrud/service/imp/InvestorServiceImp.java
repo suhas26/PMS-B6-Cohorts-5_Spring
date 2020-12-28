@@ -17,7 +17,9 @@ import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.HomePageOutputDto;
 import com.wf.training.bootapprestfulcrud.dto.InvestorDto;
 import com.wf.training.bootapprestfulcrud.dto.LoginDto;
+import com.wf.training.bootapprestfulcrud.dto.PortfolioDto;
 import com.wf.training.bootapprestfulcrud.dto.PortfolioReportDto;
+import com.wf.training.bootapprestfulcrud.dto.ReportTypeInputDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletTransactionsDto;
@@ -26,6 +28,7 @@ import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.Investor;
 import com.wf.training.bootapprestfulcrud.entity.InvestorWallet;
 import com.wf.training.bootapprestfulcrud.entity.InvestorWalletTransaction;
+import com.wf.training.bootapprestfulcrud.entity.PortfolioReport;
 import com.wf.training.bootapprestfulcrud.entity.RecentlyViewedCompanies;
 import com.wf.training.bootapprestfulcrud.entity.ShareTransaction;
 import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
@@ -33,6 +36,7 @@ import com.wf.training.bootapprestfulcrud.repository.CompanyRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvWalletTransactionRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvestorRepository;
 import com.wf.training.bootapprestfulcrud.repository.InvestorWalletRepository;
+import com.wf.training.bootapprestfulcrud.repository.PortfolioReportRepository;
 import com.wf.training.bootapprestfulcrud.repository.RecentViewCompRepository;
 import com.wf.training.bootapprestfulcrud.repository.ShareTransactionRepository;
 import com.wf.training.bootapprestfulcrud.service.InvestorService;
@@ -59,6 +63,9 @@ public class InvestorServiceImp implements InvestorService {
 	
 	@Autowired
 	private CommodityRepository commodityRepository;
+	
+	@Autowired
+	private PortfolioReportRepository portfolioReportRepository;
 	
 	//************************************************************
 	//************************************************************
@@ -772,14 +779,14 @@ public class InvestorServiceImp implements InvestorService {
 	//Convert Login Key To Portfolio Dto
 	//************************************************************
 	
-	public List<PortfolioReportDto> convertLoginKeyToPortfolioDto(String loginKey){
-		List<PortfolioReportDto> portfolioReportDto = new ArrayList<PortfolioReportDto>();
+	public List<PortfolioDto> convertLoginKeyToPortfolioDto(String loginKey){
+		List<PortfolioDto> listPortfolioDto = new ArrayList<PortfolioDto>();
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
 		Map<String, String> shareQuantAmount = this.getShareQuantityAmount(invWallet);
 		
 		for (String key:shareQuantAmount.keySet()) {
-			PortfolioReportDto portfolioDto = new PortfolioReportDto();
+			PortfolioDto portfolioDto = new PortfolioDto();
 			String[] mapArrayValue = shareQuantAmount.get(key).split(";");
 			Integer stockQuant = Integer.parseInt(mapArrayValue[0]);
 			Double stockAmount = Double.parseDouble(mapArrayValue[1]);
@@ -806,19 +813,68 @@ public class InvestorServiceImp implements InvestorService {
 			portfolioDto.setInvestedAmount(stockAmount);
 			portfolioDto.setStockQuantity(stockQuant);
 			
-			portfolioReportDto.add(portfolioDto);
+			listPortfolioDto.add(portfolioDto);
 		}
 		
-		return portfolioReportDto;
+		return listPortfolioDto;
 	}
 	
 	//************************************************************
 	//Get Portfolio Dto
 	//************************************************************
 	@Override
-	public List<PortfolioReportDto> getPortfolioReport(String loginKey){
+	public List<PortfolioDto> getPortfolio(String loginKey){
 		
-		List<PortfolioReportDto> portfolioReportDto= this.convertLoginKeyToPortfolioDto(loginKey);
+		List<PortfolioDto> portfolioDto= this.convertLoginKeyToPortfolioDto(loginKey);
+		
+		return portfolioDto;
+	}
+	
+	//************************************************************
+	//Convert Login Key To Portfolio Report Dto
+	//************************************************************
+	
+	public List<PortfolioReportDto> convertToPortfolioReportDto(String loginKey, ReportTypeInputDto reportTypeInputDto){
+		
+		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
+		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
+		List<PortfolioReport> listPortfolioReport = this.portfolioReportRepository.findAllByWalletId(invWallet.getWalletId()).orElse(null);
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = LocalDate.now();
+		Collections.reverse(listPortfolioReport);
+		List<PortfolioReportDto> listPortfolioReportDto = new ArrayList<PortfolioReportDto>();
+		
+		if (reportTypeInputDto.getReportType().equalsIgnoreCase("Monthly")) {
+			LocalDate localDate = LocalDate.now();
+			startDate = localDate.withDayOfMonth(1);
+			endDate = localDate.plusMonths(1).withDayOfMonth(1).minusDays(1);
+		}
+		
+		for(PortfolioReport portfolioReport: listPortfolioReport) {
+			LocalDate reportDate = LocalDate.parse(portfolioReport.getDate());
+			PortfolioReportDto portfolioReportDto = new PortfolioReportDto();
+			
+			if (reportDate.compareTo(endDate)<=0) {
+				if(reportDate.compareTo(startDate)>=0) {
+					portfolioReportDto.setDate(portfolioReport.getDate());
+					portfolioReportDto.setInvestedAmount(portfolioReport.getInvestedAmount());
+					portfolioReportDto.setPortfolioValue(portfolioReport.getPortfolioValue());
+				}
+			}
+			listPortfolioReportDto.add(portfolioReportDto);
+		}
+		
+		Collections.reverse(listPortfolioReportDto);
+		return listPortfolioReportDto;
+	}
+	
+	//************************************************************
+	//Get Portfolio Report Dto
+	//************************************************************
+	@Override
+	public List<PortfolioReportDto> getPortfolioReport(String loginKey, ReportTypeInputDto reportTypeInputDto){
+		
+		List<PortfolioReportDto> portfolioReportDto = this.convertToPortfolioReportDto(loginKey, reportTypeInputDto);
 		
 		return portfolioReportDto;
 	}
