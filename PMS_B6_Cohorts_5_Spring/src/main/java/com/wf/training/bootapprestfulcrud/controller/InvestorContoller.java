@@ -426,11 +426,18 @@ public class InvestorContoller {
 	public String portfolioReportData(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model, 
 			@ModelAttribute ReportTypeInputDto reportTypeInputDto) {
 		
+		if ((reportTypeInputDto.getStartDate().equalsIgnoreCase(""))||(reportTypeInputDto.getEndDate().equalsIgnoreCase(""))){
+			model.addAttribute("message", "Input Dates Error!!!");
+			List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
+			
+			model.addAttribute("portfolioDto", portfolioDto);
+			return "invPortfolio";
+		}
+		
 		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey(), 
 				reportTypeInputDto);
 		
 		model.addAttribute("portfolioReportDto", portfolioReportDto);
-		System.out.println(portfolioReportDto);
 		
 		return "invPortfolioReport";
 	}

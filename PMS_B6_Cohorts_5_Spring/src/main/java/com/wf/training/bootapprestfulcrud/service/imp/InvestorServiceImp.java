@@ -282,31 +282,26 @@ public class InvestorServiceImp implements InvestorService {
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		String name = investor.getFirstName()+" "+investor.getLastName();
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
-		
-		List<InvestorWalletTransaction> walletTransactions = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId())
-				.orElse(null);
-		
-		double amountInvested = 0.0;
 		double balance = 0.0;
 		
-		for(InvestorWalletTransaction transaction:walletTransactions) {
-			if (transaction.getTransactionType().equalsIgnoreCase("Credit")) {
-				balance = balance + transaction.getAmount();
-			}else if (transaction.getTransactionType().equalsIgnoreCase("Debit")) {
-				balance = balance - transaction.getAmount();
-			}else if (transaction.getTransactionType().equalsIgnoreCase("Buy")) {
-				balance = balance - transaction.getAmount();
-				amountInvested = amountInvested + transaction.getAmount();
-			}else if (transaction.getTransactionType().equalsIgnoreCase("Sell")) {
-				balance = balance + transaction.getAmount();
-				amountInvested = amountInvested - transaction.getAmount();
-			}
-		}
+//		List<InvestorWalletTransaction> walletTransactions = this.walletTransactionRepository.findAllByWalletId(invWallet.getWalletId())
+//				.orElse(null);
+//		for(InvestorWalletTransaction transaction:walletTransactions) {
+//			if (transaction.getTransactionType().equalsIgnoreCase("Credit")) {
+//				balance = balance + transaction.getAmount();
+//			}else if (transaction.getTransactionType().equalsIgnoreCase("Debit")) {
+//				balance = balance - transaction.getAmount();
+//			}else if (transaction.getTransactionType().equalsIgnoreCase("Buy")) {
+//				balance = balance - transaction.getAmount();
+//			}else if (transaction.getTransactionType().equalsIgnoreCase("Sell")) {
+//				balance = balance + transaction.getAmount();
+//			}
+//		}
+		balance = this.getWalletBalance(loginKey);
 		
 		walletDto.setWalletId(invWallet.getWalletId());
 		walletDto.setInvestorID(investor.getInvestorId());
 		walletDto.setFullName(name);
-		walletDto.setAmount(amountInvested);
 		walletDto.setBalance(balance);
 		
 		return walletDto;
@@ -314,7 +309,7 @@ public class InvestorServiceImp implements InvestorService {
 	
 	//************************************************************
 	//************************************************************
-	public InvestorWalletTransaction convertLoginKeyAmountToWalletTransactionEntity(String loginKey, String transactionType, double amount,
+	public InvestorWalletTransaction convertToWalletTransactionEntity(String loginKey, String transactionType, double amount,
 			long shareTransactionId) {
 		InvestorWalletTransaction investorWalletTransaction = new InvestorWalletTransaction();
 		Investor investor= this.invRepository.findByLoginKey(loginKey).orElse(null);
@@ -344,7 +339,7 @@ public class InvestorServiceImp implements InvestorService {
 	@Override
 	public String addMoneyToWallet(String loginKey, double amount) {
 		
-		InvestorWalletTransaction walletTransaction = this.convertLoginKeyAmountToWalletTransactionEntity(loginKey, "Credit", amount, 0);
+		InvestorWalletTransaction walletTransaction = this.convertToWalletTransactionEntity(loginKey, "Credit", amount, 0);
 		
 		InvestorWalletTransaction newWalletTransaction = this.walletTransactionRepository.save(walletTransaction);
 		
@@ -364,10 +359,10 @@ public class InvestorServiceImp implements InvestorService {
 		double existingBalance = this.getWalletBalance(loginKey);
 		
 		if (existingBalance < amount) {
-			return "Balance is lesser than Withdrawal amount";
+			return "Current balance is lesser than Withdrawal amount";
 		}
 		
-		InvestorWalletTransaction walletTransaction = this.convertLoginKeyAmountToWalletTransactionEntity(loginKey, "Debit", amount, 0);
+		InvestorWalletTransaction walletTransaction = this.convertToWalletTransactionEntity(loginKey, "Debit", amount, 0);
 		
 		InvestorWalletTransaction newWalletTransaction = this.walletTransactionRepository.save(walletTransaction);
 		
@@ -375,7 +370,7 @@ public class InvestorServiceImp implements InvestorService {
 			return "Error in Withdrawal of Money";
 		}
 		
-		return "Withdrawal of "+amount+" Successfully";
+		return "Withdrawal of "+amount+" Successfull";
 	}
 	
 	//************************************************************
@@ -400,7 +395,8 @@ public class InvestorServiceImp implements InvestorService {
 			return null;
 		}
 		
-		List<WalletTransactionsDto> walletTransactionsDto = investorWalletTransaction.stream().map(this::convertInvestorWalletTransactionToDto).collect(Collectors.toList());
+		List<WalletTransactionsDto> walletTransactionsDto = investorWalletTransaction.stream().map(this::convertInvestorWalletTransactionToDto)
+				.collect(Collectors.toList());
 		return walletTransactionsDto;
 	}
 	
@@ -780,6 +776,7 @@ public class InvestorServiceImp implements InvestorService {
 	//************************************************************
 	
 	public List<PortfolioDto> convertLoginKeyToPortfolioDto(String loginKey){
+		//Initializations and Declarations
 		List<PortfolioDto> listPortfolioDto = new ArrayList<PortfolioDto>();
 		Investor investor = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(investor.getInvestorId()).orElse(null);
@@ -835,35 +832,49 @@ public class InvestorServiceImp implements InvestorService {
 	//************************************************************
 	
 	public List<PortfolioReportDto> convertToPortfolioReportDto(String loginKey, ReportTypeInputDto reportTypeInputDto){
-		
+		//Declarations
 		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
 		List<PortfolioReport> listPortfolioReport = this.portfolioReportRepository.findAllByWalletId(invWallet.getWalletId()).orElse(null);
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now();
-		Collections.reverse(listPortfolioReport);
+		Collections.reverse(listPortfolioReport);	//reverse list to search from end date
 		List<PortfolioReportDto> listPortfolioReportDto = new ArrayList<PortfolioReportDto>();
+		LocalDate localDate = LocalDate.now();
 		
+		//Get Start and end date according to the report type
 		if (reportTypeInputDto.getReportType().equalsIgnoreCase("Monthly")) {
-			LocalDate localDate = LocalDate.now();
 			startDate = localDate.withDayOfMonth(1);
 			endDate = localDate.plusMonths(1).withDayOfMonth(1).minusDays(1);
+		}else if (reportTypeInputDto.getReportType().equalsIgnoreCase("Annually")) {
+			startDate = localDate.withDayOfYear(1);
+			endDate = localDate.withDayOfYear(1).plusYears(1).minusDays(1);
+		}else if (reportTypeInputDto.getReportType().equalsIgnoreCase("Periodic")) {
+			System.out.println("Start Date is : "+reportTypeInputDto.getStartDate());
+			startDate = LocalDate.parse(reportTypeInputDto.getStartDate());
+			endDate = LocalDate.parse(reportTypeInputDto.getEndDate());
 		}
 		
+		//Get values between start and end date
 		for(PortfolioReport portfolioReport: listPortfolioReport) {
 			LocalDate reportDate = LocalDate.parse(portfolioReport.getDate());
 			PortfolioReportDto portfolioReportDto = new PortfolioReportDto();
 			
 			if (reportDate.compareTo(endDate)<=0) {
 				if(reportDate.compareTo(startDate)>=0) {
+					//get values into DTO to return
 					portfolioReportDto.setDate(portfolioReport.getDate());
 					portfolioReportDto.setInvestedAmount(portfolioReport.getInvestedAmount());
 					portfolioReportDto.setPortfolioValue(portfolioReport.getPortfolioValue());
+				}else {
+					//break if the date is beyond start date
+					break;
 				}
 			}
 			listPortfolioReportDto.add(portfolioReportDto);
 		}
 		
+		//reverse list to show in jsp from start date to end date
 		Collections.reverse(listPortfolioReportDto);
 		return listPortfolioReportDto;
 	}
@@ -878,4 +889,5 @@ public class InvestorServiceImp implements InvestorService {
 		
 		return portfolioReportDto;
 	}
+	
 }

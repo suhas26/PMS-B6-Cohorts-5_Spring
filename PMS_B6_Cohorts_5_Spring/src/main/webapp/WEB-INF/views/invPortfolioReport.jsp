@@ -26,10 +26,10 @@
 
         data.addRows([
 	       	 <core:forEach items="${portfolioReportDto}" var="report">
-		          [${report.date},  ${report.portfolioValue} , ${report.investedAmount}],
+		          ['${report.date}',  ${report.portfolioValue} , ${report.investedAmount}],
 	         </core:forEach>
         ]);
-
+        
         var options = {
           title: 'Portfolio Report',
           curveType: 'function',
