@@ -27,6 +27,7 @@ import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchSectorInputDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareCountInputDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
@@ -440,6 +441,41 @@ public class InvestorContoller {
 		model.addAttribute("portfolioReportDto", portfolioReportDto);
 		
 		return "invPortfolioReport";
+	}
+	
+	//************************************************************
+	//Search Sector Page
+	//************************************************************
+	
+	@RequestMapping("/searchSector")
+	public String returnSearchSector(@ModelAttribute SearchSectorInputDto searchSectorInputDto) {
+		
+		return "invSearchSector";
+	}
+	
+	//************************************************************
+	//Search Companies By Sector
+	//************************************************************
+	
+	@RequestMapping("/searchCompaniesSector")
+	public String searchCompaniesSector(@Valid @ModelAttribute SearchSectorInputDto searchSectorInputDto, BindingResult result,
+			Model model) {
+		
+		if(result.hasErrors()) {
+			return "invSearchSector";
+		}
+		
+		List<CompanyDto> listCompanyDto = this.companyService.fetchAllCompanyBySector(searchSectorInputDto.getSector());
+		
+		if(listCompanyDto==null) {
+			String message = "Sector not found";
+			model.addAttribute("message", message);
+			return "invSearchSector";
+		}
+		
+		model.addAttribute("listCompanyDto", listCompanyDto);
+		
+		return "invCompaniesBySector";
 	}
 	
 }

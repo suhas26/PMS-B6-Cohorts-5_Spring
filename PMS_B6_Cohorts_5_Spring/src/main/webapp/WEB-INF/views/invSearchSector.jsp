@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="spring" %> 
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="spring" %>   
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Search Commodity Page</title>
+<title>Search Sector</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -84,20 +84,13 @@ body {
 		font-size: 18px;
 	}
 }
-
 span{
 	margin: auto;
 }
-
-#primaryNavigators{
-	margin-left:50px;
-	color:white;
-	position:relative;
-}
-
 #errors{
 	color:red;
 }
+
 table, th, td {
 	  margin-left: 10px;
 	  height: 50px;
@@ -110,7 +103,11 @@ table, th, td {
 	table{
 		width:80%;
 	}
-
+	#primaryNavigators{
+		margin-left:50px;
+		color:white;
+		position:relative;
+	}
 </style>
 <body>
 	<div id="mySidebar" class="sidebar">
@@ -123,48 +120,27 @@ table, th, td {
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
 	</div>
 	<div id="main">
+
 		<nav class="navbar navbar-dark bg-primary">
 			<button class="navbar-toggler" type="button" onclick="openNav()"
 				aria-controls="navbarToggleExternalContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div><a href="${pageContext.request.contextPath}/user/home" id="primaryNavigators">Home</a></div>
-			<span class="text-light font-weight-bold">Search Commodity</span>
-			<div><a href="${pageContext.request.contextPath}/logout" id="primaryNavigators">Logout</a></div>
+			<div><a href="${pageContext.request.contextPath}/user/home" class="text-light font-weight-bold" id="primaryNavigators">Home</a></div>
+			<span class="text-light font-weight-bold">Search Sector</span>
+			<div><a href="${pageContext.request.contextPath}/logout" class="text-light font-weight-bold">Logout</a></div>
 		</nav>
 		<h4 id="errors" class="search">${message}</h4>
 		<div class="search">
-			<spring:form action="${pageContext.request.contextPath}/user/commodity" method="post" modelAttribute="commodity">
-				<spring:input type="search" path="commodityName" placeholder="Search Commodity Name"></spring:input>
-				<button type=Submit name=Submit>Submit</button>
+			<spring:form action="${pageContext.request.contextPath}/user/searchCompaniesSector" method="post" modelAttribute="searchSectorInputDto">
+				<spring:input type="search" path="sector" placeholder="Search Sector"></spring:input>
 				<br>
-				<spring:errors path="commodityName" cssClass="error" id="errors"/>
+				<spring:errors path="sector" cssClass="error" id="errors"/>
+				<br>
+				<button type=Submit name=Submit>Submit</button>
 			</spring:form>
 		</div>
-	</div>
-	<hr/>
-	<div class="search">
-		<table>
-			<thead>
-				<tr>
-					<td>Commodity ID</td>
-					<td>Commodity Name</td>
-					<td>Unit Price</td>
-				</tr>
-			</thead>
-			<tbody>
-				<core:forEach var="commodity" begin="0" end="10" items="${commodityDto}">
-					<tr>
-						<td>${commodity.commodityId}</td>
-						<td>
-						<a href ="${pageContext.request.contextPath}/user/commodity/${commodity.commodityName}">${commodity.commodityName}</a>
-						</td>
-						<td>${commodity.price}</td>
-					</tr>
-				</core:forEach>
-			</tbody>
-		</table>
 	</div>
 	<script>
 		function openNav() {
