@@ -5,11 +5,7 @@ import javax.validation.constraints.NotEmpty;
 
 public class ReportTypeInputDto {
 	private String reportType;
-	@NotEmpty
-	@NotBlank
 	private String startDate;
-	@NotEmpty
-	@NotBlank
 	private String endDate;
 
 	public String getReportType() {

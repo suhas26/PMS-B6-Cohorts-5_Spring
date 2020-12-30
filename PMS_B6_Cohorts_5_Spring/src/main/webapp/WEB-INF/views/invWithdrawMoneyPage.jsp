@@ -69,7 +69,7 @@ body {
 	transition: margin-left .5s;
 }
 .search{
-	padding-top:5%;
+	padding-top:2%;
 	display: flex;
     justify-content: center;
     text-align: center;

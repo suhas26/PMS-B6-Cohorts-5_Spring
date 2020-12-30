@@ -158,6 +158,8 @@ public class InvestorContoller {
 		CompanyDto searchCompany = this.companyService.fetchSingleCompanyByName(company);
 		if (searchCompany==null) {
 			model.addAttribute("message", "Company Not Found");
+			List<CompanyDto> companyDto= this.companyService.fetchAllCompanies();
+			model.addAttribute("companyDto", companyDto);
 			return "invSearchCompany";
 		}
 		this.investorService.addRecentViewCompany(investorLoginDto, searchCompany);
@@ -425,14 +427,20 @@ public class InvestorContoller {
 	
 	@RequestMapping("/portfolioReportData")
 	public String portfolioReportData(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model, 
-			@ModelAttribute ReportTypeInputDto reportTypeInputDto) {
+			@Valid @ModelAttribute ReportTypeInputDto reportTypeInputDto, BindingResult result) {
 		
-		if ((reportTypeInputDto.getStartDate().equalsIgnoreCase(""))||(reportTypeInputDto.getEndDate().equalsIgnoreCase(""))){
-			model.addAttribute("message", "Input Dates Error!!!");
-			List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
-			
-			model.addAttribute("portfolioDto", portfolioDto);
+		if (result.hasErrors()) {
 			return "invPortfolio";
+		}
+		
+		if(reportTypeInputDto.getReportType().equalsIgnoreCase("Periodic")) {
+			if ((reportTypeInputDto.getStartDate().equalsIgnoreCase(""))||(reportTypeInputDto.getEndDate().equalsIgnoreCase(""))){
+				model.addAttribute("message", "Input Dates Error!!!");
+				List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
+				
+				model.addAttribute("portfolioDto", portfolioDto);
+				return "invPortfolio";
+			}
 		}
 		
 		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey(), 

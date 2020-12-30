@@ -104,7 +104,7 @@ table, th, td {
 		width:80%;
 	}
 	#primaryNavigators{
-		margin-left:50px;
+		margin-left:25px;
 		color:white;
 		position:relative;
 	}

@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,7 +51,6 @@ public class HomeController {
 		return "invLogin";
 	}
 	
-	
 	@RequestMapping("/SuperUserLogin")
 	public String superUserLogin(Model model) {
 		SuperUserLoginDto superuser = new SuperUserLoginDto();
@@ -69,13 +67,9 @@ public class HomeController {
 	
 	@PostMapping("/validate")
 	public String loginValidate(@Valid @ModelAttribute("superuser") SuperUserLoginDto dto,BindingResult result,Model model) {
-		System.out.println("Logging in");
 		if(result.hasErrors()) {
 			return "SuperUserLogin";
-		} 
-		//else if(superuser.getSuperUserId().equals(1) && superuser.getPassword().equals("abc")) {
-		else if(superService.validateUser(dto)) {
-			System.out.println("superuser");
+		}else if(superService.validateUser(dto)) {
 			return "SuperUserHomePage";
 		}else
 			model.addAttribute("Message", "Invalid Credentials");
@@ -139,14 +133,9 @@ public class HomeController {
 		}
 	}
 	
-	@RequestMapping("/access-denied")
-	public String accessDenied() {
+	@RequestMapping("/error-page")
+	public String error() {
 		return "error-page";
-	}
-	
-	@RequestMapping("/custom-login")
-	public String customLogin() {
-		return "custom-login";
 	}
 	
 }

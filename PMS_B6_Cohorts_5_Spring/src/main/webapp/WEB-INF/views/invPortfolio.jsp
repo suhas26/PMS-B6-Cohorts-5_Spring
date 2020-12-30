@@ -176,27 +176,41 @@ table, th, td {
 				</tr>
 			</thead>
 			<tbody>
-				<core:forEach var="portfolio" items="${portfolioDto}">
-					<tr>
-						<td>
-							<core:choose>
-							  <core:when test="${portfolio.companyCommodity=='Company'}">
-							    <a href ="${pageContext.request.contextPath}/user/company/${portfolio.stockName}">${portfolio.stockName}</a>
-							  </core:when>
-							  <core:when test="${portfolio.companyCommodity=='Commodity'}">
-							   <a href ="${pageContext.request.contextPath}/user/commodity/${portfolio.stockName}">${portfolio.stockName}</a>
-							  </core:when>
-							</core:choose>
-						</td>
-						<td>${portfolio.companyCommodity}</td>
-						<td>${portfolio.stockQuantity}</td>
-						<td>${portfolio.avgStockPrice}</td>
-						<td>${portfolio.investedAmount}</td>
-						<td>${portfolio.currentStockPrice}</td>
-						<td>${portfolio.currentAmount}</td>
-						<td>${portfolio.earning}</td>
-					</tr>
-				</core:forEach>
+				<core:choose>
+				    <core:when test="${empty portfolioDto}">
+				   		<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+				    </core:when>
+				    <core:otherwise>
+						<core:forEach var="portfolio" items="${portfolioDto}">
+							<tr>
+								<td>
+									<core:choose>
+									  <core:when test="${portfolio.companyCommodity=='Company'}">
+									    <a href ="${pageContext.request.contextPath}/user/company/${portfolio.stockName}">${portfolio.stockName}</a>
+									  </core:when>
+									  <core:when test="${portfolio.companyCommodity=='Commodity'}">
+									   <a href ="${pageContext.request.contextPath}/user/commodity/${portfolio.stockName}">${portfolio.stockName}</a>
+									  </core:when>
+									</core:choose>
+								</td>
+								<td>${portfolio.companyCommodity}</td>
+								<td>${portfolio.stockQuantity}</td>
+								<td>${portfolio.avgStockPrice}</td>
+								<td>${portfolio.investedAmount}</td>
+								<td>${portfolio.currentStockPrice}</td>
+								<td>${portfolio.currentAmount}</td>
+								<td>${portfolio.earning}</td>
+							</tr>
+						</core:forEach>
+					</core:otherwise>
+				</core:choose>
 			</tbody>
 		</table>
 	</div>
