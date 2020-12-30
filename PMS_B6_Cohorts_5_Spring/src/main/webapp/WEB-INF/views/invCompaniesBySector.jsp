@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Portfolio Report</title>
+<title>Companies By Sector</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -104,13 +104,9 @@ table, th, td {
 		width:80%;
 	}
 	#primaryNavigators{
-		margin-left:30px;
+		margin-left:50px;
 		color:white;
 		position:relative;
-	}
-	
-	.hidden_input {
-    	display: none;
 	}
 </style>
 <body>
@@ -132,85 +128,33 @@ table, th, td {
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div><a href="${pageContext.request.contextPath}/user/home" class="text-light font-weight-bold" id="primaryNavigators">Home</a></div>
-			<span class="text-light font-weight-bold">Portfolio Report</span>
+			<span class="text-light font-weight-bold">Companies By Sector</span>
 			<div><a href="${pageContext.request.contextPath}/logout" class="text-light font-weight-bold">Logout</a></div>
 		</nav>
-		<h4 id="errors" class="search">${message}</h4>
-		<div class="search">
-			<spring:form action="${pageContext.request.contextPath}/user/portfolioReportData" method="post" modelAttribute="reportTypeInputDto">
-				<spring:label path="reportType">Report Type : </spring:label>
-				<spring:select path="reportType" onchange="show('hidden_input', this)">
-					<spring:option value="Annually" label="Annually"/>  
-					<spring:option value="Monthly" label="Monthly"/>
-					<spring:option value="Periodic" label="Periodic"/>
-				</spring:select>
-				<div class="hidden_input">
-					<spring:label path="startDate">Start Date : </spring:label>
-					<spring:input path="startDate" type="date"/>
-				</div>
-				<div  class="hidden_input">
-					<spring:label path="endDate">End Date : </spring:label>
-					<spring:input path="endDate" type="date"/>
-				</div>
-				<button type=Submit name=Submit>Submit</button>
-				<br>
-				<spring:errors path="reportType" cssClass="error" id="errors"/>
-			</spring:form>
-		</div>
 	</div>
-	<hr/>
 	<div class="search">
-	<br>
 		<table>
 			<thead>
-				<tr> <td colspan = 8><h5> Current Portfolio</h5></td><tr>
 				<tr>
-					<td>Stock Name</td>
-					<td>Company/Commodity</td>
-					<td>Quantity</td>
-					<td>Avg Price</td>
-					<td>Invested Amount</td>
+					<td>Company Code</td>
+					<td>Company Title</td>
+					<td>Sector</td>
 					<td>Current Price</td>
-					<td>Current Total Amount</td>
-					<td>Profit/Loss</td>
+					<td>Stock Exchange</td>
 				</tr>
 			</thead>
 			<tbody>
-				<core:choose>
-				    <core:when test="${empty portfolioDto}">
-				   		<td>NA</td>
-						<td>NA</td>
-						<td>NA</td>
-						<td>NA</td>
-						<td>NA</td>
-						<td>NA</td>
-						<td>NA</td>
-						<td>NA</td>
-				    </core:when>
-				    <core:otherwise>
-						<core:forEach var="portfolio" items="${portfolioDto}">
-							<tr>
-								<td>
-									<core:choose>
-									  <core:when test="${portfolio.companyCommodity=='Company'}">
-									    <a href ="${pageContext.request.contextPath}/user/company/${portfolio.stockName}">${portfolio.stockName}</a>
-									  </core:when>
-									  <core:when test="${portfolio.companyCommodity=='Commodity'}">
-									   <a href ="${pageContext.request.contextPath}/user/commodity/${portfolio.stockName}">${portfolio.stockName}</a>
-									  </core:when>
-									</core:choose>
-								</td>
-								<td>${portfolio.companyCommodity}</td>
-								<td>${portfolio.stockQuantity}</td>
-								<td>${portfolio.avgStockPrice}</td>
-								<td>${portfolio.investedAmount}</td>
-								<td>${portfolio.currentStockPrice}</td>
-								<td>${portfolio.currentAmount}</td>
-								<td>${portfolio.earning}</td>
-							</tr>
-						</core:forEach>
-					</core:otherwise>
-				</core:choose>
+				<core:forEach var="company" begin="0" end="10" items="${listCompanyDto}">
+					<tr>
+						<td>${company.companyCode}</td>
+						<td>
+						<a href ="${pageContext.request.contextPath}/user/company/${company.companyTitle}">${company.companyTitle}</a>
+						</td>
+						<td>${company.sector}</td>
+						<td>${company.sharePrice}</td>
+						<td>${company.stockExchange}</td>
+					</tr>
+				</core:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -224,22 +168,6 @@ table, th, td {
 			document.getElementById("mySidebar").style.width = "0";
 			document.getElementById("main").style.marginLeft = "0";
 		}
-		
-		function show(className, element)
-		{
-			if(element.value == "Periodic"){
-				var element = document.getElementsByClassName(className);
-				for(i=0;i<element.length;i++){
-					element[i].style.display = 'block';
-				}
-			}else{
-				var element = document.getElementsByClassName(className);
-				for(i=0;i<element.length;i++){
-					element[i].style.display = 'none';
-				}
-			}
-		}
-		
 	</script>
 
 </body>

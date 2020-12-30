@@ -464,7 +464,7 @@ public class InvestorServiceImp implements InvestorService {
 		if (transactionType.equalsIgnoreCase("Sell")) {
 			int existingShares = this.getSharesBalance(loginKey, stockName);
 			if (existingShares<transactionShareCount) {
-				shareTransaction.setCompanyCommodity("Bought shares are less than the Selling shares");
+				shareTransaction.setCompanyCommodity("Bought shares/units are less than the Selling shares/units");
 				return shareTransaction;
 			}
 			

@@ -27,6 +27,7 @@ import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
 import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
+import com.wf.training.bootapprestfulcrud.dto.SearchSectorInputDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareCountInputDto;
 import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.dto.WalletDto;
@@ -157,6 +158,8 @@ public class InvestorContoller {
 		CompanyDto searchCompany = this.companyService.fetchSingleCompanyByName(company);
 		if (searchCompany==null) {
 			model.addAttribute("message", "Company Not Found");
+			List<CompanyDto> companyDto= this.companyService.fetchAllCompanies();
+			model.addAttribute("companyDto", companyDto);
 			return "invSearchCompany";
 		}
 		this.investorService.addRecentViewCompany(investorLoginDto, searchCompany);
@@ -424,14 +427,20 @@ public class InvestorContoller {
 	
 	@RequestMapping("/portfolioReportData")
 	public String portfolioReportData(@SessionAttribute("Investor") LoginDto investorLoginDto,Model model, 
-			@ModelAttribute ReportTypeInputDto reportTypeInputDto) {
+			@Valid @ModelAttribute ReportTypeInputDto reportTypeInputDto, BindingResult result) {
 		
-		if ((reportTypeInputDto.getStartDate().equalsIgnoreCase(""))||(reportTypeInputDto.getEndDate().equalsIgnoreCase(""))){
-			model.addAttribute("message", "Input Dates Error!!!");
-			List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
-			
-			model.addAttribute("portfolioDto", portfolioDto);
+		if (result.hasErrors()) {
 			return "invPortfolio";
+		}
+		
+		if(reportTypeInputDto.getReportType().equalsIgnoreCase("Periodic")) {
+			if ((reportTypeInputDto.getStartDate().equalsIgnoreCase(""))||(reportTypeInputDto.getEndDate().equalsIgnoreCase(""))){
+				model.addAttribute("message", "Input Dates Error!!!");
+				List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
+				
+				model.addAttribute("portfolioDto", portfolioDto);
+				return "invPortfolio";
+			}
 		}
 		
 		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey(), 
@@ -440,6 +449,41 @@ public class InvestorContoller {
 		model.addAttribute("portfolioReportDto", portfolioReportDto);
 		
 		return "invPortfolioReport";
+	}
+	
+	//************************************************************
+	//Search Sector Page
+	//************************************************************
+	
+	@RequestMapping("/searchSector")
+	public String returnSearchSector(@ModelAttribute SearchSectorInputDto searchSectorInputDto) {
+		
+		return "invSearchSector";
+	}
+	
+	//************************************************************
+	//Search Companies By Sector
+	//************************************************************
+	
+	@RequestMapping("/searchCompaniesSector")
+	public String searchCompaniesSector(@Valid @ModelAttribute SearchSectorInputDto searchSectorInputDto, BindingResult result,
+			Model model) {
+		
+		if(result.hasErrors()) {
+			return "invSearchSector";
+		}
+		
+		List<CompanyDto> listCompanyDto = this.companyService.fetchAllCompanyBySector(searchSectorInputDto.getSector());
+		
+		if(listCompanyDto==null) {
+			String message = "Sector not found";
+			model.addAttribute("message", message);
+			return "invSearchSector";
+		}
+		
+		model.addAttribute("listCompanyDto", listCompanyDto);
+		
+		return "invCompaniesBySector";
 	}
 	
 }

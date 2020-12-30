@@ -60,20 +60,30 @@
 					<th scope="col" colspan="1">Company ID</th>
 					<th scope="col" colspan="1">Company Name</th>
 					<th scope="col" colspan="1">Price</th>
-					<th></th>
+					<th>View</th>
 				</tr>
 			</thead>
 			<tbody>
-				<core:forEach var="company" items="${recentViewCompanies}">
-					<tr>
-						<td>${company.companyCode}</td>
-						<td>${company.companyTitle}</td>
-						<td>${company.sharePrice}</td>
-						<td>
-							<a href ="${pageContext.request.contextPath}/user/company/${company.companyTitle}">View Company</a>
-						</td>
-					</tr>
-				</core:forEach>
+				<core:choose>
+				    <core:when test="${empty recentViewCompanies}">
+				   		<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+						<td>NA</td>
+				    </core:when>
+				<core:otherwise>
+					<core:forEach var="company" items="${recentViewCompanies}">
+						<tr>
+							<td>${company.companyCode}</td>
+							<td>${company.companyTitle}</td>
+							<td>${company.sharePrice}</td>
+							<td>
+								<a href ="${pageContext.request.contextPath}/user/company/${company.companyTitle}">View Company</a>
+							</td>
+						</tr>
+					</core:forEach>
+				</core:otherwise>
+				</core:choose>
 			</tbody>
 		</table>
 	</div>

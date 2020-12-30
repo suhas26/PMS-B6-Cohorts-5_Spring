@@ -3,6 +3,7 @@ package com.wf.training.bootapprestfulcrud.service.imp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -184,6 +185,16 @@ public class CompanyServiceImp implements CompanyService {
 	public CompanyDto fetchSingleCompanyByName(String companyTitle) {
 		Company company = this.companyRepository.findBycompanyTitle(companyTitle).orElse(null);
 		CompanyDto companyDto = this.convertCompanyEntityToOutputDto(company);
+		return companyDto;
+	}
+	
+	@Override
+	public List<CompanyDto> fetchAllCompanyBySector(String sector) {
+		List<Company> company = this.companyRepository.findAllBySector(sector).orElse(null);
+		if(company==null) {
+			return null;
+		}
+		List<CompanyDto> companyDto = company.stream().map(this::convertCompanyEntityToOutputDto).collect(Collectors.toList()); 
 		return companyDto;
 	}
 

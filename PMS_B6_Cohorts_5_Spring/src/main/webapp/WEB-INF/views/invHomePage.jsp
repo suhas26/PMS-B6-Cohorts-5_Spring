@@ -79,21 +79,13 @@ body {
 	}
 }
 
-span{
-	margin: auto;
-}
-
-	#logout{
-		color:white;
-		position:relative;
+	span{
+		margin: auto;
 	}
 	#primaryNavigators{
 		margin-left:50px;
 		color:white;
 		position:relative;
-	}
-	#logout{
-		background-color: Dodgerblue;
 	}
 	#headline{
 		margin-left:15%;
@@ -113,13 +105,12 @@ span{
 	}
 </style>
 <body>
-	
 	<div id="mySidebar" class="sidebar">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 		<a href="${pageContext.request.contextPath}/user/home">Dashboard</a> 
 		<a href="${pageContext.request.contextPath}/user/searchCompany">Search Company</a>
 		<a href="${pageContext.request.contextPath}/user/searchCommodity">Search Commodity</a> 
-		<a href="#">Sector</a>
+		<a href="${pageContext.request.contextPath}/user/searchSector">Sector</a>
 		<a href="${pageContext.request.contextPath}/user/portfolioReport">Portfolio Report</a> 
 		<a href="${pageContext.request.contextPath}/user/wallet">Wallet</a>
 	</div>
