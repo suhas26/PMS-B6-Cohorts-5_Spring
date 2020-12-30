@@ -2,11 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@taglib uri= "http://www.springframework.org/tags/form" prefix="spring"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Generate Report</title>
+<title>Monthly Report</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -82,6 +84,13 @@ body {
 	background-color: #444;
 }
 
+.search{
+	margin:2%;
+	display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
 #main {
 	transition: margin-left .5s;
 }
@@ -107,6 +116,28 @@ span{
 #errors{
 	color:red;
 }
+
+table, th, td {
+	  margin-left: 10px;
+	  height: 50px;
+	  border: 1px solid black;
+	}
+	thead {
+	  background: DodgerBlue;
+	  color: #fff;
+	}
+	table{
+		width:80%;
+	}
+	#primaryNavigators{
+		margin-left:30px;
+		color:white;
+		position:relative;
+	}
+	
+	.hidden_input {
+    	display: none;
+	}
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
@@ -151,18 +182,28 @@ span{
 				</spring:form></div>
 		</nav>
 	</div>
-	<div id=centre>
-		<spring:form action="${pageContext.request.contextPath}/bouser/returnPeriodicReport" method="POST" modelAttribute="periodicreport">
-			<spring:label path="startDate">Select Start Date</spring:label>
-			<spring:input type="date" path="startDate"></spring:input>
-			<td><spring:errors path="startDate" cssClass="error" id="errors"/></td>
-			<hr/>
-			<spring:label path="endDate">Select End Date</spring:label>
-			<spring:input type="date" path="endDate"></spring:input>
-			<td><spring:errors path="endDate" cssClass="error" id="errors"/></td>
-			<hr/>
-			<button>Submit</button>
-		</spring:form>
+	<div class=search>
+		<table>
+			<thead>
+				<tr> <td colspan = 8><h5> Monthly Report</h5></td><tr>
+				<tr>
+					<td>ID</td>
+					<td>Commission</td>
+					<td>Date</td>
+				</tr>
+			</thead>
+			<tbody>
+				<core:forEach var="transaction" items="${transactions}">
+				<core:if test="${fn:contains(transaction.dateTime, monthlyreport.month)}">
+					<tr>
+						<td>${transaction.shareTransactionId}</td>
+						<td>${transaction.commission}</td>
+						<td>${transaction.dateTime}</td>
+					</tr>
+				</core:if>
+				</core:forEach>
+			</tbody> 
+		</table>
 	</div>
 	<script>
 		function openNav() {

@@ -24,8 +24,10 @@ import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SelectMonthDto;
 import com.wf.training.bootapprestfulcrud.dto.SelectPeriodDto;
 import com.wf.training.bootapprestfulcrud.dto.SelectYearDto;
+import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
+import com.wf.training.bootapprestfulcrud.service.InvestorService;
 
 @Controller
 @RequestMapping("/bouser")
@@ -36,6 +38,9 @@ public class BoUserController {
 	
 	@Autowired
 	private CommodityService commodityService;
+	
+	@Autowired
+	private InvestorService investorService;
 	
 	@RequestMapping("/home")
 	public String returnHome() {
@@ -219,7 +224,8 @@ public class BoUserController {
 	
 	@RequestMapping("/generateMonthlyReport")
 	public String monthlyReport(@ModelAttribute("monthlyreport") SelectMonthDto month,Model model) {
-		String[] months= {"January","Febraury","March","April","May","June","July","August","September","October","November","December"};
+		//String[] months= {"January","February","March","April","May","June","July","August","September","October","November","December"};
+		String[] months= {"-01-","-02-","-03-","-04-","-05-","-06-","-07-","-08-","-09-","-10-","-11-","-12-"};
 		model.addAttribute("months", months);
 		return "BoGenerateMonthlyReport";
 	}
@@ -228,4 +234,23 @@ public class BoUserController {
 	public String periodicReport(@ModelAttribute("periodicreport") SelectPeriodDto period,Model model) {
 		return "BoGeneratePeriodicReport";
 	}
+	
+	@PostMapping("/returnAnnualReport")
+	public String returnAnnualReport(@ModelAttribute("annualreport") SelectYearDto year,Model model) {
+			model.addAttribute("transactions", this.investorService.findAllShareTransaction());
+		return "BoViewAnnualReport";
+	}
+	
+	@PostMapping("/returnMonthlyReport")
+	public String returnMonthlyReport(@ModelAttribute("monthlyreport") SelectMonthDto month,Model model) {
+			model.addAttribute("transactions", this.investorService.findAllShareTransaction());
+		return "BoViewMonthlyReport";
+	}
+	
+	@PostMapping("/returnPeriodicReport")
+	public String returnPeriodicReport(@ModelAttribute("periodicreport") SelectPeriodDto period,Model model) {
+			model.addAttribute("transactions", this.investorService.findAllShareTransactionBetweenDates(period.getStartDate(),period.getEndDate()));
+		return "BoViewPeriodicReport";
+	}
+	
 }

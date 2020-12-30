@@ -33,6 +33,8 @@ public interface InvestorService {
 	HomePageOutputDto fetchPortFolioDetails(String loginKey);
 	List<Double> getEarningFor10Weeks(String loginKey);
 	List<PortfolioDto> getPortfolio(String loginKey);
-	List<PortfolioReportDto> getPortfolioReport(String loginKey, ReportTypeInputDto reportTypeInputDto);	
+	List<PortfolioReportDto> getPortfolioReport(String loginKey, ReportTypeInputDto reportTypeInputDto);
+	List<ShareTransactionDto> findAllShareTransaction();
+	List<ShareTransactionDto> findAllShareTransactionBetweenDates(String startDate, String endDate);	
 	
 }

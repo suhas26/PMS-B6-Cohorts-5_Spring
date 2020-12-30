@@ -890,4 +890,43 @@ public class InvestorServiceImp implements InvestorService {
 		return portfolioReportDto;
 	}
 	
+	
+	//************************************************************
+	//To find all Share Transaction
+	//************************************************************
+		@Override
+		public List<ShareTransactionDto> findAllShareTransaction() {
+			
+			List<ShareTransaction> shareTransaction = this.shareTransRepository.findAll();
+			List<ShareTransactionDto> dtoList=new ArrayList<ShareTransactionDto>();
+			if (shareTransaction==null) {
+				return null;
+			}else {
+				for(ShareTransaction tr:shareTransaction) {
+					ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(tr);
+					dtoList.add(shareTransactionDto);
+				}
+			}
+			return dtoList;
+		}
+		
+		//************************************************************
+		//To find all Share Transaction between dates
+		//************************************************************
+			@Override
+			public List<ShareTransactionDto> findAllShareTransactionBetweenDates(String startDate,String endDate) {
+				
+				List<ShareTransaction> shareTransaction = this.shareTransRepository.findAllBetweenStartDateAndEndDate(startDate,endDate);
+				List<ShareTransactionDto> dtoList=new ArrayList<ShareTransactionDto>();
+				if (shareTransaction==null) {
+					return null;
+				}else {
+					for(ShareTransaction tr:shareTransaction) {
+						ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(tr);
+						dtoList.add(shareTransactionDto);
+					}
+				}
+				return dtoList;
+			}
+			
 }
