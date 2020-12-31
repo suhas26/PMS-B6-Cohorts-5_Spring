@@ -1,0 +1,11 @@
+node{
+	def mvnHome
+	stage('Checkout'){
+		git url: 'file://C:/Users/git/PMS_B6_Cohorts_5_Spring', branch: 'master'
+		mvnHome = tool 'Local Maven'
+	}
+
+	stage('Build'){
+		bat(/"${mvnHome}\bin\mvn" clean package/)
+	}
+}
