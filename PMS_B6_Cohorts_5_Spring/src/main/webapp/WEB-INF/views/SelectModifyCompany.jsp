@@ -143,12 +143,8 @@ span{
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a>
-			<span>
-				<span class="text-light font-weight-bold">Modify Company</span>
-			</span>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" id="primaryNavigators" method="POST">
-				<input type="submit" value="Logout" />
-				</spring:form></div>
+			<span class="text-light font-weight-bold">Modify Company</span>
+			<div><a href="${pageContext.request.contextPath}/bouser/logout" class="text-light font-weight-bold" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 	<div id=centre>

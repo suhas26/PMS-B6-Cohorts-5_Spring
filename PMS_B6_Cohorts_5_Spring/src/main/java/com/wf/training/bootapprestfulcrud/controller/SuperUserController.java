@@ -1,10 +1,8 @@
 package com.wf.training.bootapprestfulcrud.controller;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,10 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wf.training.bootapprestfulcrud.dto.BackofficeInputDto;
-import com.wf.training.bootapprestfulcrud.dto.LoginDto;
 import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
-import com.wf.training.bootapprestfulcrud.entity.BackOfficeUser;
-import com.wf.training.bootapprestfulcrud.entity.SuperUser;
 import com.wf.training.bootapprestfulcrud.service.SuperUserService;
 
 

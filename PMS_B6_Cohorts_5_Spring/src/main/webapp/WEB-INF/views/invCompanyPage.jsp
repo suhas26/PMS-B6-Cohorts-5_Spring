@@ -42,10 +42,9 @@
 		position:absolute;
 	}
 	#currentPrice{
-		margin-left:100px;
+		margin-left:120px;
 		position: relative;
 		top:10px;
-		border: 4px solid red;
 		width:250px;
 		text-align: center;
 		height: 90px;

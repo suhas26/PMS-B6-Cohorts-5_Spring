@@ -1,8 +1,5 @@
 package com.wf.training.bootapprestfulcrud.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
 public class ReportTypeInputDto {
 	private String reportType;
 	private String startDate;

@@ -1,7 +1,6 @@
 package com.wf.training.bootapprestfulcrud.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -24,7 +23,7 @@ import com.wf.training.bootapprestfulcrud.dto.SearchCompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SelectMonthDto;
 import com.wf.training.bootapprestfulcrud.dto.SelectPeriodDto;
 import com.wf.training.bootapprestfulcrud.dto.SelectYearDto;
-import com.wf.training.bootapprestfulcrud.dto.ShareTransactionDto;
+import com.wf.training.bootapprestfulcrud.dto.SuperUserLoginDto;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
 import com.wf.training.bootapprestfulcrud.service.CompanyService;
 import com.wf.training.bootapprestfulcrud.service.InvestorService;
@@ -44,15 +43,22 @@ public class BoUserController {
 	
 	@RequestMapping("/home")
 	public String returnHome() {
-		// add business logic
 		
 		// respond back with a view page name
 		return "BackOfficeUserHomePage";
 	}
+	
+	@RequestMapping("/logout")
+	public String logout(Model model) {
+		BackOfficeLoginDto backofficeuser=new BackOfficeLoginDto();
+		model.addAttribute("backofficeuser", backofficeuser);
+		
+		model.addAttribute("Message", "Logged out successfully");
+		return "BackOfficeUserLogin";
+	}
 
 	@RequestMapping("/validate")
 	public String loginValidate() {
-		// add business logic
 		
 		// respond back with a view page name
 		return "index";
@@ -60,8 +66,6 @@ public class BoUserController {
 	
 	@RequestMapping("/returnAddCompany")
 	public String returnAddCompany(@ModelAttribute("createCompany") CompanyDto createCompany) {
-		// add business logic
-		
 		
 		// respond back with a view page name
 		return "CreateCompany";
@@ -76,7 +80,6 @@ public class BoUserController {
 		CompanyDto addCompanyOutputDto = this.companyService.addCompany(createCompany);
 		
 		model.addAttribute("CompanyOutput", addCompanyOutputDto);
-		// respond back with a view page name
 		return "SavedCompany";
 	}
 	
@@ -153,9 +156,6 @@ public class BoUserController {
 	
 	@RequestMapping("/modifyCommodity")
 	public String modifyCommodity(@Valid @ModelAttribute("commodityNewOutputDto") CommodityDto commodityNewOutputDto, BindingResult result, Model model) {
-		System.out.println("modifyCommodity");
-		System.out.println(commodityNewOutputDto);
-		System.out.println("modifyCommodity");
 		
 		if (result.hasErrors()) {
 			return "ModifyCommodity";
@@ -163,9 +163,6 @@ public class BoUserController {
 		
 		CommodityDto commodityOutputDto =this.commodityService.modifyCommodity(commodityNewOutputDto);
 		model .addAttribute("CommodityOutput", commodityOutputDto);
-		System.out.println("modifyCommodity1");
-		System.out.println(commodityOutputDto);
-		System.out.println("modifyCommodity1");
 		
 		return "SavedCommodity";
 	}

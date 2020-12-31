@@ -836,6 +836,11 @@ public class InvestorServiceImp implements InvestorService {
 		Investor inv = this.invRepository.findByLoginKey(loginKey).orElse(null);
 		InvestorWallet invWallet = this.walletRepository.findByInvestorID(inv.getInvestorId()).orElse(null);
 		List<PortfolioReport> listPortfolioReport = this.portfolioReportRepository.findAllByWalletId(invWallet.getWalletId()).orElse(null);
+		
+		//return null if there are no records of the investor
+		if (listPortfolioReport==null) {
+			return null;
+		}
 		LocalDate startDate = LocalDate.now();
 		LocalDate endDate = LocalDate.now();
 		Collections.reverse(listPortfolioReport);	//reverse list to search from end date
@@ -894,39 +899,38 @@ public class InvestorServiceImp implements InvestorService {
 	//************************************************************
 	//To find all Share Transaction
 	//************************************************************
-		@Override
-		public List<ShareTransactionDto> findAllShareTransaction() {
-			
-			List<ShareTransaction> shareTransaction = this.shareTransRepository.findAll();
-			List<ShareTransactionDto> dtoList=new ArrayList<ShareTransactionDto>();
-			if (shareTransaction==null) {
-				return null;
-			}else {
-				for(ShareTransaction tr:shareTransaction) {
-					ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(tr);
-					dtoList.add(shareTransactionDto);
-				}
-			}
-			return dtoList;
-		}
+	@Override
+	public List<ShareTransactionDto> findAllShareTransaction() {
 		
-		//************************************************************
-		//To find all Share Transaction between dates
-		//************************************************************
-			@Override
-			public List<ShareTransactionDto> findAllShareTransactionBetweenDates(String startDate,String endDate) {
-				
-				List<ShareTransaction> shareTransaction = this.shareTransRepository.findAllBetweenStartDateAndEndDate(startDate,endDate);
-				List<ShareTransactionDto> dtoList=new ArrayList<ShareTransactionDto>();
-				if (shareTransaction==null) {
-					return null;
-				}else {
-					for(ShareTransaction tr:shareTransaction) {
-						ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(tr);
-						dtoList.add(shareTransactionDto);
-					}
-				}
-				return dtoList;
+		List<ShareTransaction> shareTransaction = this.shareTransRepository.findAll();
+		List<ShareTransactionDto> dtoList=new ArrayList<ShareTransactionDto>();
+		if (shareTransaction==null) {
+			return null;
+		}else {
+			for(ShareTransaction tr:shareTransaction) {
+				ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(tr);
+				dtoList.add(shareTransactionDto);
 			}
-			
+		}
+		return dtoList;
+	}
+		
+	//************************************************************
+	//To find all Share Transaction between dates
+	//************************************************************
+	@Override
+	public List<ShareTransactionDto> findAllShareTransactionBetweenDates(String startDate,String endDate) {
+		
+		List<ShareTransaction> shareTransaction = this.shareTransRepository.findAllBetweenStartDateAndEndDate(startDate,endDate);
+		List<ShareTransactionDto> dtoList=new ArrayList<ShareTransactionDto>();
+		if (shareTransaction==null) {
+			return null;
+		}else {
+			for(ShareTransaction tr:shareTransaction) {
+				ShareTransactionDto shareTransactionDto = this.convertShareTransactionEntityToDto(tr);
+				dtoList.add(shareTransactionDto);
+			}
+		}
+		return dtoList;
+	}
 }

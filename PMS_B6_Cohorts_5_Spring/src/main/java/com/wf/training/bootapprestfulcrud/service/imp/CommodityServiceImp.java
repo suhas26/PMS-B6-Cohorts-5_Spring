@@ -9,15 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wf.training.bootapprestfulcrud.dto.AddCommodityPriceDto;
-import com.wf.training.bootapprestfulcrud.dto.AddStockPriceDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityDto;
 import com.wf.training.bootapprestfulcrud.dto.CommodityHistoricalDto;
-import com.wf.training.bootapprestfulcrud.dto.CompanyDto;
 import com.wf.training.bootapprestfulcrud.dto.SearchCommodityDto;
 import com.wf.training.bootapprestfulcrud.entity.Commodity;
-import com.wf.training.bootapprestfulcrud.entity.Company;
 import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCommodity;
-import com.wf.training.bootapprestfulcrud.entity.HistoricalRecordCompany;
 import com.wf.training.bootapprestfulcrud.repository.CommodityHistoricalDataRepository;
 import com.wf.training.bootapprestfulcrud.repository.CommodityRepository;
 import com.wf.training.bootapprestfulcrud.service.CommodityService;
@@ -34,12 +30,10 @@ public class CommodityServiceImp implements CommodityService {
 	private Commodity convertInputAddCommodityToEntity(CommodityDto dto) {
 		Commodity com = new Commodity();
 		 
-		//com.setCommodityId(dto.getCommodityId());
 		com.setCommodityName(dto.getCommodityName());
 		com.setCurrency(dto.getCurrency());
 		com.setPrice(dto.getPrice());
 		com.setDateTime(dto.getDateTime());
-		//com.setBoUserId(boUserId);
 		 
 		 return com;
 	}

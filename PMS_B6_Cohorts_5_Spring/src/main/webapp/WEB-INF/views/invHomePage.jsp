@@ -130,7 +130,7 @@ body {
 			<label for="currency">Choose a currency:</label>
 			<br>
 			<select id="currency" name="currency">
-			  <option value="dollar">Dollar</option>
+			  <option value="dollar">INR</option>
 			</select>
 		</div>
 		<hr>

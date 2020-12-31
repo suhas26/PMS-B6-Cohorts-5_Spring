@@ -435,16 +435,25 @@ public class InvestorContoller {
 		
 		if(reportTypeInputDto.getReportType().equalsIgnoreCase("Periodic")) {
 			if ((reportTypeInputDto.getStartDate().equalsIgnoreCase(""))||(reportTypeInputDto.getEndDate().equalsIgnoreCase(""))){
-				model.addAttribute("message", "Input Dates Error!!!");
 				List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
-				
 				model.addAttribute("portfolioDto", portfolioDto);
+				model.addAttribute("message", "Input Dates Error!!!");
+				
 				return "invPortfolio";
 			}
 		}
 		
 		List<PortfolioReportDto> portfolioReportDto = this.investorService.getPortfolioReport(investorLoginDto.getLoginKey(), 
 				reportTypeInputDto);
+		
+		if (portfolioReportDto==null) {
+			List<PortfolioDto> portfolioDto = this.investorService.getPortfolio(investorLoginDto.getLoginKey());
+			model.addAttribute("portfolioDto", portfolioDto);
+			model.addAttribute("message", "No Data Found!!!");
+			
+			return "invPortfolio";
+			
+		}
 		
 		model.addAttribute("portfolioReportDto", portfolioReportDto);
 		

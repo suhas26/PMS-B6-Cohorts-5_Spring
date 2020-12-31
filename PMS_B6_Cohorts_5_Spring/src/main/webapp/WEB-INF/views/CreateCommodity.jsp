@@ -160,9 +160,7 @@ span{
 			</button>
 			<div><a href="${pageContext.request.contextPath}/bouser/home" id="primaryNavigators">Home</a></div>
 			<span class="text-light font-weight-bold">Create Commodity</span>
-			<div><spring:form action="${pageContext.request.contextPath}/logout" method="POST">
-				<input type="submit" value="Logout" />
-				</spring:form></div>
+			<div><a href="${pageContext.request.contextPath}/bouser/logout" class="text-light font-weight-bold" id="primaryNavigators">Logout</a></div>
 		</nav>
 	</div>
 	
